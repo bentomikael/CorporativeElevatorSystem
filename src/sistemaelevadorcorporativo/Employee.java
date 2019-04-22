@@ -4,7 +4,7 @@ package sistemaelevadorcorporativo;
  *
  * @author Acer
  */
-public abstract class Employee implements People {
+public class Employee implements People {
     private final int codeAccess;
     private int levelAccess;
     private int currentFloor;

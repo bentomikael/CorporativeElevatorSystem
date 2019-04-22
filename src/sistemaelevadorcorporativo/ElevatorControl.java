@@ -6,4 +6,9 @@ import java.util.ArrayList;
  */
 class ElevatorControl {
     ArrayList<Employee> employees;
+    
+    
+    /*public Employee registerNewEmployee(){
+        new Employee();
+    }*/
 }
