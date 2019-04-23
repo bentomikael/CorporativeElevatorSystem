@@ -10,10 +10,10 @@ public class Employee implements People {
     private int currentFloor;
     private final String name;
     private int age;
-    private final String gender;
-    private int daniedAccessAttempts;
+    private final Gender gender;
+    private int daniedAccessAttempts;                 //será realmente nescessario?
 
-    public Employee(int codeAccess, int levelAccess, String name, int age, String gender) {
+    public Employee(int codeAccess, int levelAccess, String name, int age, Gender gender) {
         this.codeAccess = codeAccess;
         this.levelAccess = levelAccess;
         this.name = name;
