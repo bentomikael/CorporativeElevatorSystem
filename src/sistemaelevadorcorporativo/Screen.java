@@ -2,6 +2,7 @@ package sistemaelevadorcorporativo;
 
 import java.util.Scanner;
 
+
 /**
  *
  * @author Mikael
@@ -17,8 +18,8 @@ public class Screen {
         control = new ElevatorControl();
     }
     
-    
-    public Employee login(){
+    //loga no sistema
+    private Employee login(){
         System.out.println("--------LOGIN WITH YOU EMPLOYEE CARD / CODE--------");
         option = key.nextInt();
         if(control.getEmployeeWithCode(option) == null){
@@ -30,14 +31,14 @@ public class Screen {
         }
     }
     
-    private void home(){
+    public void home(){
         //verifica se está logado
         if(actualUser != null){
             
         System.out.println("--------WELCOME TO ELEVATOR SYSTEM 1.0--------");
         System.out.println("Chose one option:");
         System.out.println("1- Go to Floor");
-        if(actualUser.getLevelAccess()>= 4 )       //verifica se o usuario tem autorização administrativa ou +, se nao tiver, nem mostra a opção
+        if(actualUser.getLevelAccessNumber()>= 3 )       //verifica se o usuario tem autorização administrativa ou +, se nao tiver, nem mostra a opção
             System.out.println("2- Administrative Options");
         option = key.nextInt();
         key.nextLine();
@@ -48,11 +49,10 @@ public class Screen {
                 floorScreen();
                 break;
             case 2:  
-                if(actualUser.getLevelAccess()>= 4 )
+                if(actualUser.getLevelAccessNumber()>= 3 ){
                     administrativeScreen();
-                else
-                    System.out.println("ACCESS DANIED");
                 break;
+                }
             default:
                 System.out.println("INVALID OPTION, TRY AGAIN");
         }
@@ -127,42 +127,42 @@ public class Screen {
                     controlMenu = true;
                     break;
                 case 1:
-                    if(actualUser.getLevelAccess() >= 1)                             
+                    if(actualUser.getLevelAccess() >= 0)                             
                         
                     else
                         System.out.println("ACCESS DANIED");
                     controlMenu = true;
                     break;
                 case 2:
-                     if(actualUser.getLevelAccess() >= 2)                             
+                     if(actualUser.getLevelAccess() >= 1)                             
                         
                     else
                         System.out.println("ACCESS DANIED");
                     controlMenu = true;
                     break;
                 case 3:
-                     if(actualUser.getLevelAccess() >= 3)                             
+                     if(actualUser.getLevelAccess() >= 2)                             
                         
                     else
                         System.out.println("ACCESS DANIED");
                     controlMenu = true;
                     break;
                 case 4:
-                     if(actualUser.getLevelAccess() >= 4)                             
+                     if(actualUser.getLevelAccess() >= 3)                             
                         
                     else
                         System.out.println("ACCESS DANIED");
                     controlMenu = true;
                     break;
                 case 5:
-                     if(actualUser.getLevelAccess() >= 5)                             
+                     if(actualUser.getLevelAccess() >= 4)                             
                         
                     else
                         System.out.println("ACCESS DANIED");
                     controlMenu = true;
                     break;
                 case 6:
-                     if(actualUser.getLevelAccess() == 6)                             
+                     if(actualUser.getLevelAccess() == 5)                             
                         
                     else
                         System.out.println("ACCESS DANIED");
@@ -211,11 +211,11 @@ public class Screen {
     }
 
     private void newEmployeeScreen(){
-        int level = 0;
-        int access = 0;
         String name;
-        Gender gender = null;
         int age;
+        Gender gender = null;
+        int code = 0;
+        Occupation level = Occupation.VISITOR; //valor generico para instanciar
        
         System.out.println("-------RESGISTER NEW EMPLOYEE-------");
         System.out.println("Name:");
@@ -236,18 +236,21 @@ public class Screen {
         }while(option != 1 && option != 2);
         
         System.out.println("codeAccess:");
-        access = key.nextInt();
+        code = key.nextInt();
         
         System.out.println("levelAccess:");
-        level = key.nextInt();
+        for(Occupation o: Occupation.values())
+            System.out.println(o);
+        option = key.nextInt();
+        level.setLevelAccess(option);
         
          //tratamento de erros
-        if(level > actualUser.getLevelAccess())
-            System.out.println("ERROR, YOU DONT HAVE AUTHORIZATION TO CREATE A USER WITH ACCESS LEVEL BIG THAN YOURS");
-        else if(control.getEmployeeWithCode(access) != null)
+        if(control.checkAuthorizationToManipulateEmployee(actualUser.getCodeAccess(), level.getAccessLevelNumber()))
+            System.out.println("ERROR, YOU CANT CREATE A USER WITH ACCESS LEVEL BIG THAN YOURS");
+        else if(control.getEmployeeWithCode(code) != null)
             System.out.println("EMPLOYEE ALREADY REGISTERED");
         else
-            control.registerNewEmployee(access,level,name,age,gender);
+            control.registerNewEmployee(code,level,name,age,gender);
     }
     
     
