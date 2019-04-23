@@ -2,7 +2,7 @@ package sistemaelevadorcorporativo;
 
 /**
  *
- * @author Acer
+ * @author Mikael
  */
 public interface People {
     public String getName();

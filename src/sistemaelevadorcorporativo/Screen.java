@@ -4,7 +4,7 @@ import java.util.Scanner;
 
 /**
  *
- * @author Acer
+ * @author Mikael
  */
 public class Screen {
     Scanner key;
@@ -18,8 +18,8 @@ public class Screen {
     }
     
     
-    private Employee login(){
-        System.out.println("LOGIN WITH YOU EMPLOYEE CARD / CODE");
+    public Employee login(){
+        System.out.println("--------LOGIN WITH YOU EMPLOYEE CARD / CODE--------");
         option = key.nextInt();
         if(control.getEmployeeWithCode(option) == null){
             System.out.println("USER NOT REGISTERED IN THE SYSTEM");
@@ -30,12 +30,15 @@ public class Screen {
         }
     }
     
-    public void home(){
-        
+    private void home(){
+        //verifica se está logado
+        if(actualUser != null){
+            
         System.out.println("--------WELCOME TO ELEVATOR SYSTEM 1.0--------");
         System.out.println("Chose one option:");
         System.out.println("1- Go to Floor");
-        System.out.println("2- Administrative Options");
+        if(actualUser.getLevelAccess()>= 4 )       //verifica se o usuario tem autorização administrativa ou +, se nao tiver, nem mostra a opção
+            System.out.println("2- Administrative Options");
         option = key.nextInt();
         key.nextLine();
         
@@ -44,8 +47,8 @@ public class Screen {
             case 1:
                 floorScreen();
                 break;
-            case 2:
-                if(actualUser.getLevelAccess()>= 4)                                  // verifica se tem autorização administrativa +
+            case 2:  
+                if(actualUser.getLevelAccess()>= 4 )
                     administrativeScreen();
                 else
                     System.out.println("ACCESS DANIED");
@@ -54,6 +57,8 @@ public class Screen {
                 System.out.println("INVALID OPTION, TRY AGAIN");
         }
         }while(option != 1 && option != 2);
+    }else
+        System.out.println("ACCESS DANIED");
     }
     
     private void administrativeScreen(){
@@ -114,60 +119,60 @@ public class Screen {
         option = key.nextInt();
         key.nextLine();
         
-        boolean control = false;
+        boolean controlMenu = false;
         do{
             switch(option){
                 case 0:
                     home();
-                    control = true;
+                    controlMenu = true;
                     break;
                 case 1:
                     if(actualUser.getLevelAccess() >= 1)                             
                         
                     else
                         System.out.println("ACCESS DANIED");
-                    control = true;
+                    controlMenu = true;
                     break;
                 case 2:
                      if(actualUser.getLevelAccess() >= 2)                             
                         
                     else
                         System.out.println("ACCESS DANIED");
-                    control = true;
+                    controlMenu = true;
                     break;
                 case 3:
                      if(actualUser.getLevelAccess() >= 3)                             
                         
                     else
                         System.out.println("ACCESS DANIED");
-                    control = true;
+                    controlMenu = true;
                     break;
                 case 4:
                      if(actualUser.getLevelAccess() >= 4)                             
                         
                     else
                         System.out.println("ACCESS DANIED");
-                    control = true;
+                    controlMenu = true;
                     break;
                 case 5:
                      if(actualUser.getLevelAccess() >= 5)                             
                         
                     else
                         System.out.println("ACCESS DANIED");
-                    control = true;
+                    controlMenu = true;
                     break;
                 case 6:
                      if(actualUser.getLevelAccess() == 6)                             
                         
                     else
                         System.out.println("ACCESS DANIED");
-                    control = true;
+                    controlMenu = true;
                     break;
                 default:
                     System.out.println("INVALID OPTION, TRY AGAIN");
                     break;
             }
-        }while(!control);
+        }while(!controlMenu);
     }
     
     private void reportScreen(){
@@ -205,17 +210,20 @@ public class Screen {
         }while(!control);
     }
 
-    private void newEmployee(){
+    private void newEmployeeScreen(){
         int level = 0;
         int access = 0;
         String name;
-        Gender gender;
+        Gender gender = null;
         int age;
+       
         System.out.println("-------RESGISTER NEW EMPLOYEE-------");
         System.out.println("Name:");
         name = key.nextLine();
+        
         System.out.println("Age:");
         age = key.nextInt();
+        
         System.out.println("Gender:" + "1 to Male /n 2 to Female");
         option = key.nextInt();
         do{
@@ -229,11 +237,17 @@ public class Screen {
         
         System.out.println("codeAccess:");
         access = key.nextInt();
+        
         System.out.println("levelAccess:");
         level = key.nextInt();
         
-        control.registerNewEmployee(option, option, null, option, null)
-        
+         //tratamento de erros
+        if(level > actualUser.getLevelAccess())
+            System.out.println("ERROR, YOU DONT HAVE AUTHORIZATION TO CREATE A USER WITH ACCESS LEVEL BIG THAN YOURS");
+        else if(control.getEmployeeWithCode(access) != null)
+            System.out.println("EMPLOYEE ALREADY REGISTERED");
+        else
+            control.registerNewEmployee(access,level,name,age,gender);
     }
     
     

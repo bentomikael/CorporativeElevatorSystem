@@ -2,7 +2,7 @@ package sistemaelevadorcorporativo;
 
 /**
  *
- * @author Acer
+ * @author Mikael
  */
 public class Employee implements People {
     private final int codeAccess;
