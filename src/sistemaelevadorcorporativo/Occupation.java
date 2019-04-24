@@ -5,13 +5,14 @@ package sistemaelevadorcorporativo;
  * @author Acer
  */
 public enum Occupation {
-    CEO(5),
-    EXECUTIVE(4),
-    ADMINISTRATION(3),
-    MANAGER(2),
-    SIMPLE_EMPLOYEE(1),
-    VISITOR(0);
     
+    VISITOR(0),
+    SIMPLE_EMPLOYEE(1),
+    MANAGER(2),
+    ADMINISTRATION(3),
+    EXECUTIVE(4),
+    CEO(5);
+
     private int levelAccess;
     Occupation(int access){
         this.levelAccess = access;

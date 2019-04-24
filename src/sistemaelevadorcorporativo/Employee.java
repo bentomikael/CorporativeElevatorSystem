@@ -11,7 +11,6 @@ public class Employee implements People {
     private final String name;
     private int age;
     private final Gender gender;
-    private int daniedAccessAttempts;             //será realmente nescessario?
 
     public Employee(int codeAccess, Occupation levelAccess, String name, int age, Gender gender) {
         this.codeAccess = codeAccess;
@@ -20,7 +19,6 @@ public class Employee implements People {
         this.age = age;
         this.gender = gender;
         currentFloor = 0;
-        daniedAccessAttempts = 0;
     }
 
 
