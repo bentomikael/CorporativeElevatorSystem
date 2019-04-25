@@ -13,7 +13,8 @@ class ElevatorControl {
         employees = new ArrayList();
     }
     
-    public ArrayList getEmployees(){
+    // retorna todos funcionarios cadastrados
+    public ArrayList getAllEmployees(){
         return employees;
     }
     
@@ -41,48 +42,42 @@ class ElevatorControl {
     //registra funcionario
     public Employee registerNewEmployee(int codeAccess, Occupation levelAccess, String name, int age, Gender gender){
         employees.add(new Employee(codeAccess,levelAccess,name,age,gender));
+        
+        JOptionPane.showMessageDialog(null,
+        "New User Registered:\n\n "+ getEmployeeWithCode(codeAccess).getName(),
+        "NEW EMPLOYEE REGISTERED SUCCESSFULY", 
+        JOptionPane.INFORMATION_MESSAGE); 
+        
         return getEmployeeWithCode(codeAccess);
     }
     
     //remove funcionario pelo codigo
-    public boolean removeOneEmployeeWithCode(int code){
-        boolean valid = false;
+    public void removeOneEmployeeWithCode(int code){
         Employee e;
         
-        if(employees.contains(getEmployeeWithCode(code)) ){
+        JOptionPane.showMessageDialog(null,
+        "User Removed:\n\n "+ getEmployeeWithCode(code).getName(),
+        "EMPLOYEE REMOVED SUCCESSFULY", 
+        JOptionPane.INFORMATION_MESSAGE); 
+    
             e = getEmployeeWithCode(code);
-            e = null;
-            valid = true;
-        }
-        return valid;
-           
+            e = null;           
 
     }
-           
-    /*  nivel de acesso minimo para manipular algum funcionario :3 (administração) ,
-        só resgistrar com nivel de acesso menor ou igual
-    */
-    public boolean checkAuthorizationToManipulateEmployee(Employee actualUser,int otherUserAccessLevel){
-        boolean authorized = false;
-        if(getEmployeeWithCode(actualUser.getCodeAccess()).getLevelAccessNumber() >= 3 &&
-           getEmployeeWithCode(actualUser.getCodeAccess()).getLevelAccessNumber()>= otherUserAccessLevel )
-            authorized = true;
-        return authorized;
-        }
     
     //altera nivel de acesso de outro funcionario
-    //só deve ser executado apos checar autorização
     public void changeAccessLevel(int code,Occupation newAccessLevel){
         getEmployeeWithCode(code).setLevelAccess(newAccessLevel);
     }
     
- 
     public void goToFloor(int code,int floor){}
-    public void exitOfFloor(Employee employee){}
     
+    //sair do andar
+    public void exitOfFloor(Employee employee){
+        employee.setCurrentFloor(0);
+    }
     
-    
-    
+    //converte string em int  (usada para tratamento de erros)
     public int stringToInt(String strToInt){
         int converted = 0;
             if(strToInt.matches("[0-9]{"+strToInt.length()+"}")) //verifica se contem apenas numeros
