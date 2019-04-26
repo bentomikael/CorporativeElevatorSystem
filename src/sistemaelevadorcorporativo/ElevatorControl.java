@@ -13,7 +13,7 @@ class ElevatorControl {
 
     public ElevatorControl() {
         employees = new ArrayList();
-        employees.add(new Employee(999,Occupation.CEO,"TESTER",20,Gender.MALE)); //TESTE, apagar depois
+        employees.add(new Employee(999,Employee.Occupation.CEO,"TESTER",20,Employee.Gender.MALE)); //TESTE, apagar depois
     }
     //usado para login
     public Employee getActualUser() {
@@ -29,11 +29,11 @@ class ElevatorControl {
     }
     
     //retorna uma lista com funcionarios com determinado nivel de acesso
-    public ArrayList getEmployeesListPerLevelAccess(Occupation levelAccess){
+    public ArrayList getEmployeesListPerLevelAccess(Employee.Occupation o){
         ArrayList<Employee> list = new ArrayList();
         
         for(Employee e : employees)
-            if(e.getLevelAccessNumber() == (levelAccess.getAccessLevelNumber()))
+            if(e.getAccessLevelNumber() == o.accessLevel)
                 list.add(e);
         return list;
         }
@@ -55,7 +55,8 @@ class ElevatorControl {
     }
     
     //registra funcionario
-    public Employee registerNewEmployee(int codeAccess, Occupation levelAccess, String name, int age, Gender gender){
+    public Employee registerNewEmployee
+    (int codeAccess, Employee.Occupation levelAccess, String name, int age, Employee.Gender gender){
         employees.add(new Employee(codeAccess,levelAccess,name,age,gender));
         
         JOptionPane.showMessageDialog(null,
@@ -81,8 +82,8 @@ class ElevatorControl {
     }
     
     //altera nivel de acesso de outro funcionario
-    public void changeAccessLevel(int code,Occupation newAccessLevel){
-        getEmployeeWithCode(code).setLevelAccess(newAccessLevel);
+    public void changeAccessLevel(int code,Employee.Occupation newAccessLevel){
+        getEmployeeWithCode(code).setAccessLevel(newAccessLevel);
     }
     
     public void goToFloor(int code,int floor){}

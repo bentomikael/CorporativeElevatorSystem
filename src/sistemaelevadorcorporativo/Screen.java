@@ -61,14 +61,14 @@ public class Screen {
         System.out.println("Chose one option:");
         System.out.println("1- Go to Floor");
         //verifica se o usuario tem autorização administrativa ou +, se nao tiver, nem mostra a opção
-        if(control.getActualUser().getLevelAccessNumber()>= 3 )       
+        if(control.getActualUser().getAccessLevelNumber()>= 3 )       
             System.out.println("2- Administrative Options");        
 
         do{
             inputInt(2);
             
             // verifica se o usuario digitou '2' sem ter autorização
-            if(option == 2 && control.getActualUser().getLevelAccessNumber() < 3){
+            if(option == 2 && control.getActualUser().getAccessLevelNumber() < 3){
                 option = 0;
                 System.out.println("INVALID OPTION, TRY AGAIN");
             }
@@ -93,21 +93,21 @@ public class Screen {
         //exibe somente opções em que o funcionario tem autorização
         if(control.getActualUser().getCurrentFloor() != 0)
             System.out.println("0 - Get of the Floor");
-        if(control.getActualUser().getLevelAccessNumber() >= 0)    
+        if(control.getActualUser().getAccessLevelNumber()>= 0)    
             System.out.println("1 - First Floor");
-        if(control.getActualUser().getLevelAccessNumber() >= 1)
+        if(control.getActualUser().getAccessLevelNumber()>= 1)
             System.out.println("2 - Employee Floor");
-        if(control.getActualUser().getLevelAccessNumber() >= 2)
+        if(control.getActualUser().getAccessLevelNumber() >= 2)
             System.out.println("3 - Manager Floor");
-        if(control.getActualUser().getLevelAccessNumber() >= 3)
+        if(control.getActualUser().getAccessLevelNumber() >= 3)
             System.out.println("4 - Administrative Floor");
-        if(control.getActualUser().getLevelAccessNumber() >= 4)
+        if(control.getActualUser().getAccessLevelNumber() >= 4)
             System.out.println("5 - Executive Floor");
-        if(control.getActualUser().getLevelAccessNumber() >= 5)
+        if(control.getActualUser().getAccessLevelNumber() >= 5)
             System.out.println("6 - CEO Floor");  
        
         // só aceita andar que tenha autorização
-        inputInt(control.getActualUser().getLevelAccessNumber());
+        inputInt(control.getActualUser().getAccessLevelNumber());
 
         switch(option){
             case 0:
@@ -187,9 +187,9 @@ public class Screen {
     private void newEmployeeScreen(){        
         String name = "";
         int age = 0;
-        Gender gender = null;
+        People.Gender gender = null;
         int code = 0;
-        Occupation level = Occupation.VISITOR; //valor generico só para iniciar
+        Employee.Occupation level = Employee.Occupation.VISITOR; //valor generico só para iniciar
         boolean valid;
        
         // recebe nome
@@ -229,9 +229,9 @@ public class Screen {
             }while(option == 0) ; 
             
             if(option == 1)
-                gender = Gender.MALE;
+                gender = People.Gender.MALE;
             else if(option == 2)
-                gender = Gender.FEMALE;
+                gender = People.Gender.FEMALE;
         
         //recebe codigo
         System.out.println("Code Access:");
@@ -250,9 +250,9 @@ public class Screen {
         int n = 0;
         
         //mostra somente cargos que esse usuario pode criar
-        for(Occupation o: Occupation.values()){ 
+        for(Employee.Occupation o: Employee.Occupation.values()){ 
             
-            if(control.getActualUser().getLevelAccessNumber() <= o.getAccessLevelNumber())
+            if(control.getActualUser().getAccessLevelNumber()<= o.accessLevel)
                 break;
             System.out.println(n+ " - " + o);
             n++;
@@ -260,7 +260,7 @@ public class Screen {
         do{
             level.setAccessLevel(inputInt(5));
             
-            if(level.getAccessLevelNumber() >= control.getActualUser().getLevelAccessNumber()){
+            if(level.accessLevel >= control.getActualUser().getAccessLevelNumber()){
                 valid = false;
                 System.out.println("YOU CANT CREATE A NEW EMPLOYEE WITH ACCESS LEVEL BIGGER OR EQUAL YOURS");
             }
@@ -280,8 +280,8 @@ public class Screen {
         
         // verifica se existe
         if(control.getEmployeeWithCode(option) != null) 
-            if(control.getEmployeeWithCode(option).getLevelAccessNumber() >=
-               control.getActualUser().getLevelAccessNumber()){
+            if(control.getEmployeeWithCode(option).getAccessLevelNumber() >=
+               control.getActualUser().getAccessLevelNumber()){
                 System.out.println("ACCESS DANIED");
                 System.out.println("YOU DONT HAVE AUTHORIZATION TO DELETE THIS EMPLOYEE");
                 deleteEmployeeScreen();
@@ -295,7 +295,8 @@ public class Screen {
     //altera nivel de acesso de um funcionario
     private void changeAccessLevelScreen(){
         int userCode ;
-        Occupation access = Occupation.VISITOR; // valor genérico 
+          
+        Employee.Occupation access = Employee.Occupation.VISITOR; // valor genérico
         
         System.out.println("--------CHANGE ACCESS LEVEL OF EMPLOYEE--------");
         System.out.println("Code Of Employee To Change Access Level:");
@@ -315,8 +316,8 @@ public class Screen {
         
         access.setAccessLevel(inputInt(5));
         
-        if(control.getActualUser().getLevelAccessNumber() <=
-           control.getEmployeeWithCode(userCode).getLevelAccessNumber()){
+        if(control.getActualUser().getAccessLevelNumber()<=
+           control.getEmployeeWithCode(userCode).getAccessLevelNumber()){
             System.out.println("ACCESS DANIED");
             System.out.println("YOU DONT HAVE AUTHORIZATION TO CHANGE THIS EMPLOYEE"); 
             changeAccessLevelScreen();

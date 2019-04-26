@@ -6,22 +6,22 @@ package sistemaelevadorcorporativo;
  */
 public class Employee implements People {
     private final int codeAccess;
-    private Occupation levelAccess;
+    private Occupation accessLevel;
     private int currentFloor;
     private final String name;
     private int age;
     private final Gender gender;
 
-    public Employee(int codeAccess, Occupation levelAccess, String name, int age, Gender gender) {
+    public Employee(int codeAccess, Occupation accessLevel, String name, int age, Gender gender) {
         this.codeAccess = codeAccess;
-        this.levelAccess = levelAccess;
+        this.accessLevel = accessLevel;
         this.name = name;
         this.age = age;
         this.gender = gender;
         currentFloor = 0;
     }
 
-
+    
     @Override
     public String getName() {return name;}
 
@@ -30,14 +30,12 @@ public class Employee implements People {
     
     public void setAge(int age){this.age = age;}
 
-    @Override
-    public Gender gender() {return gender;}
     
     public int getCodeAccess() {return codeAccess;}
 
-    public int getLevelAccessNumber() {return levelAccess.getAccessLevelNumber();}
+    public int getAccessLevelNumber() {return accessLevel.accessLevel;}
 
-    public void setLevelAccess(Occupation levelAccess) {this.levelAccess = levelAccess;}
+    public void setAccessLevel(Occupation levelAccess) {this.accessLevel = levelAccess;}
 
     public int getCurrentFloor() {return currentFloor;}
 
