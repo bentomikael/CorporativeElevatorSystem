@@ -380,7 +380,8 @@ public class Screen {
     
     //altera nivel de acesso de um funcionario
     private void changeAccessLevelScreen(){
-        Occupation access = Occupation.VISITOR;
+        int userCode = 0;
+        Occupation access = Occupation.VISITOR; // valor genérico 
         System.out.println("--------CHANGE ACCESS LEVEL OF EMPLOYEE--------");
         System.out.println("Code Of Employee To Change Access Level:");
         System.out.println("00 - TO CANCEL ACTION AND GO TO HOME / LOGOUT");
@@ -390,14 +391,31 @@ public class Screen {
             if(toInt.equals("00")){login();}
 
             if(control.stringToInt(toInt) != 0) {
-                option = control.stringToInt(toInt); //converte String para Int e armazena 
+                userCode = control.stringToInt(toInt); 
                 valid = true;
             }else
                 valid = false;  
         }while(!valid);
         
+        //verifica se não é o propio codigo 
+        if(actualUser.getAccessNumber() == userCode) {
+           System.out.println("You cant change yourself Access Level");
+        changeAccessLevelScreen();
+        } 
+        
         System.out.println("New Access Level For This User:");
-        access.setLevelAccess(key.nextInt());
+        toInt = key.nextLine();
+        if(toInt.equals("00")){login();} 
+       
+        do{
+           if(control.stringToInt(toInt) != 0) {
+                option = control.stringToInt(toInt); 
+                valid = true;
+            }else
+                valid = false;  
+        }while(!valid);
+        
+        access.setLevelAccess(option);
         
         if(actualUser.getLevelAccessNumber() <= control.getEmployeeWithCode(option).getLevelAccessNumber()){
             System.out.println("ACCESS DANIED");
