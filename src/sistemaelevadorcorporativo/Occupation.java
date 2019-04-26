@@ -13,16 +13,16 @@ public enum Occupation {
     EXECUTIVE(4),
     CEO(5);
 
-    private int levelAccess;
+    private int accessLevel;
     Occupation(int access){
-        this.levelAccess = access;
+        this.accessLevel = access;
     }
     
-    public int getAccessLevelNumber(){return levelAccess;
+    public int getAccessLevelNumber(){return accessLevel;
     }
 
-    public void setLevelAccess(int levelAccess) {
-        this.levelAccess = levelAccess;
+    public void setAccessLevel(int accessLevel) {
+        this.accessLevel = accessLevel;
     }
     
 }

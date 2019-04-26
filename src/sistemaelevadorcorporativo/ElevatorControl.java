@@ -36,6 +36,11 @@ class ElevatorControl {
                 employee = e;
                 break;
             }
+        if(employee == null)
+            JOptionPane.showMessageDialog(null,
+                "USER NOT FOUND\n\n", //mensagem
+                "NOT FOUND ERROR", // titulo da janela 
+                JOptionPane.ERROR_MESSAGE); // tipo de janela
         return employee;                     
     }
     

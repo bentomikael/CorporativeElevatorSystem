@@ -10,6 +10,7 @@ public class Screen {
     private Scanner key;// entrada de dados 
     private ElevatorControl control;
     private Employee actualUser; //usuário logado
+    private Occupation occupation;
     private int option; //variável auxiliar para selecionar opções 
     
     //variaveis de controle
@@ -23,24 +24,38 @@ public class Screen {
         actualUser = control.registerNewEmployee(999,Occupation.CEO,"TESTER",20,Gender.MALE); //TESTE, apagar depois
     }
     
-    //loga no sistema
-    public Employee login(){
-        System.out.println("--------LOGIN WITH YOU EMPLOYEE CARD / CODE--------");
+     // recebe um int filtrado e atribui para option
+    private int inputInt(int maxValue){
+        System.out.println("00 - TO CANCEL ACTION AND GO TO LOGIN SCREEN / LOGOUT");
         toInt = key.nextLine();
-         
-        if(control.stringToInt(toInt) != 0) //se conter apenas números converte para Int, senão reinicia o metodo
-            option = control.stringToInt(toInt); 
-        else
-            login();
+        if(toInt.equals("00")){login();} // 00 volta para o inicio 
+        
+        do{
+           if(control.stringToInt(toInt) != 0) {   // verifica se o numero é valido
+                option = control.stringToInt(toInt); 
+                valid = true;
+            }else
+                valid = false; 
+           if(option > maxValue && maxValue != 0){ // verifica se esta no limite indicado. se limite = 0,ignora
+               valid = false;
+               System.out.println("INVALID OPTION, TRY AGAIN");
+           }
+        }while(!valid);
+        
+        return option;
+  }
+    
+    //loga no sistema
+    public void login(){
+        System.out.println("--------LOGIN WITH YOU EMPLOYEE CARD / CODE--------");
+        inputInt(0);
         
         if(control.getEmployeeWithCode(option) == null){ // se não encontrar o funcionário reinicia o método 
             System.out.println("EMPLOYEE NOT FOUND, TRY AGAIN");
             login();
         }else
             actualUser = control.getEmployeeWithCode(option);
-        home();
-        return control.getEmployeeWithCode(option);
-        
+        home();        
     }
     
     // tela inicial
@@ -53,11 +68,9 @@ public class Screen {
             System.out.println("2- Administrative Options");        
 
         do{
-            toInt = key.nextLine(); 
-            if(control.stringToInt(toInt) != 0) 
-                option = control.stringToInt(toInt);
-            else
-                home();
+            inputInt(2);
+            System.out.println("INVALID OPTION, TRY AGAIN");
+        }while(option == 0);
         switch(option){
             case 1:
                 floorScreenFront();
@@ -65,13 +78,9 @@ public class Screen {
             case 2:  
                 if(actualUser.getLevelAccessNumber()>= 3) //verifica se tem autorização 
                     administrativeScreen();
-                else
-                    option =0; // muda valor para que não saia do loop
                     break;
-            default:
-                System.out.println("INVALID OPTION, TRY AGAIN");
         }
-        }while(option != 1 && option != 2);
+        
     }
     
     //tela de opçoes administrativas
@@ -82,20 +91,9 @@ public class Screen {
         System.out.println("2 - Remove Employee");
         System.out.println("3 - Change Access Level of one employee");
         System.out.println("4 - Reports");
-        System.out.println("0 - Back To Home");
-                
-        toInt = key.nextLine(); 
-        if( control.stringToInt(toInt) < 5) 
-            option = control.stringToInt(toInt); 
-        else{
-            System.out.println("INVALID OPTION, TRY AGAIN");
-            administrativeScreen();
-        }
+        inputInt(4);
     
         switch(option){
-            case 0:
-                home();
-                break;
             case 1:
                 newEmployeeScreen();
                 break;
@@ -132,16 +130,12 @@ public class Screen {
         if(actualUser.getLevelAccessNumber() >= 5)
             System.out.println("6 - CEO Floor");  
        
-        System.out.println("00 - Back to Home / logout");
         floorScreenBack();
           
     }
     
     private void floorScreenBack(){
-        option = key.nextInt(); //alterar - - - - - - - - - - - 
-        key.nextLine();
-        if(toInt.equals("00")
-           login();
+        inputInt(6);
 
         valid = false;
         do{                   
@@ -151,6 +145,7 @@ public class Screen {
                 case 0:
                     control.exitOfFloor(actualUser);
                     System.out.println("BYE, SEE YOU LATER");
+                    valid = true;
                     login();
                     break;
                 case 1:
@@ -207,31 +202,24 @@ public class Screen {
         System.out.println("3 - History of Day");
         System.out.println("4 - History of registered employees");
         System.out.println("5 - History of removed employees");
-        System.out.println("0 - Back To Home");
-        option = key.nextInt();// alterar - - - - - - - - - - - - - - - - - - 
-        key.nextLine();
+        inputInt(5);
         
-        valid = false;
-        do{
             switch(option){
                 case 0:
                     login();
-                    valid = true;
                     break;
                 case 1:
-                    valid = true;
                     break;
                 case 2:
-                    valid = true;
                     break;
                 case 3:
-                    valid = true;
                     break;
-                default:
-                    System.out.println("INVALID OPTION, TRY AGAIN");
-                    break;          
+                case 4:
+                    break;
+                case 5:
+                    break;
             }
-        }while(!valid);
+        
     }
     
     //Tela para adicionar funcionario
@@ -240,7 +228,7 @@ public class Screen {
         int age = 0;
         Gender gender = null;
         int code = 0;
-        Occupation level = Occupation.VISITOR; //valor generico só para instanciar
+        Occupation level = Occupation.VISITOR; //valor generico só para iniciar
        
         // recebe nome
         System.out.println("-------RESGISTER NEW EMPLOYEE-------");
@@ -260,60 +248,33 @@ public class Screen {
             if(valid == false)
                 System.out.println("INVALID NAME, TRY AGAIN");
         
-        }while(valid == false);
+        }while(!valid);
         
         // recebe idade
         System.out.println("Age:");
-        do{
-            toInt = key.nextLine();
-            if(toInt.equals("00") ){login();}
-
-            if(control.stringToInt(toInt) != 0){
-                age = control.stringToInt(toInt);
-                valid = true;
-            }else{
-                valid = false;
-            }
-        }while(valid == false);
+        age = inputInt(0);
         
         //recebe genero
         System.out.println("Gender: \n"+ "1 to Male \n2 to Female");
-        do{
-            toInt = key.nextLine();
-            if(toInt.equals("00")){login();}
+        
+            do{ inputInt(2);
+                System.out.println("INVALID NUMBER");
+            }while(option == 0) ; 
             
-            if(control.stringToInt(toInt) != 0){
-                option = control.stringToInt(toInt);
-                valid = true;
-            }else{
-                valid = false;
-            }
             if(option == 1)
                 gender = Gender.MALE;
             else if(option == 2)
                 gender = Gender.FEMALE;
-            else
-                System.out.println("INVALID OPTION, TRY AGAIN");
-        }while(option != 1 && option != 2);
         
         //recebe codigo
         System.out.println("Code Access:");
         do{          
-            toInt = key.nextLine();
-            if(toInt.equals("00") ){login();}
-
-            if(control.stringToInt(toInt) != 0){
-                code = control.stringToInt(toInt);
-                valid = true;
-            }else{
-                valid = false;
+            code = inputInt(0);
+            if(control.getEmployeeWithCode(code) != null){    //se o codigo for valido,verifica se ja existe 
+               System.out.println("EMPLOYEE ALREADY REGISTERED,TRY OTHER CODE ");
+               valid = false;
             }
-            if(valid == true)
-                if(control.getEmployeeWithCode(code) != null){    //se o codigo for valido,verifica se ja existe 
-                System.out.println("EMPLOYEE ALREADY REGISTERED,TRY OTHER CODE ");
-                valid = false;
-            }
-        }while(valid == false);
+        }while(!valid);
             
         // recebe o nivel de acesso
         System.out.println("level Access:");
@@ -326,25 +287,17 @@ public class Screen {
             n++;
         }
         do{
-            toInt = key.nextLine();
-            if(toInt.equals("00") ){login();}
-
-            if(toInt.matches("[0-5]{"+toInt.length()+"}")){
-                level.setLevelAccess(Integer.valueOf(toInt));
-                valid = true;
-            }else{
-                System.out.println("INVALID LEVEL ACCESS, TRY AGAIN");
-                valid = false;
-            }
+            level.setAccessLevel(inputInt(5));
+            
             if(level.getAccessLevelNumber() >= actualUser.getLevelAccessNumber()){
                 valid = false;
                 System.out.println("YOU CANT CREATE A NEW EMPLOYEE WITH ACCESS LEVEL BIGGER OR EQUAL YOURS");
             }
-        }while(valid == false);
+            else 
+                valid = true;
+        }while(!valid);
         
-        System.out.println("SUCCEFULL");
         control.registerNewEmployee(code,level,name,age,gender);
-        
         login();
     }
     
@@ -352,19 +305,7 @@ public class Screen {
     private void deleteEmployeeScreen(){
         System.out.println("--------REMOVE EMPLOYEE--------");
         System.out.println("Code of Employee to remove");
-        System.out.println("00 - TO CANCEL ACTION AND GO TO HOME / LOGOUT");
-
-        
-        do{        
-            toInt = key.nextLine();
-            if(toInt.equals("00")){login();}
-
-            if(control.stringToInt(toInt) != 0) {
-                option = control.stringToInt(toInt); //converte String para Int e armazena 
-                valid = true;
-            }else
-                valid = false;  
-        }while(!valid);
+        inputInt(0);
         
         if(control.getEmployeeWithCode(option) != null) // se existir
             if(control.getEmployeeWithCode(option).getLevelAccessNumber() >= actualUser.getLevelAccessNumber()){
@@ -380,53 +321,37 @@ public class Screen {
     
     //altera nivel de acesso de um funcionario
     private void changeAccessLevelScreen(){
-        int userCode = 0;
+        int userCode ;
         Occupation access = Occupation.VISITOR; // valor genérico 
+        
         System.out.println("--------CHANGE ACCESS LEVEL OF EMPLOYEE--------");
         System.out.println("Code Of Employee To Change Access Level:");
-        System.out.println("00 - TO CANCEL ACTION AND GO TO HOME / LOGOUT");
 
-        do{        
-            toInt = key.nextLine();
-            if(toInt.equals("00")){login();}
-
-            if(control.stringToInt(toInt) != 0) {
-                userCode = control.stringToInt(toInt); 
-                valid = true;
-            }else
-                valid = false;  
-        }while(!valid);
+        userCode = inputInt(0);
         
-        //verifica se não é o propio codigo 
-        if(actualUser.getAccessNumber() == userCode) {
-           System.out.println("You cant change yourself Access Level");
-        changeAccessLevelScreen();
-        } 
+        //verifica se não é o propio codigo e se nao achou usuario
+        if(actualUser.getCodeAccess() == userCode) {
+           System.out.println("YOU CANT CHANGE YOUR OWN ACCESS LEVEL");
+           changeAccessLevelScreen();
+        }else if(control.getEmployeeWithCode(userCode) == null){ 
+            System.out.println("Employee Not Found");
+            changeAccessLevelScreen();
+        }
         
         System.out.println("New Access Level For This User:");
-        toInt = key.nextLine();
-        if(toInt.equals("00")){login();} 
-       
-        do{
-           if(control.stringToInt(toInt) != 0) {
-                option = control.stringToInt(toInt); 
-                valid = true;
-            }else
-                valid = false;  
-        }while(!valid);
         
-        access.setLevelAccess(option);
+        access.setAccessLevel(inputInt(5));
         
-        if(actualUser.getLevelAccessNumber() <= control.getEmployeeWithCode(option).getLevelAccessNumber()){
+        if(actualUser.getLevelAccessNumber() <= control.getEmployeeWithCode(userCode).getLevelAccessNumber()){
             System.out.println("ACCESS DANIED");
             System.out.println("YOU DONT HAVE AUTHORIZATION TO CHANGE THIS EMPLOYEE"); 
             changeAccessLevelScreen();
         }else{
-            control.changeAccessLevel(option, access);
+            control.changeAccessLevel(userCode, access );
         }
         login();
     
     }
     
-  
+   
 }
