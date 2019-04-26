@@ -4,13 +4,10 @@ package sistemaelevadorcorporativo;
  *
  * @author Mikael
  */
-public class Employee implements People {
+public class Employee extends People {
     private final int codeAccess;
     private Occupation accessLevel;
     private int currentFloor;
-    private final String name;
-    private int age;
-    private final Gender gender;
 
     public Employee(int codeAccess, Occupation accessLevel, String name, int age, Gender gender) {
         this.codeAccess = codeAccess;
@@ -20,15 +17,6 @@ public class Employee implements People {
         this.gender = gender;
         currentFloor = 0;
     }
-
-    
-    @Override
-    public String getName() {return name;}
-
-    @Override
-    public int getAge() {return age;}
-    
-    public void setAge(int age){this.age = age;}
     
     public int getCodeAccess() {return codeAccess;}
 
