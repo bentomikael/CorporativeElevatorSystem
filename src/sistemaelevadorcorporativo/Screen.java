@@ -7,10 +7,10 @@ import java.util.Scanner;
  * @author Mikael
  */
 public class Screen {
-    private Scanner key;
+    private Scanner key;// entrada de dados 
     private ElevatorControl control;
-    private Employee actualUser;
-    private int option;
+    private Employee actualUser; //usuário logado
+    private int option; //variável auxiliar para selecionar opções 
     
     //variaveis de controle
     private String toInt; 
@@ -28,12 +28,12 @@ public class Screen {
         System.out.println("--------LOGIN WITH YOU EMPLOYEE CARD / CODE--------");
         toInt = key.nextLine();
          
-        if(control.stringToInt(toInt) != 0) 
-            option = control.stringToInt(toInt); //converte String para Int e armazena 
+        if(control.stringToInt(toInt) != 0) //se conter apenas números converte para Int, senão reinicia o metodo
+            option = control.stringToInt(toInt); 
         else
             login();
         
-        if(control.getEmployeeWithCode(option) == null){
+        if(control.getEmployeeWithCode(option) == null){ // se não encontrar o funcionário reinicia o método 
             System.out.println("EMPLOYEE NOT FOUND, TRY AGAIN");
             login();
         }else
@@ -55,7 +55,7 @@ public class Screen {
         do{
             toInt = key.nextLine(); 
             if(control.stringToInt(toInt) != 0) 
-                option = control.stringToInt(toInt); //converte String para Int e armazena 
+                option = control.stringToInt(toInt);
             else
                 home();
         switch(option){
@@ -63,8 +63,10 @@ public class Screen {
                 floorScreenFront();
                 break;
             case 2:  
-                if(actualUser.getLevelAccessNumber()>= 3)
+                if(actualUser.getLevelAccessNumber()>= 3) //verifica se tem autorização 
                     administrativeScreen();
+                else
+                    option =0; // muda valor para que não saia do loop
                     break;
             default:
                 System.out.println("INVALID OPTION, TRY AGAIN");
@@ -83,8 +85,8 @@ public class Screen {
         System.out.println("0 - Back To Home");
                 
         toInt = key.nextLine(); 
-        if(control.stringToInt(toInt) != 0 && control.stringToInt(toInt) < 5) 
-            option = control.stringToInt(toInt); //converte String para Int e armazena 
+        if( control.stringToInt(toInt) < 5) 
+            option = control.stringToInt(toInt); 
         else{
             System.out.println("INVALID OPTION, TRY AGAIN");
             administrativeScreen();
@@ -130,16 +132,17 @@ public class Screen {
         if(actualUser.getLevelAccessNumber() >= 5)
             System.out.println("6 - CEO Floor");  
        
-        System.out.println("7 - Back to Home / logout");
+        System.out.println("00 - Back to Home / logout");
         floorScreenBack();
-            
-  
+          
     }
     
     private void floorScreenBack(){
-        option = key.nextInt();
+        option = key.nextInt(); //alterar - - - - - - - - - - - 
         key.nextLine();
-        
+        if(toInt.equals("00")
+           login();
+
         valid = false;
         do{                   
             String erro = "INVALID OPTION, TRY AGAIN";
@@ -148,9 +151,6 @@ public class Screen {
                 case 0:
                     control.exitOfFloor(actualUser);
                     System.out.println("BYE, SEE YOU LATER");
-                    login();
-                    break;
-                case 7:
                     login();
                     break;
                 case 1:
@@ -208,7 +208,7 @@ public class Screen {
         System.out.println("4 - History of registered employees");
         System.out.println("5 - History of removed employees");
         System.out.println("0 - Back To Home");
-        option = key.nextInt();
+        option = key.nextInt();// alterar - - - - - - - - - - - - - - - - - - 
         key.nextLine();
         
         valid = false;
