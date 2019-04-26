@@ -21,19 +21,21 @@ public class Screen {
         String toInt; 
         boolean valid;
         System.out.println("00 - TO CANCEL ACTION AND GO TO LOGIN SCREEN / LOGOUT");
-        toInt = key.nextLine();
-        
-        if(toInt.equals("00")){   // 00 volta para a tela de login 
-            login();
-        } 
-        
         do{
+            toInt = key.nextLine();
+        
+            if(toInt.equals("00")){   // 00 volta para a tela de login 
+                login();
+            } 
+        
            if(control.stringToInt(toInt) != 0) {   // verifica se a String contem apenas numeros
-                option = control.stringToInt(toInt); 
+                option = Integer.parseInt(toInt);  //converte para int
                 valid = true;
             }else
-                valid = false; 
-           if(option > maxValue && maxValue != 0){ // verifica se esta no limite indicado. se limite = 0,ignora
+                valid = false;
+           
+           // verifica se esta no limite indicado. se limite = 0,ignora
+           if(valid == true && option > maxValue && maxValue != 0){ 
                valid = false;
                System.out.println("INVALID OPTION, TRY AGAIN");
            }

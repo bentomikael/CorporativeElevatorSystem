@@ -2,7 +2,6 @@ package sistemaelevadorcorporativo;
 
 import java.util.ArrayList;
 import javax.swing.JOptionPane;
-import sistemaelevadorcorporativo.Floors.*;
 /**
  *
  * @author Mikael
@@ -15,6 +14,7 @@ class ElevatorControl {
         employees = new ArrayList();
         employees.add(new Employee(999,Employee.Occupation.CEO,"TESTER",20,Employee.Gender.MALE)); //TESTE, apagar depois
     }
+   
     //usado para login
     public Employee getActualUser() {
         return actualUser;
