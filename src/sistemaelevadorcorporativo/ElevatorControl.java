@@ -1,4 +1,5 @@
 package sistemaelevadorcorporativo;
+
 import java.util.ArrayList;
 import javax.swing.JOptionPane;
 import sistemaelevadorcorporativo.Floors.*;
@@ -8,9 +9,18 @@ import sistemaelevadorcorporativo.Floors.*;
  */
 class ElevatorControl {
     private ArrayList<Employee> employees;
+    private Employee actualUser; //usado para login
 
     public ElevatorControl() {
         employees = new ArrayList();
+        employees.add(new Employee(999,Occupation.CEO,"TESTER",20,Gender.MALE)); //TESTE, apagar depois
+    }
+    //usado para login
+    public Employee getActualUser() {
+        return actualUser;
+    }
+    public void setActualUser(int code){
+        actualUser = getEmployeeWithCode(code);
     }
     
     // retorna todos funcionarios cadastrados

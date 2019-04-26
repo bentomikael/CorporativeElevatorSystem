@@ -18,7 +18,8 @@ public enum Occupation {
         this.accessLevel = access;
     }
     
-    public int getAccessLevelNumber(){return accessLevel;
+    public int getAccessLevelNumber(){
+        return accessLevel;
     }
 
     public void setAccessLevel(int accessLevel) {
