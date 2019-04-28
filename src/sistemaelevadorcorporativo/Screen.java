@@ -4,7 +4,7 @@ import java.util.Scanner;
 
 /**
  *
- * @author Mikael
+ * @author 
  */
 public class Screen {
     private Scanner key;// entrada de dados 
@@ -211,7 +211,7 @@ public class Screen {
                 valid = false;
                 System.out.println("INVALID LENGTH OF NAME");
             }else 
-                //verifica se contem apenas letras e sai do loop
+                //verifica se contem apenas letras
                 valid = name.matches("[A-Z a-z Çç]{"+name.length()+"}");
 
             if(valid == false)

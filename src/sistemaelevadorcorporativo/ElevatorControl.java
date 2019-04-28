@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import javax.swing.JOptionPane;
 /**
  *
- * @author Mikael
+ * @author 
  */
 class ElevatorControl {
     private ArrayList<Employee> employees;

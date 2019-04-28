@@ -2,12 +2,14 @@ package sistemaelevadorcorporativo;
 
 /**
  *
- * @author Mikael
+ * @author 
  */
 public class Employee extends People {
     private final int codeAccess;
     private Occupation accessLevel;
     private int currentFloor;
+    private final Gender gender;
+    
 
     public Employee(int codeAccess, Occupation accessLevel, String name, int age, Gender gender) {
         this.codeAccess = codeAccess;

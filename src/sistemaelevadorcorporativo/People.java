@@ -2,13 +2,13 @@ package sistemaelevadorcorporativo;
 
 /**
  *
- * @author Mikael
+ * @author 
  */
 public abstract class People {
-    private String name;
-    private int age;
-    private final enum Gender {MALE,FEMALE;};
-    
+    protected String name;
+    protected int age;
+    protected enum Gender {MALE,FEMALE;};
+   
     public String getName(){
         return name;
     }
@@ -34,12 +34,11 @@ public abstract class People {
         Occupation(int access){
             this.accessLevel = access;
         }
-
-        public void setAccessLevel(int accessLevel) {
-            this.accessLevel = accessLevel;
+        
+        public void setAccessLevel(int access){
+            accessLevel = access;
         }
     
     }
    
-    
 }
