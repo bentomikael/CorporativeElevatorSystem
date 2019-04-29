@@ -1,6 +1,7 @@
 package sistemaelevadorcorporativo;
 
 import java.util.Scanner;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -16,16 +17,23 @@ public class Screen {
         control = new ElevatorControl();
     }
     
-     // recebe um int filtrado e atribui para option
+    /**
+     * Recebe uma String,garante que contem apenas numeros e converte para int.
+     * repete o metodo até um valor correto ser inserido.
+     * Trata maioria dos erros do programa
+     * return option
+    * @param maxValue maior numero de entrada permitido
+    */
     private int inputInt(int maxValue){
         String toInt; 
         boolean valid;
         System.out.println("00 - TO CANCEL ACTION AND GO TO LOGIN SCREEN / LOGOUT");
         do{
-            toInt = key.nextLine();
+            toInt = JOptionPane.showInputDialog("Input Only Numbers \n");
+//            toInt = key.nextLine();
         
             if(toInt.equals("00")){   // 00 volta para a tela de login 
-                login();
+                logout();
             } 
         
            if(control.stringToInt(toInt) != 0) {   // verifica se a String contem apenas numeros
@@ -34,7 +42,7 @@ public class Screen {
             }else
                 valid = false;
            
-           // verifica se esta no limite indicado. se limite = 0,ignora
+           // verifica se esta no limite indicado. se limite = 0,limite infinito
            if(valid == true && option > maxValue && maxValue != 0){ 
                valid = false;
                System.out.println("INVALID OPTION, TRY AGAIN");
@@ -44,7 +52,9 @@ public class Screen {
         return option;
   }
     
-    //loga no sistema
+   /**
+    * Loga armazenando o usuario em control.atualUser
+    */
     public void login(){
         System.out.println("--------LOGIN WITH YOU EMPLOYEE CARD / CODE--------");
         inputInt(0);
@@ -56,7 +66,12 @@ public class Screen {
             control.setActualUser(option);
         home();        
     }
+    private void logout(){
+        login();
+    }
+
     
+    //<editor-fold defaultstate="collapsed" desc="Telas do programa">
     // tela inicial
     private void home(){
         System.out.println("--------WELCOME TO ELEVATOR SYSTEM 1.0--------");
@@ -65,7 +80,7 @@ public class Screen {
         //verifica se o usuario tem autorização administrativa ou +, se nao tiver, nem mostra a opção
         if(control.getActualUser().getAccessLevelNumber()>= 3 )       
             System.out.println("2- Administrative Options");        
-
+      
         do{
             inputInt(2);
             
@@ -109,13 +124,18 @@ public class Screen {
             System.out.println("6 - CEO Floor");  
        
         // só aceita andar que tenha autorização
-        inputInt(control.getActualUser().getAccessLevelNumber());
+        inputInt(control.getActualUser().getAccessLevelNumber() + 1);
 
         switch(option){
             case 0:
+                if(control.getActualUser().getCurrentFloor() != 0){
                 control.exitOfFloor(control.getActualUser());
                 System.out.println("BYE, SEE YOU LATER");
-                login();
+                logout();
+                }else{
+                    System.out.println("YOU NEED BE IN ONE FLOOR TO GET OF");
+                floorScreen();
+                }
                 break;
             case 1:
                 break;
@@ -140,7 +160,8 @@ public class Screen {
         System.out.println("2 - Remove Employee");
         System.out.println("3 - Change Access Level of one employee");
         System.out.println("4 - Reports");
-        inputInt(4);
+        System.out.println("5 - List of Employees");
+        inputInt(5);
     
         switch(option){
             case 1:
@@ -154,7 +175,10 @@ public class Screen {
                 break;
             case 4:
                 reportScreen();
-                break;                   
+                break;      
+            case 5:
+                listScreen();
+                break;
             }
         
     }
@@ -191,7 +215,7 @@ public class Screen {
         int age = 0;
         People.Gender gender = null;
         int code = 0;
-        Employee.Occupation level = Employee.Occupation.VISITOR; //valor generico só para iniciar
+        Employee.Occupation level = null;
         boolean valid;
        
         // recebe nome
@@ -202,15 +226,8 @@ public class Screen {
         do{ 
             name = key.nextLine();
             if(name.equals("00")){
-                login();
-            }
-            
-            //verifica tamanho minimo e maximo para o nome
-            if(name.length() < 3 ||
-               name.length() > 30){ 
-                valid = false;
-                System.out.println("INVALID LENGTH OF NAME");
-            }else 
+                logout();
+            }            
                 //verifica se contem apenas letras
                 valid = name.matches("[A-Z a-z Çç]{"+name.length()+"}");
 
@@ -271,7 +288,7 @@ public class Screen {
         }while(!valid);
         
         control.registerNewEmployee(code,level,name,age,gender);
-        login();
+        logout();
     }
     
     //tela para apagar funcionario
@@ -282,6 +299,7 @@ public class Screen {
         
         // verifica se existe
         if(control.getEmployeeWithCode(option) != null) 
+            //verifica se nivel é menor que usuario atual
             if(control.getEmployeeWithCode(option).getAccessLevelNumber() >=
                control.getActualUser().getAccessLevelNumber()){
                 System.out.println("ACCESS DANIED");
@@ -290,11 +308,11 @@ public class Screen {
         }else{
             control.removeOneEmployeeWithCode(option);
         }
-        login();
+        logout();
         
     }
     
-    //altera nivel de acesso de um funcionario
+    //tela para alterar nivel de acesso de um funcionario
     private void changeAccessLevelScreen(){
         int userCode ;
           
@@ -326,9 +344,40 @@ public class Screen {
         }else{
             control.changeAccessLevel(userCode, access );
         }
-        login();
+        logout();
     
     }
+
+    //tela de lista de funcionarios
+    private void listScreen() {
+        System.out.println("--------LISTS OF EMPLOYEES--------");
+        System.out.println("1 - All Employees");
+        System.out.println("2 - Employees Per Access Level");
+        System.out.println("3 - Employees Per Floor");
+        System.out.println("4 - Employees In Work");
+        inputInt(4);
+        
+        switch(option){
+            case 1:
+                control.outputListNames(control.getAllEmployees());
+                break;
+            case 2:
+                System.out.println("Enter Level Number");
+                inputInt(5);
+                control.outputListNames(control.getEmployeesListPerLevelAccess(option));
+                break;
+            case 3:
+                System.out.println("Enter Floor Number");
+                inputInt(5);
+                control.outputListNames(control.getEmployeePerFloor(option));
+                break;
+            case 4:
+                control.outputListNames(control.getEmployeesInWork());
+                break;
+        }
+
+    }
+//</editor-fold>
     
-    
+   
 }

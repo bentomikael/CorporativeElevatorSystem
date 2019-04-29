@@ -1,8 +1,5 @@
 package sistemaelevadorcorporativo;
 
-import javax.swing.JDialog;
-import javax.swing.JOptionPane;
-
 /**
  *
  * @author Mikael Bento e Vinicius Hilbert
@@ -13,12 +10,13 @@ public class SistemaElevadorCorporativo {
      * codigo para acesso level CEO
     */
     public static void main(String[] args) {
-       //new Screen().login();
-        String teste = "123";
+        new Screen().login();
+        
+//       teste test = new teste();
+//       segundo testt = new segundo();
+//       testt.setVisible(true);
+//       test.setVisible(true);
        
-        
-        JOptionPane.showInputDialog(teste);
-        
     }
     
 }

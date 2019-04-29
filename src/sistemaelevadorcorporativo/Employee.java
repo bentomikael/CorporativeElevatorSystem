@@ -17,10 +17,11 @@ public class Employee extends People {
         this.name = name;
         this.age = age;
         this.gender = gender;
-        currentFloor = 0;
+        currentFloor = 0; 
     }
     
     public int getCodeAccess() {return codeAccess;}
+    
 
     public int getAccessLevelNumber() {return accessLevel.accessLevel;}
 
