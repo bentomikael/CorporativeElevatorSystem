@@ -1,7 +1,6 @@
 package sistemaelevadorcorporativo;
 
 import java.util.Scanner;
-import javax.swing.JOptionPane;
 
 /**
  *
@@ -29,8 +28,7 @@ public class Screen {
         boolean valid;
         System.out.println("00 - TO CANCEL ACTION AND GO TO LOGIN SCREEN / LOGOUT");
         do{
-            toInt = JOptionPane.showInputDialog("Input Only Numbers \n");
-//            toInt = key.nextLine();
+            toInt = key.nextLine();
         
             if(toInt.equals("00")){   // 00 volta para a tela de login 
                 logout();

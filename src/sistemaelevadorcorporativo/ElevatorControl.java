@@ -1,12 +1,11 @@
 package sistemaelevadorcorporativo;
 
 import java.util.ArrayList;
-import javax.swing.JOptionPane;
 /**
  *
  * @author 
  */
-class ElevatorControl implements Messages{
+class ElevatorControl {
     private ArrayList<Employee> employees;
     private Employee actualUser; //usado para login
 
@@ -73,10 +72,7 @@ class ElevatorControl implements Messages{
                 break;
             }
         if(employee == null)
-            JOptionPane.showMessageDialog(null,
-                "USER NOT FOUND\n\n", //mensagem
-                "NOT FOUND ERROR", // titulo da janela 
-                JOptionPane.ERROR_MESSAGE); // tipo de janela
+            System.out.println("USER NOT FOUND");
         return employee;                     
     }
     
@@ -87,10 +83,7 @@ class ElevatorControl implements Messages{
     (int codeAccess, Employee.Occupation levelAccess, String name, int age, Employee.Gender gender){
         employees.add(new Employee(codeAccess,levelAccess,name,age,gender));
         
-        JOptionPane.showMessageDialog(null,
-        "New User Registered:\n\n "+ getEmployeeWithCode(codeAccess).getName(),
-        "NEW EMPLOYEE REGISTERED SUCCESSFULY", 
-        JOptionPane.INFORMATION_MESSAGE); 
+        System.out.println("New User Registered:\n\n"+ getEmployeeWithCode(codeAccess).getName()); 
         
         return getEmployeeWithCode(codeAccess);
     }
@@ -98,11 +91,7 @@ class ElevatorControl implements Messages{
     //remove funcionario pelo codigo
     public void removeOneEmployeeWithCode(int code){
         
-        JOptionPane.showMessageDialog(null,
-        "User Removed:\n\n "+ getEmployeeWithCode(code).getName(),
-        "EMPLOYEE REMOVED SUCCESSFULY", 
-        JOptionPane.INFORMATION_MESSAGE);    
-        
+        System.out.println("User Removed:\n\n "+ getEmployeeWithCode(code).getName());     
          employees.remove(getEmployeeWithCode(code));
     }
     
@@ -124,16 +113,13 @@ class ElevatorControl implements Messages{
     * @param convert String a ser convertida para int
     */
         public int stringToInt(String convert){
-        int converted = 0;
+            int converted = 0;
         
             if(convert.matches("[0-9]{"+convert.length()+"}")) 
                 converted = Integer.valueOf(convert);           
             else
-                JOptionPane.showMessageDialog(null,
-                "ONLY NUMBER ARE ALLOWED\n\n TRY AGAIN", //mensagem
-                "IMPUT ERROR", // titulo da janela 
-                JOptionPane.ERROR_MESSAGE); // tipo de janela
-        
+                System.out.println("ONLY NUMBER ARE ALLOWED\n\n TRY AGAIN");
+                
         return converted;
     }
 
@@ -142,63 +128,8 @@ class ElevatorControl implements Messages{
      * @param array entre com array de funcionarios
      */
     public void outputListNames(ArrayList<Employee> array){
-        String[] list = new String[array.size()];
-        int i = 0;
         for(Employee e : array)
-            list[i++] = e.getName();
-        JOptionPane.showInputDialog(null,"Employees", "teste", JOptionPane.PLAIN_MESSAGE, null, list, null);
+            System.out.println(e.getName()); 
     }      
-
-    //<editor-fold defaultstate="collapsed" desc="Messages panel">
-    @Override
-    public void successAdd() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public void successDel() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public void invalidNumber() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public void invalidName() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public void invalidOption() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public void notHavePermision() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public void logout() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public void alreadyRegistered() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public void changeSelfErro() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public void notFound() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-//</editor-fold>
     
 }
