@@ -6,7 +6,7 @@ import java.util.Scanner;
  *
  * @author 
  */
-public class Screen {
+public class MainScreen {
     private Scanner key;// entrada de dados 
     private ElevatorControl control;
     private int option; //variável auxiliar para selecionar opções 
