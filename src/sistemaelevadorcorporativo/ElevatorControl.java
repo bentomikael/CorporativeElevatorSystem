@@ -8,6 +8,7 @@ import java.util.ArrayList;
 class ElevatorControl {
     private ArrayList<Employee> employees;
     private Employee actualUser; //usado para login
+    private MainScreen;
 
     public ElevatorControl() {
         employees = new ArrayList();
@@ -19,6 +20,9 @@ class ElevatorControl {
     }
    
     //<editor-fold defaultstate="collapsed" desc=" metodos para login">
+    public void start(){
+        MainScreen.login();
+    } 
     public void setActualUser(int code){
         actualUser = getEmployeeWithCode(code);
     }
