@@ -8,7 +8,7 @@ import java.util.ArrayList;
 class ElevatorControl {
     private ArrayList<Employee> employees;
     private Employee actualUser; //usado para login
-    private MainScreen;
+    private MainScreen screen;
 
     public ElevatorControl() {
         employees = new ArrayList();
@@ -18,13 +18,14 @@ class ElevatorControl {
         employees.add(new Employee(666,Employee.Occupation.SIMPLE_EMPLOYEE,"majin boo",40,Employee.Gender.MALE)); //TESTE, apagar depois
 
     }
-   
-    //<editor-fold defaultstate="collapsed" desc=" metodos para login">
+    
+    //<editor-fold defaultstate="collapsed" desc="Metodos de login">
     public void start(){
-        MainScreen.login();
+        screen.login();
     } 
     public void setActualUser(int code){
         actualUser = getEmployeeWithCode(code);
+        screen.home();
     }
     public Employee getActualUser() {
         return actualUser;
@@ -75,13 +76,12 @@ class ElevatorControl {
                 employee = e;
                 break;
             }
-        if(employee == null)
-            System.out.println("USER NOT FOUND");
         return employee;                     
     }
     
 //</editor-fold>
     
+    //<editor-fold defaultstate="collapsed" desc="Manipulação de usuarios">
     //registra funcionario
     public Employee registerNewEmployee
     (int codeAccess, Employee.Occupation levelAccess, String name, int age, Employee.Gender gender){
@@ -103,13 +103,28 @@ class ElevatorControl {
     public void changeAccessLevel(int code,Employee.Occupation newAccessLevel){
         getEmployeeWithCode(code).setAccessLevel(newAccessLevel);
     }
+    //</editor-fold>
     
-    public void goToFloor(int code,int floor){}
+    //<editor-fold defaultstate="collapsed" desc="Andares">
+    //entra no andar
+    public void goToFloor(int floor){
+        try{
+            actualUser.setCurrentFloor(floor);
+        }catch(Exception e){
+            screen.logout();
+        }
+    }
     
     //sair do andar
     public void exitOfFloor(Employee employee){
-        employee.setCurrentFloor(0);
+        try{
+            employee.setCurrentFloor(0);
+        }catch(Exception e){
+            screen.logout();
+        }
     }
+    //</editor-fold>
+    
     
     /**converte string em int  (usada para tratamento de erros).
      * Verifica se a String contem apenas numeros e converte,
@@ -128,12 +143,12 @@ class ElevatorControl {
     }
 
     /**
-     * retorna os nomes de todos funcionarios da lista
+     * retorna os nomes de todos funcionarios do array
      * @param array entre com array de funcionarios
      */
     public void outputListNames(ArrayList<Employee> array){
         for(Employee e : array)
             System.out.println(e.getName()); 
-    }      
-    
+    }    
+       
 }
