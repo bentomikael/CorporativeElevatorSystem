@@ -5,10 +5,10 @@ import java.util.ArrayList;
  *
  * @author 
  */
-class ElevatorControl {
+class ElevatorControl implements Messages{
     private ArrayList<Employee> employees;
-    private Employee actualUser; //usado para login
-    private MainScreen screen;
+    private Employee            actualUser; 
+    private MainScreen          screen;
 
     public ElevatorControl() {
         employees = new ArrayList();
@@ -57,7 +57,7 @@ class ElevatorControl {
     }
     
     //retorna uma lista com funcionarios com determinado nivel de acesso
-    public ArrayList getEmployeesListPerLevelAccess(int level){
+    public ArrayList getEmployeesPerLevelAccess(int level){
         ArrayList<Employee> list = new ArrayList();
         People.Occupation o = null ;
         o.setAccessLevel(level);
@@ -150,5 +150,49 @@ class ElevatorControl {
         for(Employee e : array)
             System.out.println(e.getName()); 
     }    
+
+    //<editor-fold defaultstate="collapsed" desc="Mensagens">
+     @Override
+    public void mSuccessAdd() {
+         System.out.println("--NEW EMPLOYEE REGISTERED SUCCESSFULL--");  
+    }
+    @Override
+    public void mSuccessDel() {
+        System.out.println("--EMPLOYEE REMOVED SUCCESSFULL--");
+    }
+    @Override
+    public void mInvalidName() {
+        System.out.println("--INVALID NAME! TRY AGAIN--");
+    }
+    @Override
+    public void mInvalidOption() {
+        System.out.println("--INVALID OPTION! TRY AGAIN--");
+    }
+    @Override
+    public void mDontHavePermision() {
+        System.out.println("--YOU DONT HAVE PERMISSION TO EXECUTE THIS OPERATION--");
+    }
+    @Override
+    public void mLogout() {
+        System.out.println("--LOGOUT SUCCESSFULL--");
+    }
+    @Override
+    public void mAlreadyRegistered() {
+        System.out.println("--USER ALREADY REGISTERED--");
+    }
+    @Override
+    public void mChangeSelfErro() {
+        System.out.println("--YOU CAN'T CHANGE YOURS OWN ACCESS LEVEL--");
+    }
+    @Override
+    public void mNotFound() {
+        System.out.println("--USER NOT FOUND--");
+    }
+    @Override
+    public void mChoseOption() {
+        System.out.println("Chose One Option: \n");
+    }
+//</editor-fold>
+   
        
 }

@@ -12,7 +12,7 @@ public class FloorScreen extends MainScreen{
         
         //exibe somente opções em que o funcionario tem autorização
         if(control.getActualUser().getCurrentFloor() != 0)
-            System.out.println("0 - Get of the Floor");
+            System.out.println("10 - Get of the Floor \n");
         if(control.getActualUser().getAccessLevelNumber()>= 0)    
             System.out.println("1 - First Floor");
         if(control.getActualUser().getAccessLevelNumber()>= 1)
@@ -30,7 +30,7 @@ public class FloorScreen extends MainScreen{
         inputInt(control.getActualUser().getAccessLevelNumber() + 1);
 
         switch(option){
-            case 0:
+            case 10:
                     control.exitOfFloor(control.getActualUser());
                     System.out.println("BYE, SEE YOU LATER");
                 break;
