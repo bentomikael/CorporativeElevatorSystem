@@ -10,7 +10,7 @@ public class SistemaElevadorCorporativo {
     * codigo para acesso level CEO
     */
     public static void main(String[] args) {
-       new ElevatorControl().start();
+       new MainScreen().login();
         
         
 

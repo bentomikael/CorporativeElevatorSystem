@@ -7,48 +7,49 @@ import java.util.Scanner;
  * @author 
  */
 public class MainScreen {
-    public Scanner         key;// entrada de dados 
+    public Scanner key;             // entrada de dados
     public ElevatorControl control;
-    public int             option; //variável auxiliar para selecionar opções 
+    public int option;              //variável auxiliar para selecionar opções 
     
     public MainScreen(){
-        key = new Scanner(System.in);
         control = new ElevatorControl();
+        key = new Scanner(System.in);
     }
     
    /**
     * Loga armazenando o usuario em control.atualUser
     */
     public void login(){
+
         System.out.println("--------LOGIN WITH YOU EMPLOYEE CARD / CODE--------");
                 
-        do{
             inputInt(0);
             if(control.getEmployeeWithCode(option) == null){ 
                 control.mNotFound();
-            }else
+                login();
+            }else{
                 control.setActualUser(option); 
+                home();
+            }
             
-        }while(control.getEmployeeWithCode(option) == null);
     }
     public void logout(){
         control.mLogout();
-        control.start();
+        login();
     }
 
     // tela inicial
     public void home(){
-        System.out.println("--------WELCOME TO CORPORATIVE ELEVATOR SYSTEM--------");
+        System.out.println(control.getActualUser().getCurrentFloor());
+        System.out.println("\n\n--------WELCOME TO CORPORATIVE ELEVATOR SYSTEM--------\n");
         control.mChoseOption();
-        
         System.out.println("1- Go to Floor");
-        //verifica se o usuario tem autorização administrativa ou +, se nao tiver, nem mostra a opção
+        //só mostra opçao pra quem tem autorização
         if(control.getActualUser().getAccessLevelNumber()>= 3 )       
             System.out.println("2- Administrative Options");        
       
         do{
             inputInt(2);
-            
             // verifica se o usuario digitou '2' sem ter autorização
             if(option == 2 && control.getActualUser().getAccessLevelNumber() < 3){
                 option = 0;
@@ -77,6 +78,7 @@ public class MainScreen {
         String toInt; 
         boolean valid;
         System.out.println("\n 0 - TO CANCEL ACTION AND LOGOUT");
+        
         do{
             toInt = key.nextLine();
         

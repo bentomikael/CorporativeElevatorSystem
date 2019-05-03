@@ -1,6 +1,7 @@
 package sistemaelevadorcorporativo;
 
 import java.util.ArrayList;
+import javafx.stage.Screen;
 /**
  *
  * @author 
@@ -8,31 +9,33 @@ import java.util.ArrayList;
 class ElevatorControl implements Messages{
     private ArrayList<Employee> employees;
     private Employee            actualUser; 
-    private MainScreen          screen;
+    private MainScreen          screen ;
 
     public ElevatorControl() {
         employees = new ArrayList();
+                
         employees.add(new Employee(999,Employee.Occupation.CEO,"goku",23,Employee.Gender.MALE)); //TESTE, apagar depois
         employees.add(new Employee(888,Employee.Occupation.ADMINISTRATION,"vegeta",22,Employee.Gender.MALE)); //TESTE, apagar depois
-        employees.add(new Employee(777,Employee.Occupation.MANAGER,"picolo",10,Employee.Gender.MALE)); //TESTE, apagar depois
-        employees.add(new Employee(666,Employee.Occupation.SIMPLE_EMPLOYEE,"majin boo",40,Employee.Gender.MALE)); //TESTE, apagar depois
+        employees.add(new Employee(777,Employee.Occupation.MANAGER,"joao amoedo",10,Employee.Gender.MALE)); //TESTE, apagar depois
+        employees.add(new Employee(666,Employee.Occupation.SIMPLE_EMPLOYEE,"bolsonaro",40,Employee.Gender.MALE)); //TESTE, apagar depois
+        employees.add(new Employee(555,Employee.Occupation.VISITOR,"dilma",30,Employee.Gender.FEMALE)); //TESTE, apagar depois
+
 
     }
     
-    //<editor-fold defaultstate="collapsed" desc="Metodos de login">
-    public void start(){
-        screen.login();
-    } 
+    //<editor-fold defaultstate="collapsed" desc="Informações de login">
+    
     public void setActualUser(int code){
         actualUser = getEmployeeWithCode(code);
-        screen.home();
     }
     public Employee getActualUser() {
         return actualUser;
     }
+    
     //</editor-fold>
 
     //<editor-fold desc="gets de funcionarios">
+    
     // retorna todos funcionarios cadastrados
     public ArrayList getAllEmployees(){
         return employees;
@@ -79,9 +82,19 @@ class ElevatorControl implements Messages{
         return employee;                     
     }
     
+    /**
+     * imprime os nomes de todos funcionarios de um array
+     * @param array entre com array de funcionarios
+     */
+    public void getNames(ArrayList<Employee> array){
+        for(Employee e : array)
+            System.out.println(e.getName()); 
+    }  
+    
 //</editor-fold>
     
     //<editor-fold defaultstate="collapsed" desc="Manipulação de usuarios">
+    
     //registra funcionario
     public Employee registerNewEmployee
     (int codeAccess, Employee.Occupation levelAccess, String name, int age, Employee.Gender gender){
@@ -103,15 +116,17 @@ class ElevatorControl implements Messages{
     public void changeAccessLevel(int code,Employee.Occupation newAccessLevel){
         getEmployeeWithCode(code).setAccessLevel(newAccessLevel);
     }
+   
     //</editor-fold>
     
     //<editor-fold defaultstate="collapsed" desc="Andares">
+    
     //entra no andar
     public void goToFloor(int floor){
         try{
             actualUser.setCurrentFloor(floor);
         }catch(Exception e){
-            screen.logout();
+            
         }
     }
     
@@ -120,16 +135,17 @@ class ElevatorControl implements Messages{
         try{
             employee.setCurrentFloor(0);
         }catch(Exception e){
-            screen.logout();
         }
     }
-    //</editor-fold>
+    
+    //</editor-fold> // TRY  E  CATCH AQUI! EDITAR 
     
     
     /**converte string em int  (usada para tratamento de erros).
-     * Verifica se a String contem apenas numeros e converte,
+     * Recebe uma String, verifica se contem apenas numeros
      * se não, retorna mensagem de erro
     * @param convert String a ser convertida para int
+    * @return se valido retorna valor em int, se nao retorna 0
     */
         public int stringToInt(String convert){
             int converted = 0;
@@ -140,18 +156,10 @@ class ElevatorControl implements Messages{
                 System.out.println("ONLY NUMBER ARE ALLOWED\n\n TRY AGAIN");
                 
         return converted;
-    }
-
-    /**
-     * retorna os nomes de todos funcionarios do array
-     * @param array entre com array de funcionarios
-     */
-    public void outputListNames(ArrayList<Employee> array){
-        for(Employee e : array)
-            System.out.println(e.getName()); 
-    }    
+    }  
 
     //<editor-fold defaultstate="collapsed" desc="Mensagens">
+        
      @Override
     public void mSuccessAdd() {
          System.out.println("--NEW EMPLOYEE REGISTERED SUCCESSFULL--");  
@@ -194,5 +202,4 @@ class ElevatorControl implements Messages{
     }
 //</editor-fold>
    
-       
 }
