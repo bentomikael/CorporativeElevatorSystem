@@ -2,22 +2,48 @@ package sistemaelevadorcorporativo;
 
 import java.util.ArrayList;
 
-/**
- *
- * @author mikael.bento
- */
 public class EmployeeControl {
     ArrayList<Employee> employees;
+    private Employee actualUser; 
+
 
     public EmployeeControl() {
-        employees = new ArrayList();
-                
+        employees = new ArrayList(); 
         employees.add(new Employee(999,Employee.Occupation.CEO,"goku",23,Employee.Gender.MALE)); //TESTE, apagar depois
-        employees.add(new Employee(888,Employee.Occupation.ADMINISTRATION,"vegeta",22,Employee.Gender.MALE)); //TESTE, apagar depois
-        employees.add(new Employee(777,Employee.Occupation.MANAGER,"joao amoedo",10,Employee.Gender.MALE)); //TESTE, apagar depois
-        employees.add(new Employee(666,Employee.Occupation.SIMPLE_EMPLOYEE,"bolsonaro",40,Employee.Gender.MALE)); //TESTE, apagar depois
-        employees.add(new Employee(555,Employee.Occupation.VISITOR,"dilma",30,Employee.Gender.FEMALE)); //TESTE, apagar depois
+        employees.add(new Employee(888,Employee.Occupation.EXECUTIVE,"vegeta",22,Employee.Gender.MALE)); //TESTE, apagar depois
+        employees.add(new Employee(777,Employee.Occupation.ADMINISTRATION,"joao amoedo",10,Employee.Gender.MALE)); //TESTE, apagar depois
+        employees.add(new Employee(666,Employee.Occupation.MANAGER,"bolsonaro",40,Employee.Gender.MALE)); //TESTE, apagar depois
+        employees.add(new Employee(555,Employee.Occupation.SIMPLE_EMPLOYEE,"dilma",30,Employee.Gender.FEMALE)); //TESTE, apagar depois
+        employees.add(new Employee(444,Employee.Occupation.VISITOR,"Rex",8,Employee.Gender.MALE)); //TESTE, apagar depois
+
     }
+    
+    //<editor-fold defaultstate="collapsed" desc="Informações de login">
+   
+    /**
+     * 
+     * @param code codigo do usuario tentando fazer login
+     * @return se existir, define usuario atual e retorna ele,se nao, retorna null
+     */
+    public Employee login(int code){
+                
+        if(getEmployeeByCode(code) == null){
+            return null;
+        }else{
+            setActualUserByCode(code);
+            return getActualUser();
+        }
+    }
+    
+    private void setActualUserByCode(int code){
+        actualUser = getEmployeeByCode(code);
+    }
+    
+    public Employee getActualUser() {
+        return actualUser;
+    }
+    
+    //</editor-fold>
     
     //<editor-fold desc="gets de funcionarios">
     
@@ -85,22 +111,43 @@ public class EmployeeControl {
     (int codeAccess, Employee.Occupation levelAccess, String name, int age, Employee.Gender gender){
         employees.add(new Employee(codeAccess,levelAccess,name,age,gender));
         
-        System.out.println("New User Registered:\n\n"+ getEmployeeWithCode(codeAccess).getName()); 
+        System.out.println("New User Registered:\n\n"+ getEmployeeByCode(codeAccess).getName()); 
         
-        return getEmployeeWithCode(codeAccess);
+        return getEmployeeByCode(codeAccess);
     }
     
     //remove funcionario pelo codigo
-    public void removeOneEmployeeWithCode(int code){
+    public void removeEmployeeByCode(int code){
         
-        System.out.println("User Removed:\n\n "+ getEmployeeWithCode(code).getName());     
-         employees.remove(getEmployeeWithCode(code));
+        System.out.println("User Removed:\n\n "+ getEmployeeByCode(code).getName());     
+         employees.remove(getEmployeeByCode(code));
     }
     
     //altera nivel de acesso de outro funcionario
     public void changeAccessLevel(int code,Employee.Occupation newAccessLevel){
-        getEmployeeWithCode(code).setAccessLevel(newAccessLevel);
+        getEmployeeByCode(code).setAccessLevel(newAccessLevel);
     }
    
     //</editor-fold>
+    
+    //<editor-fold defaultstate="collapsed" desc="Andares">
+    
+    //entra no andar
+    public void goToFloor(int floor){
+        try{
+            getActualUser().setCurrentFloor(floor);
+        }catch(Exception e){
+            
+        }
+    }
+    
+    //sair do andar
+    public void exitOfFloor(Employee employee){
+        try{
+            employee.setCurrentFloor(0);
+        }catch(Exception e){
+        }
+    }
+    
+    //</editor-fold> // TRY  E  CATCH AQUI! EDITAR 
 }

@@ -6,14 +6,15 @@ package sistemaelevadorcorporativo;
  */
 public class SistemaElevadorCorporativo {
 
-    /* PIN MASTER 999
-    * codigo para acesso level CEO
+    /* PIN  
+     *999 = CEO
+    * 888 = EXECUTIVE
+    * 777 = ADMNISTRATIVE
+    * 666 = MANAGER
+    * 555 = SIMPLE
+    * 444 = VISITOR
     */
     public static void main(String[] args) {
-       new MainScreen().login();
-        
-        
-
        
     }
    

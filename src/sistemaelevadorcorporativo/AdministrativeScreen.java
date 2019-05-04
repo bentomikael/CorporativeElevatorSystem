@@ -1,15 +1,11 @@
 package sistemaelevadorcorporativo;
 
-/**
- *
- * @author Acer
- */
-public class AdministrativeScreen extends MainScreen{
+public class AdministrativeScreen extends Screen{
     
     //tela de opçoes administrativas
     public void AdministrativeScreen(){
         System.out.println("--------ADMINISTRATIVE SESION--------");
-        super.control.mChoseOption();
+        mChoseOption();
         System.out.println("1 - Register New Employee");
         System.out.println("2 - Remove Employee");
         System.out.println("3 - Change Access Level of one employee");
@@ -43,7 +39,7 @@ public class AdministrativeScreen extends MainScreen{
     //incompleto
     private void reportScreen(){
         System.out.println("--------GET REPORTS OF SYSTEM--------");
-        super.control.mChoseOption();
+        mChoseOption();
         System.out.println("1 - History of Floor");
         System.out.println("2 - History of Employee");
         System.out.println("3 - History of Day");
@@ -93,7 +89,7 @@ public class AdministrativeScreen extends MainScreen{
                 valid = name.matches("[A-Z a-z Çç]{"+name.length()+"}");
 
             if(valid == false)
-                super.control.mInvalidName();
+                mInvalidName();
         }while(!valid);
         
         // recebe idade
@@ -104,7 +100,7 @@ public class AdministrativeScreen extends MainScreen{
         System.out.println("Gender: \n"+ "1 to Male \n" + "2 to Female");
             do{ 
                 inputInt(2);
-                super.control.mInvalidOption();
+                mInvalidOption();
             }while(option == 0) ; 
             
             if(option == 1)
@@ -118,8 +114,8 @@ public class AdministrativeScreen extends MainScreen{
             code = inputInt(0);
             
             //verifica se ja existe 
-            if(super.control.getEmployeeWithCode(code) != null){    
-                super.control.mAlreadyRegistered();
+            if(eControl.getEmployeeByCode(code) != null){    
+                mAlreadyRegistered();
                 valid = false;
             }
         }while(!valid);
@@ -131,7 +127,7 @@ public class AdministrativeScreen extends MainScreen{
         //mostra somente cargos que esse usuario pode criar
         for(Employee.Occupation o: Employee.Occupation.values()){ 
             
-            if(super.control.getActualUser().getAccessLevelNumber() <= o.accessLevel)
+            if(eControl.getActualUser().getAccessLevelNumber() <= o.accessLevel)
                 break;
             System.out.println(n+ " - " + o);
             n++;
@@ -139,15 +135,15 @@ public class AdministrativeScreen extends MainScreen{
         do{
             level.setAccessLevel(inputInt(5));
             
-            if(level.accessLevel >= super.control.getActualUser().getAccessLevelNumber()){;;
+            if(level.accessLevel >= eControl.getActualUser().getAccessLevelNumber()){;;
                 valid = false;
-                super.control.mDontHavePermision();
+                mDontHavePermision();
             }
             else
                 valid = true;
         }while(!valid);
         
-        super.control.registerNewEmployee(code,level,name,age,gender);
+        eControl.registerNewEmployee(code,level,name,age,gender);
         logout();
     } 
     
@@ -158,18 +154,18 @@ public class AdministrativeScreen extends MainScreen{
         inputInt(0);
         
         // verifica se existe
-        if(super.control.getEmployeeWithCode(option) != null) 
+        if(eControl.getEmployeeByCode(option) != null) 
             //verifica se nivel é maior que o do usuario atual
-            if(super.control.getEmployeeWithCode(option).getAccessLevelNumber() >=
-               super.control.getActualUser().getAccessLevelNumber()){
-               super.control.mDontHavePermision();
+            if(eControl.getEmployeeByCode(option).getAccessLevelNumber() >=
+               eControl.getActualUser().getAccessLevelNumber()){
+               mDontHavePermision();
                 deleteEmployeeScreen();
         }else{
-            super.control.mNotFound();
+            mNotFound();
             deleteEmployeeScreen();
         }
         
-        super.control.removeOneEmployeeWithCode(option);
+        eControl.removeEmployeeByCode(option);
         logout();
         
     }
@@ -185,11 +181,11 @@ public class AdministrativeScreen extends MainScreen{
         userCode = inputInt(0);
         
         //verifica se não é o propio codigo e se nao achou usuario
-        if(super.control.getActualUser().getCodeAccess() == userCode) {
-            super.control.mChangeSelfErro();
+        if(eControl.getActualUser().getCodeAccess() == userCode) {
+            mChangeSelfErro();
             changeAccessLevelScreen();
-        }else if(super.control.getEmployeeWithCode(userCode) == null){ 
-            super.control.mNotFound();
+        }else if(eControl.getEmployeeByCode(userCode) == null){ 
+            mNotFound();
             changeAccessLevelScreen();
         }
         
@@ -197,12 +193,12 @@ public class AdministrativeScreen extends MainScreen{
         
         access.setAccessLevel(inputInt(5));
         
-        if(super.control.getActualUser().getAccessLevelNumber()<=
-           super.control.getEmployeeWithCode(userCode).getAccessLevelNumber()){
-            super.control.mDontHavePermision();
+        if(eControl.getActualUser().getAccessLevelNumber()<=
+           eControl.getEmployeeByCode(userCode).getAccessLevelNumber()){
+            mDontHavePermision();
             changeAccessLevelScreen();
         }else{
-            super.control.changeAccessLevel(userCode, access );
+            eControl.changeAccessLevel(userCode, access );
         }
         logout();
     
@@ -211,7 +207,7 @@ public class AdministrativeScreen extends MainScreen{
     //tela de lista de funcionarios
     private void listScreen() {
         System.out.println("--------LISTS OF EMPLOYEES--------");
-        super.control.mChoseOption();
+        mChoseOption();
         System.out.println("1 - All Employees");
         System.out.println("2 - Employees Per Access Level");
         System.out.println("3 - Employees Per Floor");
@@ -220,20 +216,20 @@ public class AdministrativeScreen extends MainScreen{
         
         switch(option){
             case 1:
-                super.control.getNames(super.control.getAllEmployees());
+                eControl.getNames(eControl.getAllEmployees());
                 break;
             case 2:
                 System.out.println("Enter Level Number");
                 inputInt(5);
-                super.control.getNames(super.control.getEmployeesPerLevelAccess(option));
+                eControl.getNames(eControl.getEmployeesByLevelAccess(option));
                 break;
             case 3:
                 System.out.println("Enter Floor Number");
                 inputInt(6);
-                super.control.getNames(super.control.getEmployeePerFloor(option));
+                eControl.getNames(eControl.getEmployeeByFloor(option));
                 break;
             case 4:
-                super.control.getNames(super.control.getEmployeesInWork());
+                eControl.getNames(eControl.getEmployeesInWork());
                 break;
             default:
                 listScreen();

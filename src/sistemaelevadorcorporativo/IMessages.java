@@ -18,4 +18,5 @@ public interface IMessages {
     public void mChoseOption();
     public void mExit();
     public void mActualUser();
+    public void mOnlyNumbers();
 }
