@@ -1,4 +1,4 @@
-package sistemaelevadorcorporativo;
+package CorporativeElevatorSystem.Screen;
 
 class HomeScreen extends Screen{
     
@@ -15,10 +15,9 @@ class HomeScreen extends Screen{
         //só mostra e permite opçao pra quem tem autorização
         if(userLevel >= 3) {      
             System.out.println("2- Administrative Options");   
-            inputInt(2);
+            return inputInt(2);
         }else
-            inputInt(1);
+            return inputInt(1);
          
-        return option;
     }
 }

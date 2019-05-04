@@ -1,10 +1,10 @@
-package sistemaelevadorcorporativo;
+package CorporativeElevatorSystem;
 
 /**
  *
  * @author Mikael Bento e Vinicius Hilbert
  */
-public class SistemaElevadorCorporativo {
+public class CorporativeElevatorSystem {
 
     /* PIN  
      *999 = CEO
@@ -15,7 +15,7 @@ public class SistemaElevadorCorporativo {
     * 444 = VISITOR
     */
     public static void main(String[] args) {
-       
+       new MainControl().start();
     }
    
     

@@ -1,4 +1,4 @@
-package sistemaelevadorcorporativo;
+package CorporativeElevatorSystem;
 
 /**
  *
@@ -17,6 +17,6 @@ public interface IMessages {
     public void mNotFound();
     public void mChoseOption();
     public void mExit();
-    public void mActualUser();
     public void mOnlyNumbers();
+    public void mEnteredFloor();
 }

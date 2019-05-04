@@ -1,53 +1,54 @@
-package sistemaelevadorcorporativo;
+package CorporativeElevatorSystem.Screen;
 
+import CorporativeElevatorSystem.IMessages;
 import java.util.Scanner;
 
 public abstract class Screen implements IMessages{
-    public Scanner key; // entrada de dados
-    public EmployeeControl eControl;
+    protected Scanner key; // entrada de dados
     protected int option;
 
-    
+    public Screen() {
+        key = new Scanner(System.in);
+    }
+
     /**
      * Recebe uma String,garante que contem apenas numeros e converte para int.
      * entra em loop até um valor correto ser inserido.
      * @param maxValue maior numero de entrada permitido
-     * @return option
+     * @return retorna inteiro positivo, se retornar -1 indica logout.
     */
     public int inputInt(int maxValue){
-        String toInt; 
-        boolean valid = false;
-        System.out.println("\n 0 - TO CANCEL ACTION AND LOGOUT");
-        
+        String toInt ; 
+        boolean valid;
+        System.out.println("\n 00 - TO CANCEL ACTION AND LOGOUT");
+       
         do{
             toInt = key.nextLine();
-        
-            if(toInt.equals("0")){ 
-                logout();
-            } 
-            
-           // verifica se a String contem apenas numeros
-           if(toInt.matches("[0-9]{"+toInt.length()+"}")) { 
-                option = Integer.parseInt(toInt);  //converte para int
-                valid = true;
-            }else{
-               mInvalidOption();
-           }
+            if(!toInt.equals("00")){
            
-           // verifica se esta no limite indicado. se limite = 0,limite infinito
-           if(valid == true && option > maxValue && maxValue != 0){ 
-               valid = false;
-               mInvalidOption();
-           }
+                // verifica se a String contem apenas numeros
+                if(toInt.matches("[0-9]{"+toInt.length()+"}")) { 
+                    option = Integer.valueOf(toInt);  //converte para int
+                    valid = true;
+                }else{
+                   mInvalidOption();
+                   valid = false;
+               }
+
+                // verifica se esta no limite indicado. se limite = 0,limite infinito
+                if(valid == true && option > maxValue && maxValue != 0){ 
+                    valid = false;
+                    mInvalidOption();
+               }
+            }else{
+                valid = true;
+                mLogout();
+                option = -1;
+            }
         }while(!valid);
-        
         return option;
   }
-    
-    public void logout(){
-        mLogout();
         
-    }
     //<editor-fold defaultstate="collapsed" desc="Mensagens">
         
      @Override
@@ -95,12 +96,12 @@ public abstract class Screen implements IMessages{
         System.out.println("BYE, SEE YOU LATER");  
     }
      @Override
-    public void mActualUser(){
-        System.out.println("Actual User: "+eControl.getActualUser().getName());
-    }
-     @Override
     public void mOnlyNumbers(){
         System.out.println("ONLY NUMBER ARE ALLOWED\n\n TRY AGAIN");
+    }
+     @Override
+    public void mEnteredFloor(){
+         System.out.println("YOU WENT TO FLOOR " + option+ "\n\n\n");
     }
     
 //</editor-fold>

@@ -1,4 +1,4 @@
-package sistemaelevadorcorporativo;
+package CorporativeElevatorSystem.Screen;
 
 public class LoginScreen extends Screen{
     
@@ -8,8 +8,7 @@ public class LoginScreen extends Screen{
      */
     public int LoginScreen(){
         System.out.println("--------LOGIN WITH YOU EMPLOYEE CARD / CODE--------");    
-            option = inputInt(0);
-            return option;  
+            return inputInt(0);  
     }       
-
+    
 }

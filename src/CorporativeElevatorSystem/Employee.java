@@ -1,4 +1,4 @@
-package sistemaelevadorcorporativo;
+package CorporativeElevatorSystem;
 
 /**
  *
