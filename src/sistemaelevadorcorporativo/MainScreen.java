@@ -7,9 +7,7 @@ import java.util.Scanner;
  * @author 
  */
 public class MainScreen {
-    public Scanner key;             // entrada de dados
     public ElevatorControl control;
-    public int option;              //variável auxiliar para selecionar opções 
     
     public MainScreen(){
         control = new ElevatorControl();
@@ -33,10 +31,7 @@ public class MainScreen {
             }
             
     }
-    public void logout(){
-        control.mLogout();
-        login();
-    }
+    
 
     // tela inicial
     public void home(){
@@ -68,40 +63,5 @@ public class MainScreen {
         
     }
     
-    /**
-     * Recebe uma String,garante que contem apenas numeros e converte para int.
-     * entra em loop até um valor correto ser inserido.
-     * @param maxValue maior numero de entrada permitido
-     * @return option
-    */
-    public int inputInt(int maxValue){
-        String toInt; 
-        boolean valid;
-        System.out.println("\n 0 - TO CANCEL ACTION AND LOGOUT");
-        
-        do{
-            toInt = key.nextLine();
-        
-            if(toInt.equals("0")){ 
-                logout();
-            } 
-        
-           if(control.stringToInt(toInt) != 0) { // verifica se a String contem apenas numeros
-                option = Integer.parseInt(toInt);  //converte para int
-                valid = true;
-            }else
-                valid = false;
-           
-           // verifica se esta no limite indicado. se limite = 0,limite infinito
-           if(valid == true && option > maxValue && maxValue != 0){ 
-               valid = false;
-               control.mInvalidOption();
-           }
-        }while(!valid);
-        
-        return option;
-  }
-    
-            
-   
+     
 }

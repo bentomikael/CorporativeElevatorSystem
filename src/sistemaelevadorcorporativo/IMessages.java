@@ -4,7 +4,7 @@ package sistemaelevadorcorporativo;
  *
  * @author Acer
  */
-public interface Messages {
+public interface IMessages {
     
     public void mSuccessAdd();
     public void mSuccessDel();
@@ -16,4 +16,6 @@ public interface Messages {
     public void mChangeSelfErro();
     public void mNotFound();
     public void mChoseOption();
+    public void mExit();
+    public void mActualUser();
 }
