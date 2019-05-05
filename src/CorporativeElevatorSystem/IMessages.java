@@ -19,4 +19,5 @@ public interface IMessages {
     public void mExit();
     public void mOnlyNumbers();
     public void mEnteredFloor();
+    public void mAccessLevelOptions(int actualUserLevel,String text);
 }

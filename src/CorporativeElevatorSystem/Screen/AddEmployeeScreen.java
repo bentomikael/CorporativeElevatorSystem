@@ -64,17 +64,10 @@ public class AddEmployeeScreen extends Screen{
         return inputInt(0);
     }
     public int inputAccessLevel(){
-        System.out.println("level Access:");
-        int n = 0;
+        System.out.println("Employee Occupation:");
+        System.out.println("0 - Visitor");
+        mAccessLevelOptions(userLevel,"");
         
-        //mostra somente cargos que esse usuario pode criar
-        for(Employee.Occupation o: Employee.Occupation.values()){ 
-            
-            if(eControl.getActualUser().getAccessLevelNumber() <= o.accessLevel)
-                break;
-            System.out.println(n+ " - " + o);
-            n++;
-        }
         do{
             level.setAccessLevel(inputInt(5));
             

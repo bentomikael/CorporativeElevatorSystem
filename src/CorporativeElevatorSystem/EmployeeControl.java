@@ -43,6 +43,18 @@ public class EmployeeControl {
         return actualUser;
     }
     
+    public int getActualUserLevelNumber(){
+        return getActualUser().getAccessLevelNumber();
+    }
+    
+    public int getActualUserFloor(){
+        return getActualUser().getCurrentFloor();
+    }
+    
+    public int getActualUserCode(){
+        return getActualUser().getCodeAccess();
+    }
+    
     //</editor-fold>
         
     //<editor-fold desc="gets de funcionarios">
@@ -94,13 +106,26 @@ public class EmployeeControl {
     }
     
     /**
-     * imprime os nomes de todos funcionarios de um array
+     * Obtem nomes de todos funcionarios de um array
      * @param array entre com array de funcionarios
      */
     public void getNames(ArrayList<Employee> array){
+        
         for(Employee e : array)
-            System.out.println(e.getName()); 
-    }  
+            System.out.println(e.getName());
+        }  
+    
+    /**
+     * Obtem codigo de todos funcionarios de um array
+     * @param array entre com array de funcionarios
+     * @return array com codigos
+     */
+    public ArrayList getCodes(ArrayList<Employee> array){
+        ArrayList<Integer> codes = new ArrayList();
+        for(Employee e : array)
+            codes.add(e.getCodeAccess());
+        return codes;
+    }
     
 //</editor-fold>
     
@@ -124,8 +149,8 @@ public class EmployeeControl {
     }
     
     //altera nivel de acesso de outro funcionario
-    public void changeAccessLevel(int code,Employee.Occupation newAccessLevel){
-        getEmployeeByCode(code).setAccessLevel(newAccessLevel);
+    public void changeAccessLevel(int code,int newAccessLevel){
+        getEmployeeByCode(code).setAccessLevelNumber(newAccessLevel);
     }
    
     //</editor-fold>

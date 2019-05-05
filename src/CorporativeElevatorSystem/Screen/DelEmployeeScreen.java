@@ -5,7 +5,12 @@ package CorporativeElevatorSystem.Screen;
  * @author Acer
  */
 public class DelEmployeeScreen extends Screen{
-    public void DelEmployeeScreen(){
+
+    public DelEmployeeScreen() {
+    }
+    
+    
+    public void delEmployeeScreen(){
         System.out.println("--------REMOVE EMPLOYEE--------");
         System.out.println("Code of Employee to remove:");
         inputInt(0);

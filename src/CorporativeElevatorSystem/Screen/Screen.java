@@ -48,12 +48,18 @@ public abstract class Screen implements IMessages{
         }while(!valid);
         return option;
   }
+    
+    public void standBy(){
+        System.out.println("\n Insert one key to continue \n");
+        key.nextLine();
+    }
+    
         
     //<editor-fold defaultstate="collapsed" desc="Mensagens">
         
      @Override
     public void mSuccessAdd() {
-         System.out.println("--NEW EMPLOYEE REGISTERED SUCCESSFULL--");  
+        System.out.println("--NEW EMPLOYEE REGISTERED SUCCESSFULL--");  
     }
      @Override
     public void mSuccessDel() {
@@ -102,6 +108,19 @@ public abstract class Screen implements IMessages{
      @Override
     public void mEnteredFloor(){
          System.out.println("YOU WENT TO FLOOR " + option+ "\n\n\n");
+    }
+     @Override
+    public void mAccessLevelOptions(int actualUserLevel, String text){
+        if(actualUserLevel>= 1)
+            System.out.println("1 - Simple Employee "+ text);
+        if(actualUserLevel >= 2)
+            System.out.println("2 - Manager "+ text);
+        if(actualUserLevel >= 3)
+            System.out.println("3 - Administrative "+text);
+        if(actualUserLevel >= 4)
+            System.out.println("4 - Executive "+text);
+        if(actualUserLevel == 5)
+            System.out.println("5 - CEO "+text);  
     }
     
 //</editor-fold>

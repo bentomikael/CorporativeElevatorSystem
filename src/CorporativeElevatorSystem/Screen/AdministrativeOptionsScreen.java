@@ -1,9 +1,11 @@
 package CorporativeElevatorSystem.Screen;
 
 public class AdministrativeOptionsScreen extends Screen{
+
+    public AdministrativeOptionsScreen() {
+    }
     
-    //tela de opçoes administrativas
-    public int AdministrativeOptionsScreen(){
+    public int administrativeOptionsScreen(){
         System.out.println("--------ADMINISTRATIVE SESION--------");
         mChoseOption();
         System.out.println("1 - Register New Employee");
@@ -11,8 +13,15 @@ public class AdministrativeOptionsScreen extends Screen{
         System.out.println("3 - Change Access Level of one employee");
         System.out.println("4 - Reports");
         System.out.println("5 - List of Employees");
-        return inputInt(5);
-        } 
+        
+        do{
+            option = inputInt(5);
+            if(option == 0)
+                mInvalidOption();
+        }while(option == 0);
+        
+        return option;
+    } 
     
     
 }

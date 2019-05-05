@@ -1,27 +1,10 @@
 package CorporativeElevatorSystem;
 
-/**
- *
- * @author 
- */
 public abstract class People {
     protected String name;
     protected int age;
     protected enum Gender {MALE,FEMALE;};
-   
-    public String getName(){
-        return name;
-    }
-    
-    public int getAge(){
-        return age;
-    }
-    
-    public void setAge(int age){
-        this.age = age;
-    }
-    
-    public enum Occupation {
+    protected enum Occupation {
     
         VISITOR(0),
         SIMPLE_EMPLOYEE(1),
@@ -41,5 +24,19 @@ public abstract class People {
         
     
     }
-   
+    
+    public String getName(){
+        return name;
+    }
+    
+    public int getAge(){
+        return age;
+    }
+    
+    public void setAge(int age){
+        this.age = age;
+    }
+    
+    
+       
 }
