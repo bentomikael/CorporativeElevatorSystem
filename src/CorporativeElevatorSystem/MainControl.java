@@ -18,7 +18,7 @@ class MainControl {
     */
     public void start(){        
         do{
-            eControl.login( sControl.login() );
+            eControl.login( sControl.login() );     
         }while( eControl.getActualUser() == null );
         
         homeScreen( eControl.getActualUserLevelNumber() );
@@ -57,8 +57,11 @@ class MainControl {
                                        eControl.getActualUserFloor() );
         if( sControl.getLogoutRequest() == true )
             logout();
-        else
+        else{
             eControl.goToFloor(option);
+            sControl.standBy();
+            logout();
+        }
         
     }
 
@@ -87,15 +90,69 @@ class MainControl {
             }
     }
     
-    private void newEmployeeScreen() {}
+    private void newEmployeeScreen() {
+        options = new int[4];
+        String name = sControl.addEmployeeScreenName();
+        
+        if( sControl.getLogoutRequest() == true )
+            logout();
+        else
+            options[0] = sControl.addEmployeeScreenAge();
+        
+        if( sControl.getLogoutRequest() == true )
+            logout();
+        else
+            options[1] = sControl.addEmployeeScreenGender();
+        if( sControl.getLogoutRequest() == true )
+            logout();
+        else
+            options[2] = sControl.addEmployeeScreenCode(eControl.getCodes(eControl.getAllEmployees()));
+        if( sControl.getLogoutRequest() == true )
+            logout();
+        else
+            options[3] = sControl.addEmployeeScreenLevel(eControl.getActualUserLevelNumber());
+        if( sControl.getLogoutRequest() == true )
+            logout();
+        else{
+            eControl.registerNewEmployee( options[2],
+                    eControl.convertOccupation(options[3]),
+                    name,
+                    options[0],
+                    eControl.convertGender(options[1]) );
+            
+            sControl.standBy();
+            homeScreen(eControl.getActualUserLevelNumber());
+        }
+        
+    }
 
-    private void delEmployeeScreen() {}
+    private void delEmployeeScreen() {
+        options = new int[2];
+        
+        options[0] = sControl.delEmployeeCodeScreen(eControl.getAllEmployees() );
+        if( sControl.getLogoutRequest() == true )
+            logout();
+        else
+            options[1] = sControl.delEmployeeConfirmationScreen(
+                         eControl.getActualUserLevelNumber(),
+                         eControl.getEmployeeByCode(options[0]).getAccessLevelNumber(),
+                         eControl.getEmployeeByCode(options[0]).getName());
+        if( sControl.getLogoutRequest() == true )
+            logout();
+        else{
+            eControl.removeEmployeeByCode(options[0]);
+            sControl.standBy();
+            homeScreen(eControl.getActualUserLevelNumber());
+        }
+    }
      
     private void changeAccessScreen() {
+         options = new int[2];
          
         options[0] = sControl.changeEmployeeScreenCode( 
                      eControl.getActualUserCode(),
                      eControl.getCodes( eControl.getAllEmployees()) );
+        
         if( sControl.getLogoutRequest() == true )
             logout();
         else
@@ -122,10 +179,10 @@ class MainControl {
                     eControl.getNames( eControl.getAllEmployees() );                    
                     break;
                 case 2:
-                    eControl.getNames( eControl.getEmployeesByLevelAccess(option) );
+                    eControl.getNames( eControl.getEmployeesByLevelAccess(sControl.employeeListScreenLevel()) );
                     break;
                 case 3:
-                    eControl.getNames( eControl.getEmployeeByFloor(option) );
+                    eControl.getNames( eControl.getEmployeeByFloor(sControl.employeeListScreenFloor()) );
                     break;
                 case 4:
                     eControl.getNames( eControl.getEmployeesInWork() );

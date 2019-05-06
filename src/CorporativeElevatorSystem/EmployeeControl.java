@@ -3,7 +3,7 @@ package CorporativeElevatorSystem;
 import java.util.ArrayList;
 
 public class EmployeeControl {
-    ArrayList<Employee> employees;
+    private ArrayList<Employee> employees;
     private Employee actualUser; 
 
 
@@ -85,11 +85,9 @@ public class EmployeeControl {
     //retorna uma lista com funcionarios com determinado nivel de acesso
     public ArrayList getEmployeesByLevelAccess(int level){
         ArrayList<Employee> list = new ArrayList();
-        People.Occupation o = null ;
-        o.setAccessLevel(level);
         
         for(Employee e : employees)
-            if(e.getAccessLevelNumber() == o.accessLevel)
+            if(e.getAccessLevelNumber() == level)
                 list.add(e);
         return list;
         }
@@ -105,10 +103,7 @@ public class EmployeeControl {
         return employee;                     
     }
     
-    /**
-     * Obtem nomes de todos funcionarios de um array
-     * @param array entre com array de funcionarios
-     */
+    //imprime nomes do array de funcionarios
     public void getNames(ArrayList<Employee> array){
         
         for(Employee e : array)
@@ -133,11 +128,9 @@ public class EmployeeControl {
     
     //registra funcionario
     public Employee registerNewEmployee
-    (int codeAccess, Employee.Occupation levelAccess, String name, int age, Employee.Gender gender){
-        employees.add(new Employee(codeAccess,levelAccess,name,age,gender));
-        
-        System.out.println("New User Registered:\n\n"+ getEmployeeByCode(codeAccess).getName()); 
-        
+    (int codeAccess, Employee.Occupation accessLevel, String name, int age, Employee.Gender gender){
+        employees.add(new Employee(codeAccess,accessLevel,name,age,gender));
+              
         return getEmployeeByCode(codeAccess);
     }
     
@@ -150,7 +143,7 @@ public class EmployeeControl {
     
     //altera nivel de acesso de outro funcionario
     public void changeAccessLevel(int code,int newAccessLevel){
-        getEmployeeByCode(code).setAccessLevelNumber(newAccessLevel);
+        getEmployeeByCode(code).setOccupation(newAccessLevel);
     }
    
     //</editor-fold>
@@ -175,4 +168,42 @@ public class EmployeeControl {
     }
     
     //</editor-fold> // TRY  E  CATCH AQUI! EDITAR 
+    
+    public Employee.Occupation convertOccupation(int level){
+        Employee.Occupation occupation = null;
+       
+        switch(level){
+            case 0:
+                occupation = Employee.Occupation.VISITOR;
+                break;
+            case 1:
+                occupation = Employee.Occupation.SIMPLE_EMPLOYEE;
+                break;
+            case 2:
+                occupation = Employee.Occupation.MANAGER;
+                break;
+            case 3:
+                occupation = Employee.Occupation.ADMINISTRATION;
+                break;
+            case 4:
+                occupation = Employee.Occupation.EXECUTIVE;
+                break;
+            case 5:
+                occupation = Employee.Occupation.CEO;
+                break;
+        }
+          return occupation;  
+    }
+    public Employee.Gender convertGender(int number){
+        Employee.Gender gender = null;
+        switch(number){
+            case 1:
+                gender = Employee.Gender.MALE;
+                break;
+            case 2:
+                gender = Employee.Gender.FEMALE;
+                break;  
+        }
+        return gender;
+    }
 }

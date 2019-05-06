@@ -24,7 +24,10 @@ public abstract class Screen implements IMessages{
        
         do{
             toInt = key.nextLine();
-            if(!toInt.equals("00")){
+            if(toInt.equals("")){
+                valid = false;
+                mInvalidOption();
+            }else if(!toInt.equals("00")){
            
                 // verifica se a String contem apenas numeros
                 if(toInt.matches("[0-9]{"+toInt.length()+"}")) { 
@@ -49,11 +52,11 @@ public abstract class Screen implements IMessages{
         return option;
   }
     
+    //Fica esperando o usuario para prosseguir, semelhante a função 'pause'
     public void standBy(){
         System.out.println("\n Insert one key to continue \n");
         key.nextLine();
     }
-    
         
     //<editor-fold defaultstate="collapsed" desc="Mensagens">
         
@@ -76,6 +79,7 @@ public abstract class Screen implements IMessages{
      @Override
     public void mDontHavePermision() {
         System.out.println("--YOU DONT HAVE PERMISSION TO EXECUTE THIS OPERATION--");
+         System.out.println("DISCONNECTING...");
     }
      @Override
     public void mLogout() {

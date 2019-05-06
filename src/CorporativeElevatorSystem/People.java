@@ -3,7 +3,19 @@ package CorporativeElevatorSystem;
 public abstract class People {
     protected String name;
     protected int age;
-    protected enum Gender {MALE,FEMALE;};
+    protected enum Gender {
+        MALE(1),
+        FEMALE(2);
+        
+        public int number;
+        Gender(int number){
+            this.number = number;
+        }
+        
+        public void setGenderNumber(int number){
+            this.number = number;
+        }
+    };
     protected enum Occupation {
     
         VISITOR(0),
@@ -36,7 +48,6 @@ public abstract class People {
     public void setAge(int age){
         this.age = age;
     }
-    
     
        
 }

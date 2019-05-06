@@ -1,11 +1,5 @@
 package CorporativeElevatorSystem.Screen;
 
-import CorporativeElevatorSystem.Employee;
-
-/**
- *
- * @author Acer
- */
 public class ChangeEmployeeScreen extends Screen{
 
     public ChangeEmployeeScreen() {
@@ -22,7 +16,7 @@ public class ChangeEmployeeScreen extends Screen{
     public int inputOccupationOScreen(int actualUserLevel){
         System.out.println("New Occupation For This User:");
         System.out.println("0 - Visitor");
-        mAccessLevelOptions(actualUserLevel,"");
-        return inputInt(actualUserLevel);
+        mAccessLevelOptions(actualUserLevel-1,"");
+        return inputInt(actualUserLevel-1);
     }
 }
