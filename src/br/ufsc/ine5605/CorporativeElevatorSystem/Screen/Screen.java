@@ -1,6 +1,6 @@
-package CorporativeElevatorSystem.Screen;
+package br.ufsc.ine5605.CorporativeElevatorSystem.Screen;
 
-import CorporativeElevatorSystem.IMessages;
+import br.ufsc.ine5605.CorporativeElevatorSystem.IMessages;
 import java.util.Scanner;
 
 public abstract class Screen implements IMessages{
@@ -20,7 +20,7 @@ public abstract class Screen implements IMessages{
     public int inputInt(int maxValue){
         String toInt ; 
         boolean valid;
-        System.out.println("\n 00 - TO CANCEL ACTION AND LOGOUT");
+        System.out.println("00 - TO CANCEL ACTION AND LOGOUT \n");
        
         do{
             toInt = key.nextLine();
@@ -62,40 +62,44 @@ public abstract class Screen implements IMessages{
         
      @Override
     public void mSuccessAdd() {
-        System.out.println("--NEW EMPLOYEE REGISTERED SUCCESSFULL--");  
+        System.out.println("\n --NEW EMPLOYEE REGISTERED SUCCESSFULL--\n");  
     }
      @Override
     public void mSuccessDel() {
-        System.out.println("--EMPLOYEE REMOVED SUCCESSFULL--");
+        System.out.println("\n--EMPLOYEE REMOVED SUCCESSFULL--\n");
     }
      @Override
+     public void mSuccessChange(){
+         System.out.println("\n --EMPLOYEE CHANGED SECCESSFULL-- \n");
+     }
+     @Override
     public void mInvalidName() {
-        System.out.println("--INVALID NAME! TRY AGAIN--");
+        System.out.println("\n--INVALID NAME! TRY AGAIN--\n");
     }
      @Override
     public void mInvalidOption() {
-        System.out.println("--INVALID OPTION! TRY AGAIN--");
+        System.out.println("\n--INVALID OPTION! TRY AGAIN--\n");
     }
      @Override
     public void mDontHavePermision() {
-        System.out.println("--YOU DONT HAVE PERMISSION TO EXECUTE THIS OPERATION--");
-         System.out.println("DISCONNECTING...");
+        System.out.println("\n--YOU DONT HAVE PERMISSION TO EXECUTE THIS OPERATION--");
+         System.out.println("DISCONNECTING...\n");
     }
      @Override
     public void mLogout() {
-        System.out.println("--LOGOUT SUCCESSFULL--");
+        System.out.println("\n--LOGOUT SUCCESSFULL--");
     }
      @Override
     public void mAlreadyRegistered() {
-        System.out.println("--USER ALREADY REGISTERED--");
+        System.out.println("\n --USER ALREADY REGISTERED--");
     }
      @Override
     public void mChangeSelfErro() {
-        System.out.println("--YOU CAN'T CHANGE YOURS OWN ACCESS LEVEL--");
+        System.out.println("\n --YOU CAN'T CHANGE YOURS OWN ACCESS LEVEL--");
     }
      @Override
     public void mNotFound() {
-        System.out.println("--USER NOT FOUND--");
+        System.out.println("\n --USER NOT FOUND--");
     }
      @Override
     public void mChoseOption() {
@@ -103,16 +107,16 @@ public abstract class Screen implements IMessages{
     }
      @Override
     public void mExit(){
-        System.out.println("BYE, SEE YOU LATER");  
-    }
-     @Override
-    public void mOnlyNumbers(){
-        System.out.println("ONLY NUMBER ARE ALLOWED\n\n TRY AGAIN");
+        System.out.println("\n BYE, SEE YOU LATER");  
     }
      @Override
     public void mEnteredFloor(){
-         System.out.println("YOU WENT TO FLOOR " + option+ "\n\n\n");
+         System.out.println("\n YOU WENT TO FLOOR " + option+ "\n\n\n");
     }
+     @Override
+     public void mCanceled(){
+         System.out.println("\n ACTION CANCELED");
+     }
      @Override
     public void mAccessLevelOptions(int actualUserLevel, String text){
         if(actualUserLevel>= 1)

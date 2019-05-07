@@ -1,4 +1,4 @@
-package CorporativeElevatorSystem;
+package br.ufsc.ine5605.CorporativeElevatorSystem;
 class MainControl {
     private EmployeeControl eControl;
     private ScreenControl sControl;
@@ -16,9 +16,10 @@ class MainControl {
      * Verifica a existencia do usuario,caso não exista, repete.
      * Atribui o usuario atual e usa o nivel de acesso para iniciar homeScreen.
     */
-    public void start(){        
+    public void start(){ 
+        eControl.login(0);
         do{
-            eControl.login( sControl.login() );     
+            eControl.login( sControl.login() );
         }while( eControl.getActualUser() == null );
         
         homeScreen( eControl.getActualUserLevelNumber() );
@@ -31,6 +32,7 @@ class MainControl {
 //</editor-fold>
     
     //<editor-fold defaultstate="collapsed" desc="Controle de açoes por tela">
+    
     /**
      * @param actualAccessLevel nivel do usuario atual(recebe valor de start())
      * Se usuario escolheu opção 1 vai pra tela de andares.
@@ -129,7 +131,7 @@ class MainControl {
     private void delEmployeeScreen() {
         options = new int[2];
         
-        options[0] = sControl.delEmployeeCodeScreen(eControl.getAllEmployees() );
+        options[0] = sControl.delEmployeeCodeScreen(eControl.getCodes(eControl.getAllEmployees()) );
         if( sControl.getLogoutRequest() == true )
             logout();
         else
@@ -137,6 +139,7 @@ class MainControl {
                          eControl.getActualUserLevelNumber(),
                          eControl.getEmployeeByCode(options[0]).getAccessLevelNumber(),
                          eControl.getEmployeeByCode(options[0]).getName());
+        
         if( sControl.getLogoutRequest() == true )
             logout();
         else{
@@ -156,7 +159,12 @@ class MainControl {
         if( sControl.getLogoutRequest() == true )
             logout();
         else
+            if(sControl.checkAuthorization(
+               eControl.getActualUserLevelNumber(),
+               eControl.getEmployeeByCode(options[0]).getAccessLevelNumber()) )
             options[1] = sControl.changeEmployeeScreenLevel( eControl.getActualUserLevelNumber() );
+        else
+            logout();
 
         if( sControl.getLogoutRequest() == true )
             logout();
@@ -176,21 +184,22 @@ class MainControl {
         else
             switch(option){
                 case 1:
-                    eControl.getNames( eControl.getAllEmployees() );                    
+                    eControl.getList( eControl.getAllEmployees() );                    
                     break;
                 case 2:
-                    eControl.getNames( eControl.getEmployeesByLevelAccess(sControl.employeeListScreenLevel()) );
+                    eControl.getList( eControl.getEmployeesByLevelAccess(sControl.employeeListScreenLevel()) );
                     break;
                 case 3:
-                    eControl.getNames( eControl.getEmployeeByFloor(sControl.employeeListScreenFloor()) );
+                    eControl.getList( eControl.getEmployeeByFloor(sControl.employeeListScreenFloor()) );
                     break;
                 case 4:
-                    eControl.getNames( eControl.getEmployeesInWork() );
+                    eControl.getList( eControl.getEmployeesInWork() );
                     break;
             }
         sControl.standBy();
         homeScreen(eControl.getActualUserLevelNumber());
     }
+    
     
 //</editor-fold>
        

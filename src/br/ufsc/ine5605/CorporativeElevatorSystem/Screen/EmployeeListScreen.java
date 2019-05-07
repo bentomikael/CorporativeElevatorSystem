@@ -1,4 +1,4 @@
-package CorporativeElevatorSystem.Screen;
+package br.ufsc.ine5605.CorporativeElevatorSystem.Screen;
 
 /**
  *
@@ -33,7 +33,7 @@ public class EmployeeListScreen extends Screen{
     }
     public int inputFloor(){
         System.out.println("\n INSERT THE FLOOR \n");
-        mAccessLevelOptions(5, "");
+        mAccessLevelOptions(5, "Floor");
         return inputInt(5);
     }
     

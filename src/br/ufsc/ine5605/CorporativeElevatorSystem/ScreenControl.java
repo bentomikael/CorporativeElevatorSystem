@@ -1,14 +1,14 @@
-package CorporativeElevatorSystem;
+package br.ufsc.ine5605.CorporativeElevatorSystem;
 
-import CorporativeElevatorSystem.Screen.AddEmployeeScreen;
-import CorporativeElevatorSystem.Screen.AdministrativeOptionsScreen;
-import CorporativeElevatorSystem.Screen.ChangeEmployeeScreen;
-import CorporativeElevatorSystem.Screen.DelEmployeeScreen;
-import CorporativeElevatorSystem.Screen.EmployeeListScreen;
-import CorporativeElevatorSystem.Screen.FloorScreen;
-import CorporativeElevatorSystem.Screen.HomeScreen;
-import CorporativeElevatorSystem.Screen.LoginScreen;
-import CorporativeElevatorSystem.Screen.ReportScreen;
+import br.ufsc.ine5605.CorporativeElevatorSystem.Screen.AddEmployeeScreen;
+import br.ufsc.ine5605.CorporativeElevatorSystem.Screen.AdministrativeOptionsScreen;
+import br.ufsc.ine5605.CorporativeElevatorSystem.Screen.ChangeEmployeeScreen;
+import br.ufsc.ine5605.CorporativeElevatorSystem.Screen.DelEmployeeScreen;
+import br.ufsc.ine5605.CorporativeElevatorSystem.Screen.EmployeeListScreen;
+import br.ufsc.ine5605.CorporativeElevatorSystem.Screen.FloorScreen;
+import br.ufsc.ine5605.CorporativeElevatorSystem.Screen.HomeScreen;
+import br.ufsc.ine5605.CorporativeElevatorSystem.Screen.LoginScreen;
+import br.ufsc.ine5605.CorporativeElevatorSystem.Screen.ReportScreen;
 import java.util.ArrayList;
 
 public class ScreenControl {
@@ -59,7 +59,13 @@ public class ScreenControl {
     
     public int login(){
         logoutRequest = false;
-        return loginScreen.LoginScreen();
+        int code;
+        do{
+            code = loginScreen.LoginScreen();
+            if(code == 0)
+                loginScreen.mNotFound();
+        }while(code == 0);
+        return code;
     }
     
     public int home(int actualUserLevel){
@@ -170,10 +176,10 @@ public class ScreenControl {
             code = delScreen.inputCodeScreen();
             if(code == -1)
                 logoutRequest = true;
-            else if(!codesArray.contains(code))
+            else if(!codesArray.contains(code)){
                 valid = false;
                 changeScreen.mNotFound();
-            
+            }
         }while(!valid);
         return code;
     }
@@ -181,36 +187,40 @@ public class ScreenControl {
         
         if(actualUserLevel <= userToDelLevel){
             delScreen.mDontHavePermision();
-            option = -1;
+            logoutRequest = true;
             standBy();   
         }else
             option = delScreen.inputConfirmationScreen(userToDelName);
         
-        if(option == 0)
+        if(option == 0){
             logoutRequest = true;
+           delScreen.mCanceled();
+        }
         else
             delScreen.mSuccessDel();
         
         return option;
     }
     
-//</editor-fold>
+//</editor-fold> 
     
     //<editor-fold defaultstate="collapsed" desc="Alterar cargo de funcionario">
-     public int changeEmployeeScreenCode(int actualUserCode,ArrayList codesArray){
+    public int changeEmployeeScreenCode(int actualUserCode,ArrayList codesArray){
         int code;
         int level;
         do{
             valid = true;
             code = changeScreen.inputCodeScreen();
-            if(code == actualUserCode){
-                valid = false;
-               changeScreen.mChangeSelfErro();
-            }else if(!codesArray.contains(code)){
-                valid = false;
-                changeScreen.mNotFound();
-            }else if(code == -1)
+            if(code == -1)
                 logoutRequest = true;
+            else
+                if(!codesArray.contains(code)){
+                    valid = false;
+                    changeScreen.mNotFound();
+                }else if(code == actualUserCode){
+                    valid = false;
+                    changeScreen.mChangeSelfErro();            
+                } 
             
         }while(!valid);
         
@@ -220,10 +230,22 @@ public class ScreenControl {
         int level = changeScreen.inputOccupationOScreen(actualUserLevel); 
         if(level == -1)
             logoutRequest = true;
+        else
+            changeScreen.mSuccessChange();
         return level;
     }
+    public boolean checkAuthorization(int actualUserLevel,int userToChangeLevel){
+        valid = true;
+        if(actualUserLevel <= userToChangeLevel){
+            valid = false;
+            changeScreen.mDontHavePermision();
+            logoutRequest = true;
+        }
+        return valid;
+    }
     
-//</editor-fold>
+//</editor-fold> 
+    
     
     public void reportScreen(){}
     

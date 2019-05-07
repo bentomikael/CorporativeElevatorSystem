@@ -1,4 +1,4 @@
-package CorporativeElevatorSystem;
+package br.ufsc.ine5605.CorporativeElevatorSystem;
 
 import java.util.ArrayList;
 
@@ -14,11 +14,11 @@ public class EmployeeControl {
         employees.add(new Employee(777,Employee.Occupation.ADMINISTRATION,"joao amoedo",10,Employee.Gender.MALE)); //TESTE, apagar depois
         employees.add(new Employee(666,Employee.Occupation.MANAGER,"bolsonaro",40,Employee.Gender.MALE)); //TESTE, apagar depois
         employees.add(new Employee(555,Employee.Occupation.SIMPLE_EMPLOYEE,"dilma",30,Employee.Gender.FEMALE)); //TESTE, apagar depois
-        employees.add(new Employee(444,Employee.Occupation.VISITOR,"Rex",8,Employee.Gender.MALE)); //TESTE, apagar depois
+        employees.add(new Employee(444,Employee.Occupation.VISITOR,"haddad",8,Employee.Gender.MALE)); //TESTE, apagar depois
 
     }
     
-    //<editor-fold defaultstate="collapsed" desc="Informações de login">
+    //<editor-fold defaultstate="collapsed" desc="Login">
    
     /**
      * 
@@ -28,15 +28,12 @@ public class EmployeeControl {
     public Employee login(int code){
         
         if(getEmployeeByCode(code) == null){
+            actualUser = null;
             return null;
         }else{
-            setActualUserByCode(code);
-            return getActualUser();
+            actualUser = getEmployeeByCode(code);
+            return actualUser;
         }
-    }
-    
-    private void setActualUserByCode(int code){
-        actualUser = getEmployeeByCode(code);
     }
     
     public Employee getActualUser() {
@@ -104,10 +101,11 @@ public class EmployeeControl {
     }
     
     //imprime nomes do array de funcionarios
-    public void getNames(ArrayList<Employee> array){
-        
+    public void getList(ArrayList<Employee> array){
+        System.out.println("\n Name  |   Code");
         for(Employee e : array)
-            System.out.println(e.getName());
+            System.out.println(e.getName() +" "+ e.getCodeAccess());
+        
         }  
     
     /**
@@ -169,6 +167,8 @@ public class EmployeeControl {
     
     //</editor-fold> // TRY  E  CATCH AQUI! EDITAR 
     
+    //<editor-fold defaultstate="collapsed" desc="Conversões">
+    
     public Employee.Occupation convertOccupation(int level){
         Employee.Occupation occupation = null;
        
@@ -206,4 +206,7 @@ public class EmployeeControl {
         }
         return gender;
     }
+
+//</editor-fold>
+    
 }

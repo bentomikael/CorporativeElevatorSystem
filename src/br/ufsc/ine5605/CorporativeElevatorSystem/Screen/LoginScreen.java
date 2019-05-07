@@ -1,4 +1,4 @@
-package CorporativeElevatorSystem.Screen;
+package br.ufsc.ine5605.CorporativeElevatorSystem.Screen;
 
 public class LoginScreen extends Screen{
     
