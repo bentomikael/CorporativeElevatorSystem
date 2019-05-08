@@ -6,14 +6,14 @@ public class ChangeEmployeeScreen extends Screen{
     }
     
     
-    public int inputCodeScreen(){
+    public int inputCode(){
         
         System.out.println("\n--------CHANGE ACCESS LEVEL OF EMPLOYEE--------\n");
         System.out.println("Code Of Employee To Change Access Level:");               
         return inputInt(0);
     }
     
-    public int inputOccupationOScreen(int actualUserLevel){
+    public int inputOccupation(int actualUserLevel){
         System.out.println("\n New Occupation For This User:");
         System.out.println("0 - Visitor");
         mAccessLevelOptions(actualUserLevel-1,"");

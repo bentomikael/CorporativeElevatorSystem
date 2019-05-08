@@ -2,19 +2,19 @@ package br.ufsc.ine5605.CorporativeElevatorSystem;
 class MainControl {
     private EmployeeControl eControl;
     private ScreenControl sControl;
-    private int option;
-    private int[] options;
+    private int[] options;  //usada para manipular as opçoes selecionadas
     
     public MainControl() {
         eControl = new EmployeeControl();
         sControl = new ScreenControl();
+        options = new int[5];
     }
     
     //<editor-fold defaultstate="collapsed" desc="Login">
     /** 
      * Pega os dados da tela pelo controlador de tela.
      * Verifica a existencia do usuario,caso não exista, repete.
-     * Atribui o usuario atual e usa o nivel de acesso para iniciar homeScreen.
+     * Atribui o usuario atual e usa o nivel de acesso para iniciar home.
     */
     public void start(){ 
         eControl.login(0);
@@ -22,7 +22,7 @@ class MainControl {
             eControl.login( sControl.login() );
         }while( eControl.getActualUser() == null );
         
-        homeScreen( eControl.getActualUserLevelNumber() );
+        home( eControl.getActualUserLevelNumber() );
 
     }
     private void logout(){
@@ -38,81 +38,81 @@ class MainControl {
      * Se usuario escolheu opção 1 vai pra tela de andares.
      * Se usuario escolheru 2 vai pra tela de opçoes administrativas.
     */
-    private void homeScreen( int actualAccessLevel ) {
+    private void home( int actualAccessLevel ) {
         
-        option = sControl.home( actualAccessLevel );
+        options[0] = sControl.home( actualAccessLevel );
         if( sControl.getLogoutRequest() == true )
             logout();
         else
-            switch(option){
+            switch(options[0]){
                 case 1:
-                    floorScreen();
+                    floor();
                     break;
                 case 2:
-                    administrativeOptionsScreen();
+                    administrativeOptions();
                     break;
             }     
     }
 
-    private void floorScreen(){
-        option = sControl.floorScreen( eControl.getActualUserLevelNumber(),
+    private void floor(){
+        options[0] = sControl.floor( eControl.getActualUserLevelNumber(),
                                        eControl.getActualUserFloor() );
         if( sControl.getLogoutRequest() == true )
             logout();
         else{
-            eControl.goToFloor(option);
+            eControl.goToFloor(options[0]);
             sControl.standBy();
             logout();
         }
         
     }
 
-    private void administrativeOptionsScreen() {
+    private void administrativeOptions() {
         
-        option = sControl.administrativeOptionsScreen();
+        options[0] = sControl.administrativeOptions();
         if( sControl.getLogoutRequest() == true )
             logout();
         else
-            switch(option){
+            switch(options[0]){
                 case 1:
-                    newEmployeeScreen();
+                    newEmployee();
                     break;
                 case 2:
-                    delEmployeeScreen();
+                    delEmployee();
                     break;
                 case 3:
-                    changeAccessScreen();
+                    changeAccess();
                     break;
                 case 4:
-                    reportsScreen();
+                    report();
                     break;
                 case 5:
-                    listScreen();
+                    list();
                     break;
             }
     }
     
-    private void newEmployeeScreen() {
-        options = new int[4];
-        String name = sControl.addEmployeeScreenName();
+    private void newEmployee() {
+        
+        String name = sControl.addEmployeeName();
         
         if( sControl.getLogoutRequest() == true )
             logout();
         else
-            options[0] = sControl.addEmployeeScreenAge();
+            options[0] = sControl.addEmployeeAge();
         
         if( sControl.getLogoutRequest() == true )
             logout();
         else
-            options[1] = sControl.addEmployeeScreenGender();
+            options[1] = sControl.addEmployeeGender();
         if( sControl.getLogoutRequest() == true )
             logout();
         else
-            options[2] = sControl.addEmployeeScreenCode(eControl.getCodes(eControl.getAllEmployees()));
+            options[2] = sControl.addEmployeeCode(eControl.getCodes(eControl.getAllEmployees()));
         if( sControl.getLogoutRequest() == true )
             logout();
         else
-            options[3] = sControl.addEmployeeScreenLevel(eControl.getActualUserLevelNumber());
+            options[3] = sControl.addEmployeeOccupation(eControl.getActualUserLevelNumber());
         if( sControl.getLogoutRequest() == true )
             logout();
         else{
@@ -123,19 +123,18 @@ class MainControl {
                     eControl.convertGender(options[1]) );
             
             sControl.standBy();
-            homeScreen(eControl.getActualUserLevelNumber());
+            home(eControl.getActualUserLevelNumber());
         }
         
     }
 
-    private void delEmployeeScreen() {
-        options = new int[2];
+    private void delEmployee() {
         
-        options[0] = sControl.delEmployeeCodeScreen(eControl.getCodes(eControl.getAllEmployees()) );
+        options[0] = sControl.delEmployeeCode(eControl.getCodes(eControl.getAllEmployees()) );
         if( sControl.getLogoutRequest() == true )
             logout();
         else
-            options[1] = sControl.delEmployeeConfirmationScreen(
+            options[1] = sControl.delEmployeeConfirmation(
                          eControl.getActualUserLevelNumber(),
                          eControl.getEmployeeByCode(options[0]).getAccessLevelNumber(),
                          eControl.getEmployeeByCode(options[0]).getName());
@@ -145,14 +144,13 @@ class MainControl {
         else{
             eControl.removeEmployeeByCode(options[0]);
             sControl.standBy();
-            homeScreen(eControl.getActualUserLevelNumber());
+            home(eControl.getActualUserLevelNumber());
         }
     }
      
-    private void changeAccessScreen() {
-         options = new int[2];
+    private void changeAccess() {
          
-        options[0] = sControl.changeEmployeeScreenCode( 
+        options[0] = sControl.changeEmployeeCode( 
                      eControl.getActualUserCode(),
                      eControl.getCodes( eControl.getAllEmployees()) );
         
@@ -162,7 +160,7 @@ class MainControl {
             if(sControl.checkAuthorization(
                eControl.getActualUserLevelNumber(),
                eControl.getEmployeeByCode(options[0]).getAccessLevelNumber()) )
-            options[1] = sControl.changeEmployeeScreenLevel( eControl.getActualUserLevelNumber() );
+            options[1] = sControl.changeEmployeeOccupation( eControl.getActualUserLevelNumber() );
         else
             logout();
 
@@ -174,30 +172,30 @@ class MainControl {
         }
     }
 
-    private void reportsScreen(){}
+    private void report(){}
 
-    private void listScreen() {
+    private void list() {
         
-        option = sControl.employeesListScreen();
+        options[0] = sControl.employeesList();
         if( sControl.getLogoutRequest() == true )
             logout();
         else
-            switch(option){
+            switch(options[0]){
                 case 1:
                     eControl.getList( eControl.getAllEmployees() );                    
                     break;
                 case 2:
-                    eControl.getList( eControl.getEmployeesByLevelAccess(sControl.employeeListScreenLevel()) );
+                    eControl.getList( eControl.getEmployeesByLevelAccess(sControl.employeeListOccupation()) );
                     break;
                 case 3:
-                    eControl.getList( eControl.getEmployeeByFloor(sControl.employeeListScreenFloor()) );
+                    eControl.getList( eControl.getEmployeeByFloor(sControl.employeeListFloor()) );
                     break;
                 case 4:
                     eControl.getList( eControl.getEmployeesInWork() );
                     break;
             }
         sControl.standBy();
-        homeScreen(eControl.getActualUserLevelNumber());
+        home(eControl.getActualUserLevelNumber());
     }
     
     

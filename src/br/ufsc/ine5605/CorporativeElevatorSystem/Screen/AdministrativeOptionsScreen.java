@@ -5,7 +5,7 @@ public class AdministrativeOptionsScreen extends Screen{
     public AdministrativeOptionsScreen() {
     }
     
-    public int administrativeOptionsScreen(){
+    public int administrativeOptions(){
         System.out.println("--------ADMINISTRATIVE SESION--------");
         mChoseOption();
         System.out.println("1 - Register New Employee");

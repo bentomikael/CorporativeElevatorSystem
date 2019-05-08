@@ -1,6 +1,5 @@
 package br.ufsc.ine5605.CorporativeElevatorSystem.Screen;
 
-import br.ufsc.ine5605.CorporativeElevatorSystem.IMessages;
 import java.util.Scanner;
 
 public abstract class Screen implements IMessages{
@@ -45,7 +44,6 @@ public abstract class Screen implements IMessages{
                }
             }else{
                 valid = true;
-                mLogout();
                 option = -1;
             }
         }while(!valid);
@@ -61,22 +59,6 @@ public abstract class Screen implements IMessages{
     //<editor-fold defaultstate="collapsed" desc="Mensagens">
         
      @Override
-    public void mSuccessAdd() {
-        System.out.println("\n --NEW EMPLOYEE REGISTERED SUCCESSFULL--\n");  
-    }
-     @Override
-    public void mSuccessDel() {
-        System.out.println("\n--EMPLOYEE REMOVED SUCCESSFULL--\n");
-    }
-     @Override
-     public void mSuccessChange(){
-         System.out.println("\n --EMPLOYEE CHANGED SECCESSFULL-- \n");
-     }
-     @Override
-    public void mInvalidName() {
-        System.out.println("\n--INVALID NAME! TRY AGAIN--\n");
-    }
-     @Override
     public void mInvalidOption() {
         System.out.println("\n--INVALID OPTION! TRY AGAIN--\n");
     }
@@ -86,16 +68,8 @@ public abstract class Screen implements IMessages{
          System.out.println("DISCONNECTING...\n");
     }
      @Override
-    public void mLogout() {
-        System.out.println("\n--LOGOUT SUCCESSFULL--");
-    }
-     @Override
     public void mAlreadyRegistered() {
         System.out.println("\n --USER ALREADY REGISTERED--");
-    }
-     @Override
-    public void mChangeSelfErro() {
-        System.out.println("\n --YOU CAN'T CHANGE YOURS OWN ACCESS LEVEL--");
     }
      @Override
     public void mNotFound() {
@@ -104,14 +78,6 @@ public abstract class Screen implements IMessages{
      @Override
     public void mChoseOption() {
         System.out.println("Chose One Option: \n");
-    }
-     @Override
-    public void mExit(){
-        System.out.println("\n BYE, SEE YOU LATER");  
-    }
-     @Override
-    public void mEnteredFloor(){
-         System.out.println("\n YOU WENT TO FLOOR " + option+ "\n\n\n");
     }
      @Override
      public void mCanceled(){

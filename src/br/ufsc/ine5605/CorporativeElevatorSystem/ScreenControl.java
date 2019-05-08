@@ -53,7 +53,7 @@ public class ScreenControl {
     
     public boolean getLogoutRequest(){
         if(logoutRequest)
-           homeScreen.mLogout();
+            System.out.println("\n--LOGOUT SUCCESSFULL--");
         return logoutRequest;
     }
     
@@ -61,7 +61,7 @@ public class ScreenControl {
         logoutRequest = false;
         int code;
         do{
-            code = loginScreen.LoginScreen();
+            code = loginScreen.login();
             if(code == 0)
                 loginScreen.mNotFound();
         }while(code == 0);
@@ -76,16 +76,16 @@ public class ScreenControl {
         return option;
     }
 
-    public int floorScreen(int actualUserLevel,int currentFloor) {
-        option = floorScreen.floorScreen(actualUserLevel,currentFloor);
+    public int floor(int actualUserLevel,int currentFloor) {
+        option = floorScreen.floorOptions(actualUserLevel,currentFloor);
          if(option == -1)
             logoutRequest = true;
-         
+       
         return option;
     }
 
-    public int administrativeOptionsScreen() {
-        option = admScreen.administrativeOptionsScreen();
+    public int administrativeOptions() {
+        option = admScreen.administrativeOptions();
         if(option == -1)
             logoutRequest = true;
          
@@ -93,7 +93,7 @@ public class ScreenControl {
     }
     
     //<editor-fold defaultstate="collapsed" desc="Adicionar funcionario">
-    public String addEmployeeScreenName(){
+    public String addEmployeeName(){
         
         String name;
         do{ 
@@ -108,13 +108,13 @@ public class ScreenControl {
                 valid = true;
             }                
             if(valid == false)
-                addScreen.mInvalidName();
+                System.out.println("\n--INVALID NAME! TRY AGAIN--\n");
             
         }while(!valid);
          
         return name;
     }
-    public int addEmployeeScreenAge(){
+    public int addEmployeeAge(){
         
         option = addScreen.inputAge();
         if(option == -1)
@@ -122,7 +122,7 @@ public class ScreenControl {
         
         return option;
     }
-    public int addEmployeeScreenGender(){
+    public int addEmployeeGender(){
         
         do{
             valid = true;
@@ -140,7 +140,7 @@ public class ScreenControl {
         
         return option;  
     }
-    public int addEmployeeScreenCode(ArrayList codesArray){ 
+    public int addEmployeeCode(ArrayList codesArray){ 
         int code ;
         
         do{
@@ -157,23 +157,25 @@ public class ScreenControl {
         
         return option;
     }
-    public int addEmployeeScreenLevel(int actualUserLevel){  
+    public int addEmployeeOccupation(int actualUserLevel){  
+        
         int level = addScreen.inputOccupation(actualUserLevel);
         if(level == -1)
             logoutRequest = true;
         else
-            addScreen.mSuccessAdd();
+            System.out.println("\n --NEW EMPLOYEE REGISTERED SUCCESSFULL--\n");
+        
         return level;
     }
 
 //</editor-fold>
     
     //<editor-fold defaultstate="collapsed" desc="Remover funcionario">
-    public int delEmployeeCodeScreen(ArrayList codesArray){
+    public int delEmployeeCode(ArrayList codesArray){
         int code;
         do{
             valid = true;
-            code = delScreen.inputCodeScreen();
+            code = delScreen.inputCode();
             if(code == -1)
                 logoutRequest = true;
             else if(!codesArray.contains(code)){
@@ -183,21 +185,21 @@ public class ScreenControl {
         }while(!valid);
         return code;
     }
-    public int delEmployeeConfirmationScreen(int actualUserLevel,int userToDelLevel,String userToDelName){
+    public int delEmployeeConfirmation(int actualUserLevel,int userToDelLevel,String userToDelName){
         
         if(actualUserLevel <= userToDelLevel){
             delScreen.mDontHavePermision();
             logoutRequest = true;
             standBy();   
         }else
-            option = delScreen.inputConfirmationScreen(userToDelName);
+            option = delScreen.inputConfirmation(userToDelName);
         
         if(option == 0){
             logoutRequest = true;
-           delScreen.mCanceled();
+            delScreen.mCanceled();
         }
         else
-            delScreen.mSuccessDel();
+            System.out.println("\n--EMPLOYEE REMOVED SUCCESSFULL--\n");
         
         return option;
     }
@@ -205,12 +207,12 @@ public class ScreenControl {
 //</editor-fold> 
     
     //<editor-fold defaultstate="collapsed" desc="Alterar cargo de funcionario">
-    public int changeEmployeeScreenCode(int actualUserCode,ArrayList codesArray){
+    public int changeEmployeeCode(int actualUserCode,ArrayList codesArray){
         int code;
         int level;
         do{
             valid = true;
-            code = changeScreen.inputCodeScreen();
+            code = changeScreen.inputCode();
             if(code == -1)
                 logoutRequest = true;
             else
@@ -219,19 +221,19 @@ public class ScreenControl {
                     changeScreen.mNotFound();
                 }else if(code == actualUserCode){
                     valid = false;
-                    changeScreen.mChangeSelfErro();            
+                    System.out.println("\n --YOU CAN'T CHANGE YOURS OWN ACCESS LEVEL--");
                 } 
             
         }while(!valid);
         
         return code;
     }
-    public int changeEmployeeScreenLevel(int actualUserLevel){
-        int level = changeScreen.inputOccupationOScreen(actualUserLevel); 
+    public int changeEmployeeOccupation(int actualUserLevel){
+        int level = changeScreen.inputOccupation(actualUserLevel); 
         if(level == -1)
             logoutRequest = true;
         else
-            changeScreen.mSuccessChange();
+            System.out.println("\n --EMPLOYEE CHANGED SECCESSFULL-- \n");
         return level;
     }
     public boolean checkAuthorization(int actualUserLevel,int userToChangeLevel){
@@ -247,17 +249,17 @@ public class ScreenControl {
 //</editor-fold> 
     
     
-    public void reportScreen(){}
+    public void report(){}
     
     //<editor-fold defaultstate="collapsed" desc="Listar Funcionarios">
-    public int employeesListScreen(){
-        option = listScreen.employeeListScreen();
+    public int employeesList(){
+        option = listScreen.employeeListOptions();
         if(option == -1)
             logoutRequest = true;
         
         return option;
     }  
-    public int employeeListScreenLevel(){
+    public int employeeListOccupation(){
         do{
             option = listScreen.inputLevel();
 
@@ -268,7 +270,7 @@ public class ScreenControl {
         
         return option;
     }
-    public int employeeListScreenFloor(){
+    public int employeeListFloor(){
         do{
             option = listScreen.inputFloor();
 

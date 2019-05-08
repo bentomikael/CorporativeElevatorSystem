@@ -9,7 +9,8 @@ public class EmployeeListScreen extends Screen{
     public EmployeeListScreen() {
     }
     
-    public int employeeListScreen() {
+    
+    public int employeeListOptions() {
         System.out.println("--------LISTS OF EMPLOYEES--------");
         mChoseOption();
         System.out.println("1 - All Employees");
@@ -31,6 +32,7 @@ public class EmployeeListScreen extends Screen{
         mAccessLevelOptions(5, "");
         return inputInt(5);
     }
+    
     public int inputFloor(){
         System.out.println("\n INSERT THE FLOOR \n");
         mAccessLevelOptions(5, "Floor");
