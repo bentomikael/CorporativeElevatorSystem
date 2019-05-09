@@ -6,7 +6,7 @@ public class LoginScreen extends Screen{
     }
     
     public int login(){
-        System.out.println("--------LOGIN WITH YOU EMPLOYEE CARD / CODE--------");    
+        System.out.println("\n--------LOGIN WITH YOU EMPLOYEE CARD / CODE--------");    
             return inputInt(0);  
     }       
     

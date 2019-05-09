@@ -100,13 +100,24 @@ public class EmployeeControl {
         return employee;                     
     }
     
-    //imprime nomes do array de funcionarios
+    //imprime nomes e codigo do array de funcionarios
     public void getList(ArrayList<Employee> array){
-        System.out.println("\n Name  |   Code");
+        int i = 1;
+        if(array.isEmpty())
+            System.out.println("--------EMPTY LIST--------");
+        else{
+        System.out.printf("%s %15s %17s %16s \n", " _________________", " _______ "," _____________ "," _____________");
+        System.out.printf("%s %15s %15s %15s\n","|       Name      |","|  Code  |","| Actual Floor |","|   Occupation  |");
         for(Employee e : array)
-            System.out.println(e.getName() +" "+ e.getCodeAccess());
-        
-        }  
+            System.out.printf("%2d %-17s %9d  %13d %9s %s\n",
+            i++,
+            e.getName().toUpperCase(),
+            e.getCodeAccess(),
+            e.getCurrentFloor(),
+            "",
+            e.getOccupation());
+        }
+    }  
     
     /**
      * Obtem codigo de todos funcionarios de um array
@@ -126,17 +137,18 @@ public class EmployeeControl {
     
     //registra funcionario
     public Employee registerNewEmployee
-    (int codeAccess, Employee.Occupation accessLevel, String name, int age, Employee.Gender gender){
-        employees.add(new Employee(codeAccess,accessLevel,name,age,gender));
+    (int code, Employee.Occupation accessLevel, String name, int age, Employee.Gender gender){
+        employees.add(new Employee(code,accessLevel,name,age,gender));
               
-        return getEmployeeByCode(codeAccess);
+        return getEmployeeByCode(code);
     }
     
     //remove funcionario pelo codigo
     public void removeEmployeeByCode(int code){
         
         System.out.println("User Removed:\n\n "+ getEmployeeByCode(code).getName());     
-         employees.remove(getEmployeeByCode(code));
+        employees.remove(getEmployeeByCode(code));
+        
     }
     
     //altera nivel de acesso de outro funcionario
@@ -145,28 +157,12 @@ public class EmployeeControl {
     }
    
     //</editor-fold>
-    
-    //<editor-fold defaultstate="collapsed" desc="Andares">
-    
+        
     //entra no andar
-    public void goToFloor(int floor){
-        try{
-            getActualUser().setCurrentFloor(floor);
-        }catch(Exception e){
-            
-        }
+    public void goToFloor(int floor) {
+        getActualUser().setCurrentFloor(floor);   
     }
-    
-    //sair do andar
-    public void exitOfFloor(Employee employee){
-        try{
-            employee.setCurrentFloor(0);
-        }catch(Exception e){
-        }
-    }
-    
-    //</editor-fold> // TRY  E  CATCH AQUI! EDITAR 
-    
+      
     //<editor-fold defaultstate="collapsed" desc="Conversões">
     
     public Employee.Occupation convertOccupation(int level){

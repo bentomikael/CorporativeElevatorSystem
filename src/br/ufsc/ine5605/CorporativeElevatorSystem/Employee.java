@@ -5,13 +5,13 @@ package br.ufsc.ine5605.CorporativeElevatorSystem;
  * @author 
  */
 public class Employee extends People {
-   private final int codeAccess;
+   private final int code;
     private Occupation accessLevel;
     private int currentFloor;
     private final Gender gender;    
 
-    public Employee(int codeAccess, Occupation accessLevel, String name, int age, Gender gender) {
-        this.codeAccess = codeAccess;
+    public Employee(int code, Occupation accessLevel, String name, int age, Gender gender) {
+        this.code = code;
         this.accessLevel = accessLevel;
         this.name = name;
         this.age = age;
@@ -20,9 +20,11 @@ public class Employee extends People {
         
     }
     
-    public int getCodeAccess() {return codeAccess;}
+    public int getCodeAccess() {return code;}
         
     public int getAccessLevelNumber() {return accessLevel.accessLevel;}
+    
+    public Occupation getOccupation(){return accessLevel;}
     
     public Gender getGender(){return gender;}
 

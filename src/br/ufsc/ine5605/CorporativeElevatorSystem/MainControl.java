@@ -1,15 +1,18 @@
 package br.ufsc.ine5605.CorporativeElevatorSystem;
-class MainControl {
+
+
+public class MainControl {
     private EmployeeControl eControl;
     private ScreenControl sControl;
-    private int[] options;  //usada para manipular as opçoes selecionadas
+    private int[] options;  //usada para manipular as opçoes recebidas de tela
     
     public MainControl() {
         eControl = new EmployeeControl();
         sControl = new ScreenControl();
         options = new int[5];
+        
     }
-    
+     
     //<editor-fold defaultstate="collapsed" desc="Login">
     /** 
      * Pega os dados da tela pelo controlador de tela.
@@ -92,6 +95,9 @@ class MainControl {
             }
     }
     
+    /**
+     * Coleta informações e usa para registrar novo funcionario
+     */
     private void newEmployee() {
         
         String name = sControl.addEmployeeName();
@@ -116,7 +122,8 @@ class MainControl {
         if( sControl.getLogoutRequest() == true )
             logout();
         else{
-            eControl.registerNewEmployee( options[2],
+            eControl.registerNewEmployee( 
+                    options[2],
                     eControl.convertOccupation(options[3]),
                     name,
                     options[0],

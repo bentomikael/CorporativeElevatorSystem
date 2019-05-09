@@ -29,13 +29,13 @@ public class EmployeeListScreen extends Screen{
     
     public int inputLevel(){
         System.out.println("\n INSERT EMPLOYEE OCCUPATIION");
-        mAccessLevelOptions(5, "");
+        mAccessLevelOptions(5, "",0);
         return inputInt(5);
     }
     
     public int inputFloor(){
         System.out.println("\n INSERT THE FLOOR \n");
-        mAccessLevelOptions(5, "Floor");
+        mAccessLevelOptions(5, "Floor",0);
         return inputInt(5);
     }
     

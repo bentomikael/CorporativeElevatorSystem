@@ -13,5 +13,5 @@ public interface IMessages {
     public void mNotFound();
     public void mChoseOption();
     public void mCanceled();
-    public void mAccessLevelOptions(int actualUserLevel,String text);
+    public void mAccessLevelOptions(int actualUserLevel,String text,int currentFloor);
 }

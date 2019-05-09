@@ -15,7 +15,7 @@ public class CorporativeElevatorSystem {
     * 444 = VISITOR
     */
     public static void main(String[] args) {
-       new MainControl().start();
+        new MainControl().start();
     }
    
     

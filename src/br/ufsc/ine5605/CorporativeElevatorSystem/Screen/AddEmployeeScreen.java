@@ -31,7 +31,7 @@ public class AddEmployeeScreen extends Screen{
     public int inputOccupation(int actualUserLevel){
         System.out.println("Employee Occupation:");
         System.out.println("0 - Visitor");
-        mAccessLevelOptions(actualUserLevel-1,"");
+        mAccessLevelOptions(actualUserLevel-1,"",0);
         return inputInt(actualUserLevel-1);
     }
     

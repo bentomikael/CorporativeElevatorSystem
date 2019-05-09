@@ -53,7 +53,7 @@ public class ScreenControl {
     
     public boolean getLogoutRequest(){
         if(logoutRequest)
-            System.out.println("\n--LOGOUT SUCCESSFULL--");
+            System.out.println("\n\n\n\n--LOGOUT SUCCESSFULL--");
         return logoutRequest;
     }
     
@@ -70,16 +70,26 @@ public class ScreenControl {
     
     public int home(int actualUserLevel){
         option = homeScreen.homeScreen(actualUserLevel);
+        
         if(option == -1)
             logoutRequest = true;
+        else if(option == 0){
+            homeScreen.mInvalidOption();
+            home(actualUserLevel);
+        }
         
         return option;
     }
 
     public int floor(int actualUserLevel,int currentFloor) {
         option = floorScreen.floorOptions(actualUserLevel,currentFloor);
-         if(option == -1)
-            logoutRequest = true;
+        if(option == -1)
+           logoutRequest = true;
+        else if(option == 0){
+                System.out.println("YOU OUT OF THE FLOOR"); 
+                System.out.println("BYE BYE, SEE YOU LATER");
+            }else
+                System.out.println("\n YOU WENT TO FLOOR " + option+ "\n\n\n");
        
         return option;
     }
@@ -149,14 +159,15 @@ public class ScreenControl {
             
             if(code == -1)
                 logoutRequest = true;
-            else if(codesArray.contains(code))
+            else if(codesArray.contains(code)){
                 valid = false;
                 changeScreen.mAlreadyRegistered();
+            }
             
         }while(!valid);
         
-        return option;
-    }
+        return code;
+    }// retornado codigo == genero
     public int addEmployeeOccupation(int actualUserLevel){  
         
         int level = addScreen.inputOccupation(actualUserLevel);
@@ -194,10 +205,8 @@ public class ScreenControl {
         }else
             option = delScreen.inputConfirmation(userToDelName);
         
-        if(option == 0){
-            logoutRequest = true;
+        if(option == 0)
             delScreen.mCanceled();
-        }
         else
             System.out.println("\n--EMPLOYEE REMOVED SUCCESSFULL--\n");
         
@@ -246,7 +255,7 @@ public class ScreenControl {
         return valid;
     }
     
-//</editor-fold> 
+//</editor-fold> //personalizar mensagem, opçoes de cargo 
     
     
     public void report(){}
