@@ -1,4 +1,4 @@
-package br.ufsc.ine5605.CorporativeElevatorSystem;
+package br.ufsc.ine5605.CorporativeElevatorSystem.Controller;
 
 import br.ufsc.ine5605.CorporativeElevatorSystem.Screen.AddEmployeeScreen;
 import br.ufsc.ine5605.CorporativeElevatorSystem.Screen.AdministrativeOptionsScreen;
@@ -7,6 +7,7 @@ import br.ufsc.ine5605.CorporativeElevatorSystem.Screen.DelEmployeeScreen;
 import br.ufsc.ine5605.CorporativeElevatorSystem.Screen.EmployeeListScreen;
 import br.ufsc.ine5605.CorporativeElevatorSystem.Screen.FloorScreen;
 import br.ufsc.ine5605.CorporativeElevatorSystem.Screen.HomeScreen;
+import br.ufsc.ine5605.CorporativeElevatorSystem.Screen.InputScreen;
 import br.ufsc.ine5605.CorporativeElevatorSystem.Screen.LoginScreen;
 import br.ufsc.ine5605.CorporativeElevatorSystem.Screen.ReportScreen;
 import java.util.ArrayList;
@@ -27,6 +28,7 @@ public class ScreenControl {
     private DelEmployeeScreen delScreen;
     private ChangeEmployeeScreen changeScreen;
     private EmployeeListScreen listScreen;
+    private InputScreen inputScreen;
     
 //</editor-fold>
    
@@ -42,6 +44,8 @@ public class ScreenControl {
         delScreen = new DelEmployeeScreen();
         changeScreen = new ChangeEmployeeScreen();
         listScreen = new EmployeeListScreen(); 
+        inputScreen = new InputScreen();
+        
 //</editor-fold>
         
     }
@@ -57,14 +61,22 @@ public class ScreenControl {
         return logoutRequest;
     }
     
-    public int login(){
+    public int login(ArrayList allCodes){
         logoutRequest = false;
         int code;
+        valid = true;
+  
         do{
             code = loginScreen.login();
-            if(code == 0)
+            if(code <= 999){
+                valid = false;
+                loginScreen.mInvalidCode();
+            }
+            else if(!allCodes.contains(code)){
+                valid = false;
                 loginScreen.mNotFound();
-        }while(code == 0);
+            }
+        }while(!valid);
         return code;
     }
     
@@ -85,11 +97,14 @@ public class ScreenControl {
         option = floorScreen.floorOptions(actualUserLevel,currentFloor);
         if(option == -1)
            logoutRequest = true;
-        else if(option == 0){
-                System.out.println("YOU OUT OF THE FLOOR"); 
-                System.out.println("BYE BYE, SEE YOU LATER");
-            }else
-                System.out.println("\n YOU WENT TO FLOOR " + option+ "\n\n\n");
+        else if(currentFloor != 0 && option == 0){
+                floorScreen.mInvalidOption();
+                floor(actualUserLevel, currentFloor);
+            }else if(option == 0 ){
+                    System.out.println("YOU OUT OF THE FLOOR"); 
+                    System.out.println("BYE BYE, SEE YOU LATER");
+                }else
+                    System.out.println("\n YOU WENT TO FLOOR " + option+ "\n\n\n");
        
         return option;
     }
@@ -98,6 +113,10 @@ public class ScreenControl {
         option = admScreen.administrativeOptions();
         if(option == -1)
             logoutRequest = true;
+        else if(option == 0){
+            homeScreen.mInvalidOption();
+            administrativeOptions();
+        }
          
         return option;
     }
@@ -108,7 +127,7 @@ public class ScreenControl {
         String name;
         do{ 
             valid = true;
-            name = addScreen.inputName();
+            name = addScreen.addEmployeeeScreen();
             
             //verifica se contem apenas letras
             valid = name.matches("[A-Z a-z Çç]{"+name.length()+"}");
@@ -126,7 +145,7 @@ public class ScreenControl {
     }
     public int addEmployeeAge(){
         
-        option = addScreen.inputAge();
+        option = inputScreen.inputAge();
         if(option == -1)
             logoutRequest = true;
         
@@ -136,7 +155,7 @@ public class ScreenControl {
         
         do{
             valid = true;
-            option = addScreen.inputGender();
+            option = inputScreen.inputGender();
             
             if(option == -1)
                 logoutRequest = true;
@@ -155,27 +174,37 @@ public class ScreenControl {
         
         do{
             valid = true;
-            code = addScreen.inputCode();
+            code = inputScreen.inputCode();
             
             if(code == -1)
                 logoutRequest = true;
             else if(codesArray.contains(code)){
                 valid = false;
                 changeScreen.mAlreadyRegistered();
+            }else if(code <= 999){
+                addScreen.mInvalidCode();
+                valid = false;
             }
-            
         }while(!valid);
         
         return code;
-    }// retornado codigo == genero
+    }
     public int addEmployeeOccupation(int actualUserLevel){  
         
-        int level = addScreen.inputOccupation(actualUserLevel);
-        if(level == -1)
-            logoutRequest = true;
-        else
-            System.out.println("\n --NEW EMPLOYEE REGISTERED SUCCESSFULL--\n");
+        int level = inputScreen.inputOccupation(actualUserLevel);
         
+        switch(level){
+            case -1:
+                logoutRequest = true;
+                break;
+            case 0:
+                addScreen.mInvalidOption();
+                addEmployeeOccupation(actualUserLevel);
+                break;
+            default:
+                System.out.println("\n --NEW EMPLOYEE REGISTERED SUCCESSFULL--\n");
+                break;
+        }
         return level;
     }
 
@@ -184,15 +213,20 @@ public class ScreenControl {
     //<editor-fold defaultstate="collapsed" desc="Remover funcionario">
     public int delEmployeeCode(ArrayList codesArray){
         int code;
+        delScreen.delEmployeeScreen();
         do{
             valid = true;
-            code = delScreen.inputCode();
+            code = inputScreen.inputCode();
             if(code == -1)
                 logoutRequest = true;
-            else if(!codesArray.contains(code)){
-                valid = false;
-                changeScreen.mNotFound();
-            }
+            else if(code <= 999){
+                    delScreen.mInvalidCode();
+                    valid = false;
+                }
+                else if(!codesArray.contains(code)){
+                        valid = false;
+                        changeScreen.mNotFound();
+                    }
         }while(!valid);
         return code;
     }
@@ -203,7 +237,7 @@ public class ScreenControl {
             logoutRequest = true;
             standBy();   
         }else
-            option = delScreen.inputConfirmation(userToDelName);
+            option = inputScreen.inputConfirmation(userToDelName);
         
         if(option == 0)
             delScreen.mCanceled();
@@ -221,7 +255,7 @@ public class ScreenControl {
         int level;
         do{
             valid = true;
-            code = changeScreen.inputCode();
+            code = inputScreen.inputCode();
             if(code == -1)
                 logoutRequest = true;
             else
@@ -238,11 +272,19 @@ public class ScreenControl {
         return code;
     }
     public int changeEmployeeOccupation(int actualUserLevel){
-        int level = changeScreen.inputOccupation(actualUserLevel); 
-        if(level == -1)
-            logoutRequest = true;
-        else
-            System.out.println("\n --EMPLOYEE CHANGED SECCESSFULL-- \n");
+        int level = inputScreen.inputOccupation(actualUserLevel); 
+        switch(level){
+            case -1:
+                logoutRequest = true;
+                break;
+            case 0:
+                addScreen.mInvalidOption();
+                addEmployeeOccupation(actualUserLevel);
+                break;
+            default:
+                System.out.println("\n --EMPLOYEE CHANGED SECCESSFULL-- \n");
+                break;
+        }
         return level;
     }
     public boolean checkAuthorization(int actualUserLevel,int userToChangeLevel){
@@ -255,10 +297,53 @@ public class ScreenControl {
         return valid;
     }
     
-//</editor-fold> //personalizar mensagem, opçoes de cargo 
+//</editor-fold> 
     
+    public int reportScreen(int actualUserLevel){
+        option = repScreen.reportScreen();
+        
+        switch(option){
+            case 0:
+                repScreen.mInvalidOption();
+                reportScreen(actualUserLevel);
+                break;
+            case -1:
+                logoutRequest = true;
+                break;
+        }
+        
+        return option;
+    }
+    public int reportScreenFloor(){
+        option = inputScreen.inputFloor();
+        if(option == -1)
+            logoutRequest = true;
+        
+        return option;
+    }
     
-    public void report(){}
+    public int reportScreenCode(){
+        option = inputScreen.inputCode();
+         if(option == -1)
+            logoutRequest = true;
+        
+        return option;
+    }
+    public int reportScreenDay(){
+        option = inputScreen.inputDay();
+        if(option == -1)
+            logoutRequest = true;
+        
+        return option;
+    }
+    public int reportScreenOccupation(){
+        option = inputScreen.inputOccupation(5);// 5 para exivbir todos
+        if(option == -1)
+            logoutRequest = true;
+        
+        return option;
+        
+    }
     
     //<editor-fold defaultstate="collapsed" desc="Listar Funcionarios">
     public int employeesList(){
@@ -270,7 +355,7 @@ public class ScreenControl {
     }  
     public int employeeListOccupation(){
         do{
-            option = listScreen.inputLevel();
+            option = inputScreen.inputOccupation(5);
 
             if(option == 0)
                 listScreen.mInvalidOption();
@@ -281,7 +366,7 @@ public class ScreenControl {
     }
     public int employeeListFloor(){
         do{
-            option = listScreen.inputFloor();
+            option = inputScreen.inputFloor();
 
             if(option == 0)
                 listScreen.mInvalidOption();

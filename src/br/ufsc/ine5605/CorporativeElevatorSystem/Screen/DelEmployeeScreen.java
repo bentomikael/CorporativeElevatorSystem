@@ -10,16 +10,10 @@ public class DelEmployeeScreen extends Screen{
     }
     
     
-    public int inputCode(){
+    public void delEmployeeScreen(){
         System.out.println("--------REMOVE EMPLOYEE--------");
         System.out.println("Code of Employee to remove:");
-        return inputInt(0);        
     }
     
-    public int inputConfirmation(String name){
-        System.out.println("\n Are you sure you want to permanently remove "+name.toUpperCase()+" from the system??");
-        System.out.println("1 - To confirm");
-        System.out.println("0 - To cancel");
-        return inputInt(1);
-    }
+ 
 }

@@ -1,4 +1,4 @@
-package br.ufsc.ine5605.CorporativeElevatorSystem.Screen;
+package br.ufsc.ine5605.CorporativeElevatorSystem;
 
 /**
  *
@@ -8,6 +8,7 @@ public interface IMessages {
     
     
     public void mInvalidOption();
+    public void mInvalidCode();
     public void mDontHavePermision();
     public void mAlreadyRegistered();
     public void mNotFound();

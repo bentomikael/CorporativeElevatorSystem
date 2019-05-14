@@ -5,7 +5,7 @@ package br.ufsc.ine5605.CorporativeElevatorSystem;
  * @author 
  */
 public class Employee extends People {
-   private final int code;
+    private final int code;
     private Occupation accessLevel;
     private int currentFloor;
     private final Gender gender;    

@@ -1,9 +1,9 @@
 package br.ufsc.ine5605.CorporativeElevatorSystem;
 
 public abstract class People {
-    protected String name;
-    protected int age;
-    protected enum Gender {
+    public String name;
+    public int age;
+    public enum Gender {
         MALE(1),
         FEMALE(2);
         
@@ -16,9 +16,8 @@ public abstract class People {
             this.number = number;
         }
     };
-    protected enum Occupation {
+    public enum Occupation {
     
-        VISITOR(0),
         SIMPLE_EMPLOYEE(1),
         MANAGER(2),
         ADMINISTRATION(3),

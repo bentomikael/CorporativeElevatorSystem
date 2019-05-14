@@ -1,5 +1,6 @@
 package br.ufsc.ine5605.CorporativeElevatorSystem.Screen;
 
+import br.ufsc.ine5605.CorporativeElevatorSystem.IMessages;
 import java.util.Scanner;
 
 public abstract class Screen implements IMessages{
@@ -65,6 +66,10 @@ public abstract class Screen implements IMessages{
         System.out.println("\n ***INVALID OPTION! TRY AGAIN*** \n");
     }
      @Override
+     public void mInvalidCode(){
+        System.out.println("\n ***INVALID CODE! THE CODE CONTAINS 4 NUMBERS*** \n");
+    }
+     @Override
     public void mDontHavePermision() {
         System.out.println("\n ***YOU DONT HAVE PERMISSION TO EXECUTE THIS OPERATION***");
          System.out.println("DISCONNECTING...\n");
@@ -88,7 +93,7 @@ public abstract class Screen implements IMessages{
      @Override
     public void mAccessLevelOptions(int actualUserLevel, String text,int currentFloor){
         if(currentFloor != 0)
-             System.out.println("0 - Ground Floor");
+             System.out.println("0 - Ground Floor / Exit");
         if(actualUserLevel>= 1 && currentFloor != 1)
             System.out.println("1 - Simple Employee "+ text);
         if(actualUserLevel >= 2 && currentFloor != 2)

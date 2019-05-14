@@ -1,5 +1,6 @@
-package br.ufsc.ine5605.CorporativeElevatorSystem;
+package br.ufsc.ine5605.CorporativeElevatorSystem.Controller;
 
+import br.ufsc.ine5605.CorporativeElevatorSystem.Employee;
 import java.util.ArrayList;
 
 public class EmployeeControl {
@@ -9,12 +10,11 @@ public class EmployeeControl {
 
     public EmployeeControl() {
         employees = new ArrayList(); 
-        employees.add(new Employee(999,Employee.Occupation.CEO,"goku",23,Employee.Gender.MALE)); //TESTE, apagar depois
-        employees.add(new Employee(888,Employee.Occupation.EXECUTIVE,"vegeta",22,Employee.Gender.MALE)); //TESTE, apagar depois
-        employees.add(new Employee(777,Employee.Occupation.ADMINISTRATION,"joao amoedo",10,Employee.Gender.MALE)); //TESTE, apagar depois
-        employees.add(new Employee(666,Employee.Occupation.MANAGER,"bolsonaro",40,Employee.Gender.MALE)); //TESTE, apagar depois
-        employees.add(new Employee(555,Employee.Occupation.SIMPLE_EMPLOYEE,"dilma",30,Employee.Gender.FEMALE)); //TESTE, apagar depois
-        employees.add(new Employee(444,Employee.Occupation.VISITOR,"haddad",8,Employee.Gender.MALE)); //TESTE, apagar depois
+        employees.add(new Employee(9999,Employee.Occupation.CEO,"goku",23,Employee.Gender.MALE)); //TESTE, apagar depois
+        employees.add(new Employee(8888,Employee.Occupation.EXECUTIVE,"vegeta",22,Employee.Gender.MALE)); //TESTE, apagar depois
+        employees.add(new Employee(7777,Employee.Occupation.ADMINISTRATION,"joao amoedo",10,Employee.Gender.MALE)); //TESTE, apagar depois
+        employees.add(new Employee(6666,Employee.Occupation.MANAGER,"bolsonaro",40,Employee.Gender.MALE)); //TESTE, apagar depois
+        employees.add(new Employee(5555,Employee.Occupation.SIMPLE_EMPLOYEE,"dilma",30,Employee.Gender.FEMALE)); //TESTE, apagar depois
 
     }
     
@@ -169,9 +169,6 @@ public class EmployeeControl {
         Employee.Occupation occupation = null;
        
         switch(level){
-            case 0:
-                occupation = Employee.Occupation.VISITOR;
-                break;
             case 1:
                 occupation = Employee.Occupation.SIMPLE_EMPLOYEE;
                 break;
