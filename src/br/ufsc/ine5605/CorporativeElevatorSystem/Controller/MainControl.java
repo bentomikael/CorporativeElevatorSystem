@@ -198,17 +198,20 @@ public class MainControl {
                     eControl.getCodes( eControl.getAllEmployees()) );
         
        
-        sControl.checkAuthorization(
+        if(sControl.checkAuthorization(
         eControl.getActualUserLevelNumber(),
-        eControl.getEmployeeByCode( options[0] ).getAccessLevelNumber());
+        eControl.getEmployeeByCode( options[0] ).getAccessLevelNumber() )) {
+            
+            
+            options[1] = sControl.changeEmployeeOccupation( 
+                        eControl.getActualUserLevelNumber() );
+            
+            eControl.changeAccessLevel(options[0], options[1]);
+            System.out.println(eControl.getEmployeeByCode(options[0]).getOccupation());      //testando
+            sControl.standBy();
+            home(eControl.getActualUserLevelNumber());      
+        }
         
-        options[1] = sControl.changeEmployeeOccupation( 
-                    eControl.getActualUserLevelNumber() );
-        
-
-        eControl.changeAccessLevel(options[0], options[1]);
-        sControl.standBy();
-        home(eControl.getActualUserLevelNumber());      
     }
 
     private void report(){

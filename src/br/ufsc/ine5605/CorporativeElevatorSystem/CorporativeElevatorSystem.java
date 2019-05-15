@@ -20,5 +20,6 @@ public class CorporativeElevatorSystem {
    
     //fazer try e catch 
     //completar controlador de report e metodo de report em controlador principal
-    //bug: não está alterando Cargo de funcionario. Provavelmente erro é no contrlador de funcionarios ou em funcionario
+    //bug: não está alterando Cargo de funcionario. esta alterando nivel de acesso mas não altera ocupação
+    //passar enum de cargo de pessoa para funcionario
 }

@@ -304,6 +304,7 @@ public class ScreenControl {
             logoutRequest = true;
         }
         return valid;
+        
     }
     
 //</editor-fold> 
