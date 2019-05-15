@@ -40,7 +40,7 @@ public abstract class Screen implements IMessages{
                 }
 
                 // verifica se esta no limite indicado. se limite = 0,limite infinito
-                if(valid == true && option > maxValue && maxValue != 0){ 
+                if(valid == true && maxValue != 0 && option > maxValue){ 
                     valid = false;
                     mInvalidOption();
                 }

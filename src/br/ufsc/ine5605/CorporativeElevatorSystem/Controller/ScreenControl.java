@@ -64,11 +64,11 @@ public class ScreenControl {
     public int login(ArrayList allCodes){
         logoutRequest = false;
         int code;
-        valid = true;
-  
+     
         do{
+            valid = true;
             code = loginScreen.login();
-            if(code <= 999){
+            if(code <= 999 ){
                 valid = false;
                 loginScreen.mInvalidCode();
             }
@@ -94,20 +94,27 @@ public class ScreenControl {
     }
 
     public int floor(int actualUserLevel,int currentFloor) {
-        option = floorScreen.floorOptions(actualUserLevel,currentFloor);
-        if(option == -1)
-           logoutRequest = true;
-        else if(currentFloor != 0 && option == 0){
+        do{
+            option = floorScreen.floorOptions(actualUserLevel,currentFloor);
+            if(option == currentFloor)
                 floorScreen.mInvalidOption();
-                floor(actualUserLevel, currentFloor);
-            }else if(option == 0 ){
-                    System.out.println("YOU OUT OF THE FLOOR"); 
-                    System.out.println("BYE BYE, SEE YOU LATER");
-                }else
-                    System.out.println("\n YOU WENT TO FLOOR " + option+ "\n\n\n");
+        }while(option == currentFloor);
+        
+        switch(option){
+            case -1:
+                logoutRequest = true;
+                break;
+            case 0:
+                System.out.println("YOU OUT OF THE FLOOR"); 
+                System.out.println("BYE BYE, SEE YOU LATER");
+                
+                break;
+            default:
+                System.out.println("\n YOU WENT TO FLOOR " + option+ "\n\n\n");
+        }
        
         return option;
-    }
+    } 
 
     public int administrativeOptions() {
         option = admScreen.administrativeOptions();
@@ -181,7 +188,7 @@ public class ScreenControl {
             else if(codesArray.contains(code)){
                 valid = false;
                 changeScreen.mAlreadyRegistered();
-            }else if(code <= 999){
+            }else if(code <= 999 && code > 9999){
                 addScreen.mInvalidCode();
                 valid = false;
             }
@@ -219,7 +226,7 @@ public class ScreenControl {
             code = inputScreen.inputCode();
             if(code == -1)
                 logoutRequest = true;
-            else if(code <= 999){
+            else if(code <= 999 && code > 9999){
                     delScreen.mInvalidCode();
                     valid = false;
                 }
@@ -239,13 +246,15 @@ public class ScreenControl {
         }else
             option = inputScreen.inputConfirmation(userToDelName);
         
-        if(option == 0)
+        if(option == 0){
             delScreen.mCanceled();
+            logoutRequest = true;
+        }
         else
             System.out.println("\n--EMPLOYEE REMOVED SUCCESSFULL--\n");
         
         return option;
-    }
+    }  
     
 //</editor-fold> 
     
@@ -255,7 +264,7 @@ public class ScreenControl {
         int level;
         do{
             valid = true;
-            code = inputScreen.inputCode();
+            code = changeScreen.changeEmployeeScreen();
             if(code == -1)
                 logoutRequest = true;
             else
@@ -299,6 +308,7 @@ public class ScreenControl {
     
 //</editor-fold> 
     
+    //<editor-fold defaultstate="collapsed" desc="Obter Relatorios">
     public int reportScreen(int actualUserLevel){
         option = repScreen.reportScreen();
         
@@ -321,7 +331,6 @@ public class ScreenControl {
         
         return option;
     }
-    
     public int reportScreenCode(){
         option = inputScreen.inputCode();
          if(option == -1)
@@ -344,6 +353,8 @@ public class ScreenControl {
         return option;
         
     }
+    
+//</editor-fold>
     
     //<editor-fold defaultstate="collapsed" desc="Listar Funcionarios">
     public int employeesList(){

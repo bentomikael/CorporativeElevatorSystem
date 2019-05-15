@@ -16,6 +16,7 @@ public class MainControl {
         options = new int[5];
         date = new Date();
     }
+    
     //<editor-fold defaultstate="collapsed" desc="Manipulação de tempo">
     public String getDate() {
         format = new SimpleDateFormat("dd/mm/yyyy");
@@ -31,16 +32,19 @@ public class MainControl {
      
     //<editor-fold defaultstate="collapsed" desc="Login">
     /** 
+     * Inicia nova classe que verifica logout
      * Pega os dados da tela pelo controlador de tela.
      * Atribui o usuario atual e usa o nivel de acesso para iniciar home.
     */
     public void start(){ 
         
+        
         eControl.login( 
                 sControl.login(
                 eControl.getCodes(
                 eControl.getAllEmployees() )) );
-        
+        new LogoutCheck().start();
+
         home( eControl.getActualUserLevelNumber() );
     }
     
@@ -48,6 +52,43 @@ public class MainControl {
         start();
        }
     
+    /**
+     * Thread que verifica constantemente se foi requisitado o logout por sControl
+     */
+    private class LogoutCheck extends Thread{
+        private boolean logged;
+        
+        public LogoutCheck() {
+            logged = true;
+        }
+        
+        @Override
+        public void run(){
+            
+            while(logged){
+                
+                try {
+                    sleep(100);
+                } catch (InterruptedException ex) {
+                    continue;
+                }
+                
+                if(sControl.getLogoutRequest())
+                    logged = false;     
+            }
+            
+            logout();
+            try {
+                finalize();
+            } catch (Throwable ex) {}
+        }
+
+        @Override
+        protected void finalize() throws Throwable {
+            super.finalize(); //To change body of generated methods, choose Tools | Templates.
+        }
+    }
+
 //</editor-fold>
     
     //<editor-fold defaultstate="collapsed" desc="Controle de açoes por tela">
@@ -60,9 +101,7 @@ public class MainControl {
     private void home( int actualAccessLevel ) {
         
         options[0] = sControl.home( actualAccessLevel );
-        if( sControl.getLogoutRequest() == true )
-            logout();
-        else
+
             switch(options[0]){
                 case 1:
                     floor();
@@ -74,24 +113,20 @@ public class MainControl {
     }
 
     private void floor(){
-        options[0] = sControl.floor( eControl.getActualUserLevelNumber(),
-                                       eControl.getActualUserFloor() );
-        if( sControl.getLogoutRequest() == true )
-            logout();
-        else{
+        
+        options[0] = sControl.floor(
+                     eControl.getActualUserLevelNumber(),
+                     eControl.getActualUserFloor() );
+       
             eControl.goToFloor(options[0]);
             sControl.standBy();
-            logout();
-        }
-        
+            logout();  
     }
 
     private void administrativeOptions() {
         
         options[0] = sControl.administrativeOptions();
-        if( sControl.getLogoutRequest() == true )
-            logout();
-        else
+       
             switch(options[0]){
                 case 1:
                     newEmployee();
@@ -111,36 +146,23 @@ public class MainControl {
             }
     }
     
-    /**
-     * Coleta informações e usa para registrar novo funcionario
-     */
     private void newEmployee() {
         
         String name = sControl.addEmployeeName();
         
-        if( sControl.getLogoutRequest() == true )
-            logout();
-        else
+        
             options[0] = sControl.addEmployeeAge();
         
-        if( sControl.getLogoutRequest() == true )
-            logout();
-        else
+        
             options[1] = sControl.addEmployeeGender();
         
-        if( sControl.getLogoutRequest() == true )
-            logout();
-        else
+       
             options[2] = sControl.addEmployeeCode(eControl.getCodes(eControl.getAllEmployees() ));
         
-        if( sControl.getLogoutRequest() == true )
-            logout();
-        else
+        
             options[3] = sControl.addEmployeeOccupation(eControl.getActualUserLevelNumber() );
         
-        if( sControl.getLogoutRequest() == true )
-            logout();
-        else{
+        
             eControl.registerNewEmployee( 
                     options[2],
                     eControl.convertOccupation(options[3]),
@@ -150,104 +172,93 @@ public class MainControl {
             
             sControl.standBy();
             home(eControl.getActualUserLevelNumber());
-        }
+        
         
     }
 
     private void delEmployee() {
         
         options[0] = sControl.delEmployeeCode(eControl.getCodes(eControl.getAllEmployees()) );
-        if( sControl.getLogoutRequest() == true )
-            logout();
-        else
-            options[1] = sControl.delEmployeeConfirmation(
-                         eControl.getActualUserLevelNumber(),
-                         eControl.getEmployeeByCode(options[0]).getAccessLevelNumber(),
-                         eControl.getEmployeeByCode(options[0]).getName());
+       
+        options[1] = sControl.delEmployeeConfirmation(
+                        eControl.getActualUserLevelNumber(),
+                        eControl.getEmployeeByCode(options[0]).getAccessLevelNumber(),
+                        eControl.getEmployeeByCode(options[0]).getName());
         
-        if( sControl.getLogoutRequest() == true )
-            logout();
-        else{
             eControl.removeEmployeeByCode(options[0]);
             sControl.standBy();
             home( eControl.getActualUserLevelNumber() );
-        }
+        
     }
      
-    private void changeAccess() {
+    private void changeAccess() { // não está alterando
          
         options[0] = sControl.changeEmployeeCode( 
-                     eControl.getActualUserCode(),
-                     eControl.getCodes( eControl.getAllEmployees()) );
+                    eControl.getActualUserCode(),
+                    eControl.getCodes( eControl.getAllEmployees()) );
         
-        if( sControl.getLogoutRequest() == true )
-            logout();
-        else
-            if(sControl.checkAuthorization(
-               eControl.getActualUserLevelNumber(),
-               eControl.getEmployeeByCode( options[0]).getAccessLevelNumber()) )
-            options[1] = sControl.changeEmployeeOccupation( eControl.getActualUserLevelNumber() );
-        else
-            logout();
+       
+        sControl.checkAuthorization(
+        eControl.getActualUserLevelNumber(),
+        eControl.getEmployeeByCode( options[0] ).getAccessLevelNumber());
+        
+        options[1] = sControl.changeEmployeeOccupation( 
+                    eControl.getActualUserLevelNumber() );
+        
 
-        if( sControl.getLogoutRequest() == true )
-            logout();
-        else{
-            eControl.changeAccessLevel(options[0], options[1]);
-            logout();
-        }
+        eControl.changeAccessLevel(options[0], options[1]);
+        sControl.standBy();
+        home(eControl.getActualUserLevelNumber());      
     }
 
     private void report(){
         options[0] = sControl.reportScreen( eControl.getActualUserLevelNumber() );
-        if(sControl.getLogoutRequest() == true)
-            logout();
-        else
-            switch(options[0]){
-//                case 1:
-//                    
-//                    inputScreen.inputFloor();
-//                    break;
-//                case 2:
-//                    inputScreen.inputCode();
-//                    break;
-//                case 3:
-//                    inputScreen.inputDay();
-//                    break;
-//                case 4:
-//                    inputScreen.inputOccupation(actualUserLevel);
-//                    break;
-//                case 5:
-//                    break;
-//                case 6:
-//                    break;
-            }
+       
+        switch(options[0]){
+            case 1:
+                options[1] = sControl.reportScreenFloor();
+                break;
+            case 2:
+                options[1] = sControl.reportScreenCode();
+                break;
+            case 3:
+                options[1] = sControl.reportScreenDay();
+                break;
+            case 4:
+                options[1] = sControl.reportScreenOccupation();
+                break;
+            case 5:
+                break;
+            case 6:
+                break;
+        }
     }
 
     private void list() {
         
         options[0] = sControl.employeesList();
-        if( sControl.getLogoutRequest() == true )
-            logout();
-        else
-            switch(options[0]){
-                case 1:
-                    eControl.getList( eControl.getAllEmployees() );                    
-                    break;
-                case 2:
-                    eControl.getList( eControl.getEmployeesByLevelAccess(sControl.employeeListOccupation()) );
-                    break;
-                case 3:
-                    eControl.getList( eControl.getEmployeeByFloor(sControl.employeeListFloor()) );
-                    break;
-                case 4:
-                    eControl.getList( eControl.getEmployeesInWork() );
-                    break;
-            }
+        
+        switch(options[0]){
+            case 1:
+                eControl.getList( eControl.getAllEmployees() );                    
+                break;
+            case 2:
+                eControl.getList( eControl.getEmployeesByLevelAccess(sControl.employeeListOccupation()) );
+                break;
+            case 3:
+                eControl.getList( eControl.getEmployeeByFloor(sControl.employeeListFloor()) );
+                break;
+            case 4:
+                eControl.getList( eControl.getEmployeesInWork() );
+                break;
+        }
         sControl.standBy();
         home(eControl.getActualUserLevelNumber());
     }
     
+    private void includeReport(){}
+    
 //</editor-fold>
        
+    
 }

@@ -15,7 +15,7 @@ public abstract class People {
         public void setGenderNumber(int number){
             this.number = number;
         }
-    };
+    }
     public enum Occupation {
     
         SIMPLE_EMPLOYEE(1),

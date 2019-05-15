@@ -6,7 +6,7 @@ public class ChangeEmployeeScreen extends Screen{
     }
     
     
-    public int inputCode(){
+    public int changeEmployeeScreen(){
         
         System.out.println("\n--------CHANGE ACCESS LEVEL OF EMPLOYEE--------\n");
         System.out.println("Code Of Employee To Change Access Level:");               
