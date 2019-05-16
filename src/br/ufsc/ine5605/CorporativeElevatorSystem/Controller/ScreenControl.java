@@ -346,8 +346,8 @@ public class ScreenControl {
         
         return option;
     }
-    public int reportScreenOccupation(){
-        option = inputScreen.inputOccupation(5);// 5 para exivbir todos
+    public int reportScreenHour(){
+        option = inputScreen.inputHour();
         if(option == -1)
             logoutRequest = true;
         

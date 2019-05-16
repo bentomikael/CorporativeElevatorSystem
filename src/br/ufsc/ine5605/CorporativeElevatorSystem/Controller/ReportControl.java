@@ -8,43 +8,80 @@ public class ReportControl {
 
     public ReportControl() {
         reports = new ArrayList();
+        
     }
 
-    public ArrayList<Report> getReports() {
+     public void addReport(String employeeName, String type, String thatName, 
+                          String date, String hour, String floor){
+      
+        reports.add(new Report(employeeName,type,thatName,date,hour,floor) );
+    }
+     
+    //<editor-fold defaultstate="collapsed" desc="Gets">
+    public ArrayList<Report> getAllReports() {
         return reports;
     }
-        
-    public void addReport(int employeeCode, String hour, String day, String activity, int floor){
-        reports.add( new Report(employeeCode, hour, day, activity,floor) );
-    }
     
-    public ArrayList getReportByDay(String day){
+    public ArrayList getReportByEmployee(String EmployeeName){
         ArrayList array = new ArrayList();
         for(Report r:reports)
-            if(r.getDay() == day)
+            if(r.getEmployeeName().equals(EmployeeName))
+                array.add(r);
+        return array;
+    }
+    
+    public ArrayList getReportByType(String type){
+        ArrayList array = new ArrayList();
+        for(Report r:reports)
+            if(r.getType().equals(type))
+                array.add(r);
+        return array;
+    }
+    
+    public ArrayList getReportByDate(String date){
+        ArrayList array = new ArrayList();
+        for(Report r:reports)
+            if(r.getDate().equals(date))
                 array.add(r);
         return array;
         }
-    public ArrayList getReportByFloor(int floor){
-    ArrayList array = new ArrayList();
-        for(Report r:reports)
-            if(r.getFloor() == floor)
-                array.add(r);
-        return array;
-    }
-    public ArrayList getReportByEmployeeCode(int EmployeeCode){
+    
+    public ArrayList getReportByHour(String hour){
         ArrayList array = new ArrayList();
         for(Report r:reports)
-            if(r.getEmployeeCode()== EmployeeCode)
-                array.add(r);
-        return array;
-    }
-    public ArrayList getReportByActivity(String activity){
-        ArrayList array = new ArrayList();
-        for(Report r:reports)
-            if(r.getActivity().equals(activity))
+            if(r.getHour().equals(hour))
                 array.add(r);
         return array;
     }
     
+    public ArrayList getReportByFloor(String floor){
+    ArrayList array = new ArrayList();
+        for(Report r:reports)
+            if(r.getFloor().equals(floor))
+                array.add(r);
+        return array;
+    }
+//</editor-fold>
+      
+    public void printIt (ArrayList<Report> array){
+        
+        if(array.isEmpty())
+            System.out.println("--------NO REPORTS YET--------");
+        else{
+            System.out.printf("%s %15s %16s %14s %11s %11s\n",
+            " _________________", " _______ ","_________ "," ________"," ________"," _________");
+            System.out.printf("%s %15s %15s %15s %s %s\n",
+            "|       Name      |","|  Action  |","| Altered |","|   Date  |","|   Hour  |","|  Floor  |");
+        
+            for(Report r : array)
+                System.out.printf("%-24s %-15s %-10s %14s %10s %8s \n",
+                        r.getEmployeeName(),
+                        r.getType(),
+                        r.getThatName(),
+                        r.getDate(),
+                        r.getHour(),
+                        r.getFloor());
+        }
+    
+    }
 }

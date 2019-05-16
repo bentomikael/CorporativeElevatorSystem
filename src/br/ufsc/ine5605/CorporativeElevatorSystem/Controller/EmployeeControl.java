@@ -18,7 +18,7 @@ public class EmployeeControl {
 
     }
     
-    //<editor-fold defaultstate="collapsed" desc="Login">
+    //<editor-fold defaultstate="collapsed" desc="Usuario Logado">
    
     /**
      * 
@@ -50,6 +50,10 @@ public class EmployeeControl {
     
     public int getActualUserCode(){
         return getActualUser().getCodeAccess();
+    }
+    
+    public String getActualUserName(){
+        return getActualUser().getName();
     }
     
     //</editor-fold>
@@ -101,21 +105,22 @@ public class EmployeeControl {
     }
     
     //imprime nomes e codigo do array de funcionarios
-    public void getList(ArrayList<Employee> array){
+    public void printIt(ArrayList<Employee> array){
         int i = 1;
         if(array.isEmpty())
             System.out.println("--------EMPTY LIST--------");
         else{
-        System.out.printf("%s %15s %17s %16s \n", " _________________", " _______ "," _____________ "," _____________");
-        System.out.printf("%s %15s %15s %15s\n","|       Name      |","|  Code  |","| Actual Floor |","|   Occupation  |");
-        for(Employee e : array)
-            System.out.printf("%2d %-17s %9d  %13d %9s %s\n",
-            i++,
-            e.getName().toUpperCase(),
-            e.getCodeAccess(),
-            e.getCurrentFloor(),
-            "",
-            e.getOccupation());
+            System.out.printf("%s %15s %17s %16s \n", " _________________", " _______ "," _____________ "," _____________");
+            System.out.printf("%s %15s %15s %15s\n","|       Name      |","|  Code  |","| Actual Floor |","|   Occupation  |");
+        
+            for(Employee e : array)
+                System.out.printf("%2d %-17s %9d  %13d %9s %s\n",
+                i++,
+                e.getName().toUpperCase(),
+                e.getCodeAccess(),
+                e.getCurrentFloor(),
+                "",
+                e.getOccupation());
         }
     }  
     
@@ -152,7 +157,7 @@ public class EmployeeControl {
     }
     
     //altera nivel de acesso de outro funcionario
-    public void changeAccessLevel(int code,int newAccessLevel){
+    public void changeOccupation(int code,Employee.Occupation newAccessLevel){
         getEmployeeByCode(code).setOccupation(newAccessLevel);
     }
    
