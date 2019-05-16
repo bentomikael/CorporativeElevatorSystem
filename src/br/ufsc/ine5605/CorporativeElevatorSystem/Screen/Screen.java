@@ -21,7 +21,7 @@ public abstract class Screen implements IMessages{
     public int inputInt(int maxValue){
         String toInt ; 
         boolean valid;
-        System.out.println(" 00 - TO CANCEL ACTION AND LOGOUT -- \n");
+        System.out.println(" 00 - TO CANCEL AND LOGOUT  \n");
        
         do{ 
             toInt = key.nextLine();

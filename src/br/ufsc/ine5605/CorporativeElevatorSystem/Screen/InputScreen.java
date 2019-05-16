@@ -36,4 +36,10 @@ public class InputScreen extends Screen{
         System.out.println("0 - To cancel");
         return inputInt(1);
     }
+
+    public int inputHour() {
+        System.out.println("Input Hour ( 0 - 23) : ");
+        return inputInt(23);
+        
+    }
 }
