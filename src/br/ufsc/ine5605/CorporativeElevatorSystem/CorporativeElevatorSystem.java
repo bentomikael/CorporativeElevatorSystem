@@ -1,6 +1,7 @@
 package br.ufsc.ine5605.CorporativeElevatorSystem;
 
 import br.ufsc.ine5605.CorporativeElevatorSystem.Controller.MainControl;
+import br.ufsc.ine5605.CorporativeElevatorSystem.Controller.ReportControl;
 
 /**
  * @author Mikael Bento e Vinicius Hilbert
@@ -16,10 +17,11 @@ public class CorporativeElevatorSystem {
     */
     public static void main(String[] args) {
         new MainControl().start();
+        
     }
    
     //fazer try e catch 
-    //completar controlador de report e metodo de report em controlador principal
-    //bug: não está alterando Cargo de funcionario. esta alterando nivel de acesso mas não altera ocupação
-    //passar enum de cargo de pessoa para funcionario
+    
+//    terminar report em controlador principal
+   
 }

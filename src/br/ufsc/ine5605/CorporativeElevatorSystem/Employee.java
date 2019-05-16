@@ -1,9 +1,5 @@
 package br.ufsc.ine5605.CorporativeElevatorSystem;
 
-/**
- *
- * @author 
- */
 public class Employee extends People {
     private final int code;
     private Occupation accessLevel;
@@ -30,8 +26,9 @@ public class Employee extends People {
 
     public int getCurrentFloor() {return currentFloor;}
     
+    
     public void setCurrentFloor(int currentFloor) {this.currentFloor = currentFloor;}
     
-    public void setOccupation(int accessLevel) {this.accessLevel.setAccessLevel(accessLevel);}
+    public void setOccupation(Occupation accessLevel) {this.accessLevel=accessLevel;}
 
 }
