@@ -77,7 +77,7 @@ public class ScreenControl implements IMessages{
                      option = Integer.valueOf(toInt);  //converte para int
                      valid=true;
                 }catch(NumberFormatException e){
-                    mInvalidOption();
+                    mInvalidCode();
                     valid=false;
                 }
 
