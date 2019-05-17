@@ -1,4 +1,4 @@
-package br.ufsc.ine5605.CorporativeElevatorSystem;
+package br.ufsc.ine5605.corporative_elevator_system;
 
 /**
  *
@@ -9,10 +9,16 @@ public interface IMessages {
     
     public void mInvalidOption();
     public void mInvalidCode();
+    public void mInvalidName();
     public void mDontHavePermision();
     public void mAlreadyRegistered();
     public void mNotFound();
-    public void mChoseOption();
     public void mCanceled();
-    public void mAccessLevelOptions(int actualUserLevel,String text,int currentFloor);
+    public void mAccessLevelOptions(int actualUserLevel,String text);
+    public void mWentInFloor(int floor);
+    public void mLeavingFloor();
+    public void mStandBy();
+    public void mToExit();
+    public void mChangeSelf();
+    
 }

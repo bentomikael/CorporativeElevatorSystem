@@ -1,4 +1,4 @@
-package br.ufsc.ine5605.CorporativeElevatorSystem;
+package br.ufsc.ine5605.corporative_elevator_system;
 
 public abstract class People {
     public String name;

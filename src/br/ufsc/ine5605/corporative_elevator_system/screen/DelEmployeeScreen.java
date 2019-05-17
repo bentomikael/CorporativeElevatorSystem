@@ -1,19 +1,16 @@
-package br.ufsc.ine5605.CorporativeElevatorSystem.Screen;
+package br.ufsc.ine5605.corporative_elevator_system.screen;
 
 /**
  *
  * @author Acer
  */
-public class DelEmployeeScreen extends Screen{
+public class DelEmployeeScreen {
 
-    public DelEmployeeScreen() {
-    }
+    public DelEmployeeScreen() {}
     
     
     public void delEmployeeScreen(){
-        System.out.println("--------REMOVE EMPLOYEE--------");
-        System.out.println("Code of Employee to remove:");
-    }
+        System.out.println("--------REMOVE EMPLOYEE--------");    }
     
  
 }

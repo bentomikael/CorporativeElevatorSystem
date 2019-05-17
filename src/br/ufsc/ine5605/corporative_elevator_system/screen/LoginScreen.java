@@ -1,13 +1,13 @@
-package br.ufsc.ine5605.CorporativeElevatorSystem.Screen;
+package br.ufsc.ine5605.corporative_elevator_system.screen;
 
-public class LoginScreen extends Screen{
+public class LoginScreen {
 
-    public LoginScreen() {
-    }
+    public LoginScreen() {}
     
-    public int login(){
-        System.out.println("\n--------LOGIN WITH YOU EMPLOYEE CARD / CODE--------");    
-            return inputInt(0);  
+    public void login(){
+        System.out.println("\n--------LOGIN WITH YOU EMPLOYEE CARD / CODE--------");
+        System.out.println("Code:");
+              
     }       
     
 }

@@ -1,4 +1,4 @@
-package br.ufsc.ine5605.CorporativeElevatorSystem;
+package br.ufsc.ine5605.corporative_elevator_system;
 
 public class Employee extends People {
     private final int code;
@@ -27,7 +27,12 @@ public class Employee extends People {
     public int getCurrentFloor() {return currentFloor;}
     
     
-    public void setCurrentFloor(int currentFloor) {this.currentFloor = currentFloor;}
+    public void setCurrentFloor(int currentFloor) {
+        if(this.currentFloor == currentFloor)
+            throw new IllegalArgumentException("YOU ALREADY IN THIS FLOOR");
+        else
+            this.currentFloor = currentFloor;
+    }
     
     public void setOccupation(Occupation accessLevel) {this.accessLevel=accessLevel;}
 

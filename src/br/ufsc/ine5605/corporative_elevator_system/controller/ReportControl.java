@@ -1,6 +1,6 @@
-package br.ufsc.ine5605.CorporativeElevatorSystem.Controller;
+package br.ufsc.ine5605.corporative_elevator_system.controller;
 
-import br.ufsc.ine5605.CorporativeElevatorSystem.Report;
+import br.ufsc.ine5605.corporative_elevator_system.Report;
 import java.util.ArrayList;
 
 public class ReportControl {

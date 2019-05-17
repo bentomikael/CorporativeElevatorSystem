@@ -1,8 +1,8 @@
-package br.ufsc.ine5605.CorporativeElevatorSystem;
+package br.ufsc.ine5605.corporative_elevator_system;
 
 public class Report {
     private final String employeeName; // usuario atual
-    private final String type; // Registered , Removed , Changed, Go To Floor, Exit Of Floor
+    private final String type; // Registered , Removed , Changed, Go To Floor
     private final String thatName; // usuario secundario, qual foi alterado
     private final String date;
     private final String hour;    

@@ -1,6 +1,6 @@
 package br.ufsc.ine5605.corporative_elevator_system;
 
-import br.ufsc.ine5605.CorporativeElevatorSystem.Controller.MainControl;
+import br.ufsc.ine5605.corporative_elevator_system.controller.MainControl;
 
 /**
  *
@@ -11,6 +11,4 @@ public class Corporative_Elevator_System {
         new MainControl().start();
     }
     
-    //buscar bugs
-    //fazer 2 try e catch personalizados
 }

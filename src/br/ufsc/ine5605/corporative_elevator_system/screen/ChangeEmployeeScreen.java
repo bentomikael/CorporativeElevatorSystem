@@ -1,16 +1,13 @@
-package br.ufsc.ine5605.CorporativeElevatorSystem.Screen;
+package br.ufsc.ine5605.corporative_elevator_system.screen;
 
-public class ChangeEmployeeScreen extends Screen{
+public class ChangeEmployeeScreen {
 
-    public ChangeEmployeeScreen() {
-    }
+    public ChangeEmployeeScreen() {}
     
     
-    public int changeEmployeeScreen(){
+    public void changeEmployeeScreen(){
         
         System.out.println("\n--------CHANGE ACCESS LEVEL OF EMPLOYEE--------\n");
-        System.out.println("Code Of Employee To Change Access Level:");               
-        return inputInt(0);
     }
     
     

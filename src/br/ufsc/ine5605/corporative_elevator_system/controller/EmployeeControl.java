@@ -1,6 +1,6 @@
-package br.ufsc.ine5605.CorporativeElevatorSystem.Controller;
+package br.ufsc.ine5605.corporative_elevator_system.controller;
 
-import br.ufsc.ine5605.CorporativeElevatorSystem.Employee;
+import br.ufsc.ine5605.corporative_elevator_system.Employee;
 import java.util.ArrayList;
 
 public class EmployeeControl {
@@ -195,10 +195,10 @@ public class EmployeeControl {
     public Employee.Gender convertGender(int number){
         Employee.Gender gender = null;
         switch(number){
-            case 1:
+            case 0:
                 gender = Employee.Gender.MALE;
                 break;
-            case 2:
+            case 1:
                 gender = Employee.Gender.FEMALE;
                 break;  
         }

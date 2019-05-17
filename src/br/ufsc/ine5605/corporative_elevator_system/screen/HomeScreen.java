@@ -1,24 +1,14 @@
-package br.ufsc.ine5605.CorporativeElevatorSystem.Screen;
+package br.ufsc.ine5605.corporative_elevator_system.screen;
 
-public class HomeScreen extends Screen{
+public class HomeScreen {
 
     public HomeScreen() {}
     
-     /**
-      * @param userLevel indica qual o nivel de acesso do usuario atual
-      * @return o numero da opção escolhida
-      */
-    public int homeScreen(int userLevel){
+    public void homeScreen(boolean administrative){
         System.out.println("\n\n--------WELCOME TO CORPORATIVE ELEVATOR SYSTEM--------\n");
-        mChoseOption();
         System.out.println("1- Go to Floor");
-        
-            if(userLevel >= 3) {      
-                System.out.println("2- Administrative Options");   
-                option = inputInt(2);
-            }else
-                option = inputInt(1);
-        
-        return option;
+        if(administrative)
+            System.out.println("2- Administrative Options");   
+
     }
 }

@@ -1,14 +1,12 @@
-package br.ufsc.ine5605.CorporativeElevatorSystem.Screen;
+package br.ufsc.ine5605.corporative_elevator_system.screen;
 
-public class ReportScreen extends Screen{
+public class ReportScreen {
 
-    public ReportScreen() {
-    }
+    public ReportScreen() {}
     
     
-    public int reportScreen(){
+    public void reportScreen(){
         System.out.println("--------GET REPORTS OF SYSTEM--------");
-        mChoseOption();
         System.out.println("1 - Report of Floor");
         System.out.println("2 - Report of Employee");
         System.out.println("3 - Report of Day");
@@ -16,7 +14,6 @@ public class ReportScreen extends Screen{
         System.out.println("5 - Report of registered employees");
         System.out.println("6 - Report of removed employees");
         System.out.println("7 - Report General");
-        return inputInt(7);    
     }
     
     
