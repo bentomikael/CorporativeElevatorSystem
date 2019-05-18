@@ -1,6 +1,6 @@
 package br.ufsc.ine5605.corporative_elevator_system.controller;
 
-import br.ufsc.ine5605.corporative_elevator_system.Report;
+import br.ufsc.ine5605.corporative_elevator_system.entity.Report;
 import java.util.ArrayList;
 
 public class ReportControl {
@@ -11,13 +11,12 @@ public class ReportControl {
         
     }
 
-     public void addReport(String employeeName, String activity, String thatName, 
-                          String date, String hour, String floor){
+    public void addReport(String employeeName, String activity, String thatName, 
+            String date, String hour, String floor){
       
         reports.add(new Report(employeeName,activity,thatName,date,hour,floor) );
     }
      
-    //<editor-fold defaultstate="collapsed" desc="Gets">
     public ArrayList<Report> getAllReports() {
         return reports;
     }
@@ -59,7 +58,6 @@ public class ReportControl {
         }
         return array;
     }
-//</editor-fold>
       
     public void printIt (ArrayList<Report> array){
         

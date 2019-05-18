@@ -1,6 +1,5 @@
 package br.ufsc.ine5605.corporative_elevator_system.screen;
 
-import br.ufsc.ine5605.corporative_elevator_system.IMessages;
 import java.util.ArrayList;
 import java.util.Scanner;
 

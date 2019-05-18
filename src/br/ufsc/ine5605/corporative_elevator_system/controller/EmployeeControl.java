@@ -1,6 +1,6 @@
 package br.ufsc.ine5605.corporative_elevator_system.controller;
 
-import br.ufsc.ine5605.corporative_elevator_system.Employee;
+import br.ufsc.ine5605.corporative_elevator_system.entity.Employee;
 import java.util.ArrayList;
 
 public class EmployeeControl {
