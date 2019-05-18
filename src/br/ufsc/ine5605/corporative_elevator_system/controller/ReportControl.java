@@ -11,10 +11,10 @@ public class ReportControl {
         
     }
 
-     public void addReport(String employeeName, String type, String thatName, 
+     public void addReport(String employeeName, String activity, String thatName, 
                           String date, String hour, String floor){
       
-        reports.add(new Report(employeeName,type,thatName,date,hour,floor) );
+        reports.add(new Report(employeeName,activity,thatName,date,hour,floor) );
     }
      
     //<editor-fold defaultstate="collapsed" desc="Gets">
@@ -22,44 +22,41 @@ public class ReportControl {
         return reports;
     }
     
-    public ArrayList getReportByEmployee(String EmployeeName){
+    public ArrayList getReportSpecific(String type,String value){
         ArrayList array = new ArrayList();
-        for(Report r:reports)
-            if(r.getEmployeeName().equals(EmployeeName))
-                array.add(r);
-        return array;
-    }
-    
-    public ArrayList getReportByType(String type){
-        ArrayList array = new ArrayList();
-        for(Report r:reports)
-            if(r.getType().equals(type))
-                array.add(r);
-        return array;
-    }
-    
-    public ArrayList getReportByDate(String date){
-        ArrayList array = new ArrayList();
-        for(Report r:reports)
-            if(r.getDate().equals(date))
-                array.add(r);
-        return array;
-        }
-    
-    public ArrayList getReportByHour(String hour){
-        ArrayList array = new ArrayList();
-        for(Report r:reports)
-            if(r.getHour().substring(0,2).equals(hour))
+
+        switch(type){
+            
+            case "name":
+                for(Report r:reports)
+                    if(r.getEmployeeName().equals(value))
+                        array.add(r);
+                break;
                 
-                array.add(r);
-        return array;
-    }
-    
-    public ArrayList getReportByFloor(String floor){
-    ArrayList array = new ArrayList();
-        for(Report r:reports)
-            if(r.getFloor().equals(floor))
-                array.add(r);
+            case "activity":
+                for(Report r:reports)
+                    if(r.getActivity().equals(value))
+                        array.add(r);
+                break;
+                
+            case "date":
+                for(Report r:reports)
+                    if(r.getDate().equals(value))
+                        array.add(r);
+                break;
+                
+            case "hour":
+                for(Report r:reports)
+                    if(r.getHour().substring(0,2).equals(value))
+                        array.add(r);
+                break;
+                
+            case "floor":
+                for(Report r:reports)
+                    if(r.getFloor().equals(value))
+                        array.add(r);
+                break;
+        }
         return array;
     }
 //</editor-fold>
@@ -75,9 +72,9 @@ public class ReportControl {
             "|       Name      |","|  Action  |","| Altered |","|   Date  |","|   Hour  |","|  Floor  |");
         
             for(Report r : array)
-                System.out.printf("%-24s %-15s %-10s %14s %10s %8s \n",
+                System.out.printf("%-24s %-15s %-10s %12s %11s %9s \n",
                         r.getEmployeeName(),
-                        r.getType(),
+                        r.getActivity(),
                         r.getThatName(),
                         r.getDate(),
                         r.getHour(),

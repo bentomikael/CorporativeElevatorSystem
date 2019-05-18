@@ -13,7 +13,6 @@ public interface IMessages {
     public void mDontHavePermision();
     public void mAlreadyRegistered();
     public void mNotFound();
-    public void mCanceled();
     public void mAccessLevelOptions(int actualUserLevel,String text);
     public void mWentInFloor(int floor);
     public void mLeavingFloor();

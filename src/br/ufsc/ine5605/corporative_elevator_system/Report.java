@@ -2,17 +2,17 @@ package br.ufsc.ine5605.corporative_elevator_system;
 
 public class Report {
     private final String employeeName; // usuario atual
-    private final String type; // Registered , Removed , Changed, Go To Floor
+    private final String activity; // Registered , Removed , Changed, Go To Floor
     private final String thatName; // usuario secundario, qual foi alterado
     private final String date;
     private final String hour;    
     private final String floor;
 
-    public Report(String employeeName, String type, String thatName, 
+    public Report(String employeeName, String activity, String thatName, 
                   String date, String hour, String floor) {
         
         this.employeeName = employeeName;
-        this.type = type;
+        this.activity = activity;
         this.thatName = thatName;
         this.date = date;
         this.hour = hour;
@@ -23,8 +23,8 @@ public class Report {
         return employeeName;
     }
 
-    public String getType() {
-        return type;
+    public String getActivity() {
+        return activity;
     }
 
     public String getThatName() {

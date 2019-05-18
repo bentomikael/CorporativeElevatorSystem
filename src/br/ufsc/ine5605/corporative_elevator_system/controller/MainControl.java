@@ -1,12 +1,15 @@
 package br.ufsc.ine5605.corporative_elevator_system.controller;
 
+import br.ufsc.ine5605.corporative_elevator_system.screen.ScreenView;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class MainControl {
     
     private EmployeeControl eControl;
-    private ScreenControl sControl;
+    private ScreenView screen;
     private ReportControl rControl;
     private int[] options;  //usada para manipular as opçoes recebidas de tela
     private Date date;
@@ -15,21 +18,21 @@ public class MainControl {
     
     public MainControl() {
         eControl = new EmployeeControl();
-        sControl = new ScreenControl();
+        screen = new ScreenView();
         rControl = new ReportControl();
-        options = new int[5];
-        date = new Date();
-        
+        options = new int[5];        
     }
     
     
     //<editor-fold defaultstate="collapsed" desc="Manipulação de tempo">
     private String getDate() {
+        date = new Date();
         format = new SimpleDateFormat("dd/MM");
         return format.format(date);
     }
     
     private String getHour(){
+        date = new Date();
         format = new SimpleDateFormat("HH:mm");
         return format.format(date);
     }
@@ -46,7 +49,7 @@ public class MainControl {
         
         
         eControl.login( 
-            sControl.login(
+            screen.login(
             eControl.getCodes(
             eControl.getAllEmployees() )) );
         
@@ -73,7 +76,7 @@ public class MainControl {
     */
     private void home( int actualAccessLevel ) {
         
-        options[0] = sControl.home( actualAccessLevel );
+        options[0] = screen.home( actualAccessLevel );
 
         switch(options[0]){
             case 1:
@@ -87,7 +90,7 @@ public class MainControl {
 
     private void floor(){
         
-        options[0] = sControl.floor(eControl.getActualUserLevelNumber());
+        options[0] = screen.floor(eControl.getActualUserLevelNumber());
        
         if(options[0] != -1){
             try{
@@ -95,15 +98,15 @@ public class MainControl {
                 reportsRegister("floor");
                 
                 if(options[0] == 0)
-                    sControl.mLeavingFloor();
+                    screen.mLeavingFloor();
                 else
-                    sControl.mWentInFloor(options[0]);
-                sControl.mStandBy();
+                    screen.mWentInFloor(options[0]);
+                screen.mStandBy();
                 logout(); 
                 
             }catch(IllegalArgumentException e){
                 System.out.println(e.getMessage());
-                sControl.mStandBy();
+                screen.mStandBy();
                 floor();
             }
             
@@ -112,7 +115,7 @@ public class MainControl {
 
     private void administrativeOptions() {
         
-        options[0] = sControl.administrativeOptions();
+        options[0] = screen.administrativeOptions();
        
         switch(options[0]){
             case 1:
@@ -135,24 +138,24 @@ public class MainControl {
     
     private void newEmployee() {
         
-        String name = sControl.addEmployeeName();
+        String name = screen.addEmployeeName();
         
         if(!name.equals("00")){
             
-            options[0] = sControl.addEmployeeAge();
+            options[0] = screen.addEmployeeAge();
 
             if(options[0] != -1){
                 
-                options[1] = sControl.addEmployeeGender();
+                options[1] = screen.addEmployeeGender();
 
                 if(options[1] != -1){
                     
-                    options[2] = sControl.addEmployeeCode(
+                    options[2] = screen.addEmployeeCode(
                         eControl.getCodes( eControl.getAllEmployees() ));
 
                     if(options[2] != -1){
                         
-                        options[3] = sControl.addEmployeeOccupation(
+                        options[3] = screen.addEmployeeOccupation(
                             eControl.getActualUserLevelNumber() );
 
                         if(options[3] != -1){
@@ -165,7 +168,7 @@ public class MainControl {
                                 eControl.convertGender(options[1]) );
 
                             reportsRegister("new");
-                            sControl.mStandBy();
+                            screen.mStandBy();
                             home(eControl.getActualUserLevelNumber());
                         }
                     }
@@ -176,11 +179,11 @@ public class MainControl {
 
     private void delEmployee() {
         
-        options[0] = sControl.delEmployeeCode(
+        options[0] = screen.delEmployeeCode(
             eControl.getCodes(eControl.getAllEmployees()) );
        
         if(options[0] != -1){
-        options[1] = sControl.delEmployeeConfirmation(
+        options[1] = screen.delEmployeeConfirmation(
             eControl.getActualUserLevelNumber(),
             eControl.getEmployeeByCode(options[0]).getAccessLevelNumber(),
             eControl.getEmployeeByCode(options[0]).getName());
@@ -188,7 +191,7 @@ public class MainControl {
             if(options[1] == 1){
                 reportsRegister("del");
                 eControl.removeEmployeeByCode(options[0]);
-                sControl.mStandBy();
+                screen.mStandBy();
                 home(eControl.getActualUserLevelNumber());
             }
         }
@@ -196,56 +199,61 @@ public class MainControl {
      
     private void changeAccess() { 
          
-        options[0] = sControl.changeEmployeeCode( 
+        options[0] = screen.changeEmployeeCode( 
             eControl.getActualUserCode(),
                 eControl.getCodes( eControl.getAllEmployees()) );
         
        
-        if(sControl.checkAuthorization(
-        eControl.getActualUserLevelNumber(),
-            eControl.getEmployeeByCode( options[0] ).getAccessLevelNumber() )) 
+        if(screen.checkAuthorization(
+           eControl.getActualUserLevelNumber(),
+           eControl.getEmployeeByCode( options[0] ).getAccessLevelNumber() )) 
             
             if(options[0] != -1){
-                options[1] = sControl.changeEmployeeOccupation( 
+                options[1] = screen.changeEmployeeOccupation( 
                     eControl.getActualUserLevelNumber() );
                 
                 if(options[1] != -1){
-                    reportsRegister("change");
-                    sControl.mStandBy();
-                    home(eControl.getActualUserLevelNumber());      
+                    reportsRegister("change");      
                                 
                     eControl.changeOccupation(
                         options[0], 
                         eControl.convertOccupation(options[1]));
+                    
+                    screen.mStandBy();
+                    home(eControl.getActualUserLevelNumber());
                 }   
             }      
     }
 
     private void report(){
-        options[0] = sControl.reportScreen(
+        options[0] = screen.reportScreen(
             eControl.getActualUserLevelNumber());
        
         switch(options[0]){
+            
             case 1:
-                options[1] = sControl.reportScreenFloor();
+                options[1] = screen.reportScreenFloor();
                 if(options[1] != -1)
                     rControl.printIt(
-                    rControl.getReportByFloor( Integer.toString(options[1]) ));
+                    rControl.getReportSpecific("floor",
+                            Integer.toString(options[1]) ));
                 break;
+                
             case 2:
-                options[1] = sControl.reportScreenCode(eControl.getAllEmployees());
+                options[1] = screen.reportScreenCode(eControl.getAllEmployees());
                 if(options[1] != -1)
                     rControl.printIt(
-                    rControl.getReportByEmployee(
+                    rControl.getReportSpecific("name",
                     eControl.getEmployeeByCode(options[1]).getName() ));
                 break;
+                
             case 3:
                 String dat;
-                options[1] = sControl.reportScreenDay();
+                options[1] = screen.reportScreenDay();
                 
                 if(options[1] != -1){
                     
-                    options[2] = sControl.reportScreenMonth();
+                    options[2] = screen.reportScreenMonth();
                         
                     if(options[2] != -1){
                             
@@ -253,56 +261,69 @@ public class MainControl {
                                     "/"+
                                     Integer.toString(options[2]);
                             rControl.printIt(
-                            rControl.getReportByDate(dat));
+                            rControl.getReportSpecific("date",dat));
                         }
                 }
                 break;
+                
             case 4:
-                options[1] = sControl.reportScreenHour();
+                options[1] = screen.reportScreenHour();
                 if(options[1] != -1)
                     rControl.printIt(
-                    rControl.getReportByHour(Integer.toString(options[1]) ));
+                    rControl.getReportSpecific("hour",
+                            Integer.toString(options[1]) ));
                 break;
+                
             case 5:
-                rControl.printIt(rControl.getReportByType("Registered"));
+                rControl.printIt(rControl.getReportSpecific("activity",
+                        "Registered"));
                 break;
+                
             case 6:
-                rControl.printIt(rControl.getReportByType("Removed"));
+                rControl.printIt(rControl.getReportSpecific("activity",
+                        "Removed"));
                 break;
+                
             case 7:
                 rControl.printIt(rControl.getAllReports());
                 break;
+                
         }
         if(options[0] != -1 && options[1] != -1){ 
-            sControl.mStandBy();
+            screen.mStandBy();
             home(eControl.getActualUserLevelNumber());
         }
     }
        
     private void list() {
         
-        options[0] = sControl.employeesList();
+        options[0] = screen.employeesList();
         
         switch(options[0]){
+            
             case 1:
                 eControl.printIt(eControl.getAllEmployees() );                    
                 break;
+                
             case 2:
                 eControl.printIt( 
                 eControl.getEmployeesByLevelAccess(
-                sControl.employeeListOccupation()) );
+                screen.employeeListOccupation()) );
                 break;
+                
             case 3:
                 eControl.printIt( 
                 eControl.getEmployeeByFloor(
-                sControl.employeeListFloor()) );
+                screen.employeeListFloor()) );
                 break;
+                
             case 4:
                 eControl.printIt( eControl.getEmployeesInWork() );
                 break;
+                
         }
         if(options[0] != -1){ // impede que continue apos deslogar
-            sControl.mStandBy();
+            screen.mStandBy();
             home(eControl.getActualUserLevelNumber());
         }
     }
@@ -312,6 +333,7 @@ public class MainControl {
     private void reportsRegister(String rep){
         
         switch(rep){
+            
             case "floor":
                                     
                 rControl.addReport(eControl.getActualUserName(),
@@ -322,6 +344,7 @@ public class MainControl {
                 Integer.toString(options[0]));
                 
                 break;
+                
             case "new":
                 
                 rControl.addReport(eControl.getActualUserName(),
@@ -332,6 +355,7 @@ public class MainControl {
                 "-");
                 
                 break;
+                
             case "del":
                 
                 rControl.addReport(eControl.getActualUserName(),
@@ -342,6 +366,7 @@ public class MainControl {
                 "-");
                 
                 break;
+                
             case "change":
                 
                 rControl.addReport(eControl.getActualUserName(),
@@ -369,14 +394,12 @@ public class MainControl {
             
             while(logged){
                                 
-                if(sControl.getLogoutRequest())
-                    logout();
-                
                 try {
-                    sleep(100);
-                } catch (InterruptedException ex) {
-                    continue;
-                }
+                    if(screen.getLogoutRequest())
+                        logout();
+                    sleep(15);
+                } catch (InterruptedException ex) {}
+                
             }
             //finaliza sempre que fizer logout para economizar processamento quando ocioso
             try {
