@@ -60,15 +60,18 @@ public class ScreenView implements IMessages{
 
             if(toInt.equals("")){
                 valid = false;
-                mInvalidOption();
+                mInvalidNumber();
             }else if(!toInt.equals("00")){
            
                 try{
-                     option = Integer.valueOf(toInt);  //converte para int
-                     valid=true;
+                    option = Integer.valueOf(toInt); //converte para int
+                    if(option < 0)
+                        valid = false;
+                    else
+                        valid = true;
                 }catch(NumberFormatException e){
+                    mInvalidNumber();
                     valid=false;
-                    mInvalidCode();
                 }
 
                 // verifica se esta no limite indicado. se limite = 0,limite infinito
@@ -94,13 +97,13 @@ public class ScreenView implements IMessages{
     public int login(ArrayList allCodes){
         logoutRequest = false;
         int code;
-     
+        
         do{
             loginScreen.login();
-            valid = true;
             code = inputInt(0);
+            valid = true;
             
-            if(code <= 999 || code > 9999){
+            if(code <= 999 && code > 9999){
                 valid = false;
                 mInvalidCode();
             }
@@ -182,7 +185,6 @@ public class ScreenView implements IMessages{
          
         return name;
     }
-    
     public int addEmployeeAge(){
         
         inputScreen.inputAge();
@@ -193,7 +195,6 @@ public class ScreenView implements IMessages{
         
         return option;
     }
-    
     public int addEmployeeGender(){
         
             inputScreen.inputGender();
@@ -204,7 +205,6 @@ public class ScreenView implements IMessages{
 
         return option;  
     }
-    
     public int addEmployeeCode(ArrayList codesArray){ 
         int code ;
         
@@ -218,7 +218,7 @@ public class ScreenView implements IMessages{
             else if(codesArray.contains(code)){
                 valid = false;
                 mAlreadyRegistered();
-            }else if(code <= 999 || code > 9999){
+            }else if(code <= 999 && code > 9999){
                 mInvalidCode();
                 valid = false;
             }
@@ -226,11 +226,10 @@ public class ScreenView implements IMessages{
         
         return code;
     }
-    
     public int addEmployeeOccupation(int actualUserLevel){  
         
         inputScreen.inputOccupation();
-        mAccessLevelOptions(actualUserLevel-1,"");
+        mAccessLevelOptions(actualUserLevel -1,"");
         int level = inputInt(actualUserLevel-1);
         
         switch(level){
@@ -242,7 +241,7 @@ public class ScreenView implements IMessages{
                 addEmployeeOccupation(actualUserLevel);
                 break;
             default:
-                System.out.println("\n ##NEW EMPLOYEE REGISTERED SUCCESSFULL## \n");
+                System.out.println("\n --NEW EMPLOYEE REGISTERED SUCCESSFULL--\n");
                 break;
         }
         return level;
@@ -262,7 +261,7 @@ public class ScreenView implements IMessages{
             
             if(code == -1)
                 logoutRequest = true;
-            else if(code <= 999 || code > 9999){
+            else if(code <= 999 && code > 9999){
                     mInvalidCode();
                     valid = false;
                 }
@@ -274,7 +273,6 @@ public class ScreenView implements IMessages{
         
         return code;
     }
-    
     public int delEmployeeConfirmation(int actualUserLevel,int userToDelLevel,String userToDelName){
         
         if(actualUserLevel <= userToDelLevel){
@@ -288,7 +286,7 @@ public class ScreenView implements IMessages{
             if(option == 0 || option == -1)
                 logoutRequest = true;
             else
-                System.out.println("\n ##EMPLOYEE REMOVED SUCCESSFULL## \n");  
+                System.out.println("\n--EMPLOYEE REMOVED SUCCESSFULL--\n");  
         }
         return option;
     } 
@@ -320,12 +318,11 @@ public class ScreenView implements IMessages{
         
         return code;
     }
-    
     public int changeEmployeeOccupation(int actualUserLevel){
         
         inputScreen.inputOccupation(); 
-        mAccessLevelOptions(actualUserLevel-1,"");
-        int level = inputInt(actualUserLevel-1);
+        mAccessLevelOptions(actualUserLevel -1,"");
+        int level = inputInt(actualUserLevel -1);
         
         switch(level){
             case -1:
@@ -336,13 +333,12 @@ public class ScreenView implements IMessages{
                 addEmployeeOccupation(actualUserLevel);
                 break;
             default:
-                System.out.println("\n ##EMPLOYEE CHANGED SECCESSFULL## \n");
+                System.out.println("\n --EMPLOYEE CHANGED SECCESSFULL-- \n");
                 break;
         }
         
         return level;
     }
-    
     public boolean checkAuthorization(int actualUserLevel,int userToChangeLevel){
         valid = true;
         
@@ -358,14 +354,14 @@ public class ScreenView implements IMessages{
 //</editor-fold> 
     
     //<editor-fold defaultstate="collapsed" desc="Obter Relatorios">
-    public int reportScreen(int actualUserLevel){
-        repScreen.reportScreen();
+    public int reportScreenOptions(){
+        repScreen.reportScreenOptions();
         option = inputInt(7);    
 
         switch(option){
             case 0:
                 mInvalidOption();
-                reportScreen(actualUserLevel);
+                reportScreenOptions();
                 break;
             case -1:
                 logoutRequest = true;
@@ -374,7 +370,6 @@ public class ScreenView implements IMessages{
         
         return option;
     }
-    
     public int reportScreenFloor(){
         inputScreen.inputFloor();
         option = inputInt(5);
@@ -384,15 +379,17 @@ public class ScreenView implements IMessages{
         
         return option;
     }
-    
     public int reportScreenCode(ArrayList allCodes){
         int code;
-        inputScreen.inputCode();
+        
         do{
+            inputScreen.inputCode();
             valid = true;
             code = inputInt(0);
             
-            if(code <= 999 || code > 9999){
+            if(code == -1)
+                logoutRequest = true;
+            else if(code <= 999 && code > 9999){
                 valid = false;
                 mInvalidCode();
             }
@@ -400,13 +397,11 @@ public class ScreenView implements IMessages{
                 valid = false;
                 mNotFound();
             }
-            if(option == -1)
-                logoutRequest = true;
+                
         }while(!valid);
         
         return option;
     }
-    
     public int reportScreenDay(){
         inputScreen.inputDay();
         option = inputInt(31);
@@ -416,7 +411,6 @@ public class ScreenView implements IMessages{
         
         return option;
     }
-    
     public int reportScreenMonth(){
         inputScreen.inputMonth();
         option = inputInt(12);
@@ -426,7 +420,6 @@ public class ScreenView implements IMessages{
         
         return option;
     }
-    
     public int reportScreenHour(){
         inputScreen.inputHour();
         option = inputInt(23);
@@ -453,7 +446,6 @@ public class ScreenView implements IMessages{
         
         return option;
     }  
-    
     public int employeeListOccupation(){
         do{          
             mAccessLevelOptions(5,"");
@@ -470,7 +462,6 @@ public class ScreenView implements IMessages{
         
         return option;
     }
-    
     public int employeeListFloor(){
         
         mAccessLevelOptions(5, "Floor");
@@ -488,47 +479,52 @@ public class ScreenView implements IMessages{
     //<editor-fold defaultstate="collapsed" desc="Mensagens">
         
     @Override
+    public void mInvalidNumber() {
+        System.out.println("\n ***INVALID NUMBER! TRY AGAIN*** \n");
+    }
+    
+    @Override
     public void mInvalidOption() {
-        System.out.println("\n ***INVALID OPTION! TRY AGAIN*** \n\n");
+        System.out.println("** INVALID OPTION! TRY AGAIN **");
     }
      
     @Override
     public void mInvalidCode(){
-        System.out.println("\n ***INVALID CODE! THE CODE CONTAINS 4 NUMBERS*** \n\n\n");
+        System.out.println("\n ***INVALID CODE! THE CODE CONTAINS 4 NUMBERS*** \n");
     }
     
     @Override
     public void mInvalidName(){
-        System.out.println("\n ***INVALID NAME! TRY AGAIN***\n");
+        System.out.println("\n--INVALID NAME! TRY AGAIN--\n");
 
     }
      
     @Override
     public void mDontHavePermision() {
         System.out.println("\n ***YOU DONT HAVE PERMISSION TO EXECUTE THIS OPERATION***");
-         System.out.println("DISCONNECTING...\n\n\n");
+         System.out.println("DISCONNECTING...\n");
     }
      
     @Override
     public void mAlreadyRegistered() {
-        System.out.println("\n ***CODE ALREADY REGISTERED***\n\n\n");
+        System.out.println("\n ***USER ALREADY REGISTERED***");
     }
      
     @Override
     public void mNotFound() {
-        System.out.println("\n ***USER NOT FOUND***\n\n\n");
+        System.out.println("\n ***USER NOT FOUND***");
     }
     
     @Override
     public void mChangeSelf(){
-       System.out.println("\n ***YOU CAN'T CHANGE YOURS OWN ACCESS LEVEL***\n\n\n");
+       System.out.println("\n --YOU CAN'T CHANGE YOURS OWN ACCESS LEVEL--");
     }
      
     @Override
     public void mAccessLevelOptions(int actualUserLevel, String text){
         System.out.println("Chose One Option: ");
         
-        if(text.equals("Floor"))
+        if(text.equals("Floor") )
             System.out.println("0 - Ground Floor / Exit");
         
         if(actualUserLevel>= 1)
@@ -545,12 +541,12 @@ public class ScreenView implements IMessages{
     
     @Override
     public void mWentInFloor(int floor){
-        System.out.println("\n ##YOU WENT TO FLOOR " +floor+ "##\n\n\n");
+        System.out.println("\n YOU WENT TO FLOOR " +floor+ "\n\n\n");
     }
     
     @Override
     public void mLeavingFloor(){
-        System.out.println("##BYE BYE, SEE YOU LATER##\n\n\n");
+        System.out.println("BYE BYE, SEE YOU LATER");
     }
     
     //Fica esperando o usuario para prosseguir, semelhante a função 'pause'
@@ -562,11 +558,9 @@ public class ScreenView implements IMessages{
     
     @Override
     public void mToExit() {
-        System.out.println(" 00 - TO CANCEL AND LOGOUT  \n\n");
+        System.out.println(" 00 - TO CANCEL AND LOGOUT  \n");
     }
     
 //</editor-fold>
-    
-
-    
+       
 }

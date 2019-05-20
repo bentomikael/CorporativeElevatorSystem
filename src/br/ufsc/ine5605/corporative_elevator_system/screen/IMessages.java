@@ -7,6 +7,7 @@ package br.ufsc.ine5605.corporative_elevator_system.screen;
 public interface IMessages {
     
     
+    public void mInvalidNumber();
     public void mInvalidOption();
     public void mInvalidCode();
     public void mInvalidName();

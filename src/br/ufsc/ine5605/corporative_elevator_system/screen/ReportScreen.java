@@ -5,7 +5,7 @@ public class ReportScreen {
     public ReportScreen() {}
     
     
-    public void reportScreen(){
+    public void reportScreenOptions(){
         System.out.println("--------GET REPORTS OF SYSTEM--------");
         System.out.println("1 - Report of Floor");
         System.out.println("2 - Report of Employee");

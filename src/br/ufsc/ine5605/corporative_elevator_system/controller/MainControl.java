@@ -3,8 +3,6 @@ package br.ufsc.ine5605.corporative_elevator_system.controller;
 import br.ufsc.ine5605.corporative_elevator_system.screen.ScreenView;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 public class MainControl {
     
@@ -47,13 +45,10 @@ public class MainControl {
     */
     public void start(){ 
         
-        
         eControl.login( 
             screen.login(
             eControl.getCodes(
             eControl.getAllEmployees() )) );
-        
-        new LogoutCheck().start();
 
         home( eControl.getActualUserLevelNumber() );
     }
@@ -86,6 +81,7 @@ public class MainControl {
                 administrativeOptions();
                 break;
         }
+         new LogoutCheck().start();
     }
 
     private void floor(){
@@ -203,32 +199,30 @@ public class MainControl {
             eControl.getActualUserCode(),
                 eControl.getCodes( eControl.getAllEmployees()) );
         
-       
-        if(screen.checkAuthorization(
-           eControl.getActualUserLevelNumber(),
-           eControl.getEmployeeByCode( options[0] ).getAccessLevelNumber() )) 
+        if(options[0] != -1){
+            if(screen.checkAuthorization(
+               eControl.getActualUserLevelNumber(),
+               eControl.getEmployeeByCode( options[0] ).getAccessLevelNumber() ))     
             
-            if(options[0] != -1){
                 options[1] = screen.changeEmployeeOccupation( 
                     eControl.getActualUserLevelNumber() );
                 
-                if(options[1] != -1){
-                    reportsRegister("change");      
-                                
-                    eControl.changeOccupation(
-                        options[0], 
-                        eControl.convertOccupation(options[1]));
-                    
-                    screen.mStandBy();
-                    home(eControl.getActualUserLevelNumber());
+            if(options[1] != -1){
+                reportsRegister("change");      
+
+                eControl.changeOccupation(
+                    options[0], 
+                    eControl.convertOccupation(options[1]));
+
+                screen.mStandBy();
+                home(eControl.getActualUserLevelNumber());
                 }   
             }      
     }
 
     private void report(){
-        options[0] = screen.reportScreen(
-            eControl.getActualUserLevelNumber());
-       
+        options[0] = screen.reportScreenOptions();
+        
         switch(options[0]){
             
             case 1:
@@ -240,7 +234,9 @@ public class MainControl {
                 break;
                 
             case 2:
-                options[1] = screen.reportScreenCode(eControl.getAllEmployees());
+                options[1] = screen.reportScreenCode(
+                        eControl.getCodes(
+                        eControl.getAllEmployees() ));
                 if(options[1] != -1)
                     rControl.printIt(
                     rControl.getReportSpecific("name",
@@ -256,13 +252,18 @@ public class MainControl {
                     options[2] = screen.reportScreenMonth();
                         
                     if(options[2] != -1){
-                            
+                        if(options[2] < 10)
+                        dat = Integer.toString(options[1])+
+                                "/0"+
+                                Integer.toString(options[2]);
+                        else
                             dat = Integer.toString(options[1])+
-                                    "/"+
-                                    Integer.toString(options[2]);
-                            rControl.printIt(
-                            rControl.getReportSpecific("date",dat));
-                        }
+                                "/"+
+                                Integer.toString(options[2]);
+
+                        rControl.printIt(
+                        rControl.getReportSpecific("date",dat));
+                    }
                 }
                 break;
                 
